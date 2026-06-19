@@ -2,7 +2,7 @@
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "buildCommand": null,
   "outputDirectory": "public",
-  "cleanUrls": true,
+  "cleanUrls": false,
   "trailingSlash": false,
   "rewrites": [
     { "source": "/", "destination": "/index.html" },
@@ -16,7 +16,12 @@
     { "source": "/notifications", "destination": "/notifications.html" },
     { "source": "/users/:id", "destination": "/user-profile.html" },
     { "source": "/profile", "destination": "/my-profile.html" },
-    { "source": "/rating", "destination": "/rating-modal.html" }
+    { "source": "/my-profile", "destination": "/my-profile.html" },
+    { "source": "/user-profile", "destination": "/user-profile.html" },
+    { "source": "/quest-detail", "destination": "/quest-detail.html" },
+    { "source": "/create-quest", "destination": "/create-quest.html" },
+    { "source": "/rating", "destination": "/rating-modal.html" },
+    { "source": "/rating-modal", "destination": "/rating-modal.html" }
   ],
   "headers": [
     {
