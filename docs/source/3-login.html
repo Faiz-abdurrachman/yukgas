@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Masuk — YUKgas.in</title>
+    
+    <!-- Plus Jakarta Sans Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                        orange: {
+                            50: '#FFF7ED',
+                            100: '#FFEDD5',
+                            500: '#F97316',
+                            600: '#EA580C',
+                        },
+                        amber: {
+                            50: '#FFFBEB',
+                            400: '#FBBF24',
+                            500: '#F59E0B',
+                        },
+                        emerald: {
+                            50: '#ECFDF5',
+                            500: '#10B981',
+                        },
+                        slate: {
+                            50: '#F8FAFC',
+                            100: '#F1F5F9',
+                            200: '#E2E8F0',
+                            400: '#94A3B8',
+                            500: '#64748B',
+                            700: '#334155',
+                            900: '#0F172A',
+                        },
+                        stone: {
+                            50: '#FAFAF9',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-white text-slate-900 font-sans antialiased selection:bg-orange-100 selection:text-orange-900 min-h-screen flex">
+
+    <!-- Toast Notification (Hidden by default) -->
+    <div id="toast" class="fixed top-0 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-md transform -translate-y-full opacity-0 transition-all duration-300 z-50 mt-4 pointer-events-none">
+        <div id="toast-content" class="flex items-center gap-3 px-4 py-3 rounded-xl shadow-md border">
+            <i id="toast-icon" data-lucide="alert-circle" class="w-5 h-5"></i>
+            <p id="toast-message" class="text-sm font-medium"></p>
+        </div>
+    </div>
+
+    <!-- Left Panel (Illustration & Branding - Desktop Only) -->
+    <div class="hidden lg:flex lg:w-1/2 bg-stone-50 border-r border-slate-100 flex-col relative overflow-hidden">
+        
+        <!-- Subtle decorative shapes -->
+        <div class="absolute top-20 left-20 w-72 h-72 bg-orange-50 rounded-full blur-3xl opacity-60"></div>
+        <div class="absolute bottom-20 right-20 w-96 h-96 bg-amber-50 rounded-full blur-3xl opacity-60"></div>
+
+        <div class="p-12 flex-1 flex flex-col justify-between relative z-10">
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-2 group w-max">
+                <div class="w-10 h-10 bg-orange-500 rounded-xl flex items-center justify-center text-white shadow-sm group-hover:bg-orange-600 transition-colors">
+                    <i data-lucide="rocket" class="w-6 h-6"></i>
+                </div>
+                <span class="font-bold text-2xl tracking-tight text-slate-900">YUKgas<span class="text-orange-500">.in</span></span>
+            </a>
+
+            <!-- Copywriting -->
+            <div class="max-w-md mt-20">
+                <div class="inline-flex items-center gap-2 px-3 py-1.5 rounded-lg bg-orange-100 text-orange-600 font-medium text-sm mb-6">
+                    <i data-lucide="rocket" class="w-4 h-4"></i>
+                    Marketplace Mahasiswa
+                </div>
+                <h1 class="text-4xl font-extrabold tracking-tight leading-[1.2] mb-6">
+                    Selamat Datang Kembali di Ekosistem UNU.
+                </h1>
+                <p class="text-lg text-slate-500 leading-relaxed mb-8">
+                    Masuk ke akunmu untuk mulai membantu teman-teman di kampus, atau posting quest baru untuk meringankan beban tugasmu hari ini.
+                </p>
+
+                <!-- Mini features -->
+                <div class="space-y-4">
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-emerald-50 text-emerald-500 flex items-center justify-center">
+                            <i data-lucide="check" class="w-4 h-4"></i>
+                        </div>
+                        <span class="text-slate-700 font-medium">Transaksi aman di dalam kampus</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <div class="w-8 h-8 rounded-full bg-orange-50 text-orange-500 flex items-center justify-center">
+                            <i data-lucide="check" class="w-4 h-4"></i>
+                        </div>
+                        <span class="text-slate-700 font-medium">Temukan bantuan dalam hitungan menit</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Left -->
+            <div class="mt-auto pt-12">
+                <p class="text-sm text-slate-400">© 2026 YUKgas.in — Universitas Nahdlatul Ulama Yogyakarta</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Right Panel (Form) -->
+    <div class="w-full lg:w-1/2 flex flex-col relative bg-white">
+        
+        <!-- Back Button (Mobile & Desktop) -->
+        <a href="/" class="absolute top-6 left-6 lg:left-10 w-10 h-10 flex items-center justify-center rounded-full text-slate-400 hover:text-slate-900 hover:bg-slate-50 transition-colors z-10" aria-label="Kembali ke halaman utama">
+            <i data-lucide="arrow-left" class="w-6 h-6"></i>
+        </a>
+
+        <!-- Form Wrapper -->
+        <div class="flex-1 flex flex-col justify-center px-6 py-20 lg:px-12 items-center">
+            <div class="w-full max-w-[400px]">
+                
+                <!-- Header -->
+                <div class="mb-10 text-center lg:text-left flex flex-col items-center lg:items-start">
+                    <!-- Show logo only on mobile to match the sketch vibe -->
+                    <div class="w-12 h-12 bg-orange-500 text-white rounded-xl flex items-center justify-center mb-6 lg:hidden shadow-sm">
+                        <i data-lucide="rocket" class="w-7 h-7"></i>
+                    </div>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-2">Masuk ke YUKgas.in</h2>
+                    <p class="text-slate-500">Selamat datang kembali!</p>
+                </div>
+
+                <!-- Form -->
+                <form id="loginForm" class="space-y-5" novalidate>
+                    
+                    <!-- Email -->
+                    <div class="flex flex-col gap-1.5 relative">
+                        <label for="email" class="text-sm font-semibold text-slate-900">Email UNU</label>
+                        <div class="relative">
+                            <input type="email" id="email" name="email" placeholder="nama@unu.ac.id" autofocus
+                                class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-50 transition-all">
+                            <div class="error-icon hidden absolute right-3 top-1/2 -translate-y-1/2 text-red-500 pointer-events-none">
+                                <i data-lucide="alert-circle" class="w-5 h-5"></i>
+                            </div>
+                        </div>
+                        <p class="error-text hidden text-xs text-red-500 mt-1">Email tidak valid</p>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="flex flex-col gap-1.5 relative mb-2">
+                        <div class="flex justify-between items-end">
+                            <label for="password" class="text-sm font-semibold text-slate-900">Password</label>
+                        </div>
+                        <div class="relative group">
+                            <input type="password" id="password" name="password" placeholder="••••••••" 
+                                class="w-full pl-4 pr-12 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-50 transition-all">
+                            <button type="button" class="toggle-password absolute right-3 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600 focus:outline-none p-1 rounded-md">
+                                <i data-lucide="eye" class="w-5 h-5 eye-icon"></i>
+                                <i data-lucide="eye-off" class="w-5 h-5 eye-off-icon hidden"></i>
+                            </button>
+                        </div>
+                        <p class="error-text hidden text-xs text-red-500 mt-1">Password wajib diisi</p>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <button type="submit" id="submitBtn" class="w-full mt-8 bg-orange-500 hover:bg-orange-600 text-white font-semibold py-3.5 rounded-xl shadow-sm transition-all flex justify-center items-center gap-2 disabled:opacity-70 disabled:cursor-not-allowed disabled:hover:bg-orange-500 active:scale-[0.98]">
+                        <span id="btnText">Masuk</span>
+                        <i id="btnSpinner" data-lucide="loader-2" class="w-5 h-5 animate-spin hidden"></i>
+                    </button>
+
+                </form>
+
+                <!-- Register Link -->
+                <p class="text-center mt-8 text-sm text-slate-500 font-medium">
+                    Belum punya akun? 
+                    <a href="/register" class="text-orange-500 hover:text-orange-600 font-semibold transition-colors">Daftar di sini</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        // Initialize Icons
+        lucide.createIcons();
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const form = document.getElementById('loginForm');
+            const submitBtn = document.getElementById('submitBtn');
+            const btnText = document.getElementById('btnText');
+            const btnSpinner = document.getElementById('btnSpinner');
+            
+            const emailInput = document.getElementById('email');
+            const passwordInput = document.getElementById('password');
+            
+            const toast = document.getElementById('toast');
+            const toastContent = document.getElementById('toast-content');
+            const toastMessage = document.getElementById('toast-message');
+            const toastIcon = document.getElementById('toast-icon');
+
+            let toastTimeout;
+
+            // Show Toast Notification
+            const showToast = (message, type = 'error') => {
+                clearTimeout(toastTimeout);
+                
+                toastMessage.textContent = message;
+                
+                // Styling based on type
+                if(type === 'error') {
+                    toastContent.className = 'flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg border border-red-200 bg-red-50 text-red-700';
+                    toastIcon.setAttribute('data-lucide', 'alert-circle');
+                } else if(type === 'success') {
+                    toastContent.className = 'flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg border border-emerald-200 bg-emerald-50 text-emerald-700';
+                    toastIcon.setAttribute('data-lucide', 'check-circle-2');
+                }
+                lucide.createIcons(); // re-render icon
+
+                // Animate In
+                toast.classList.remove('-translate-y-full', 'opacity-0');
+                toast.classList.add('translate-y-4', 'opacity-100');
+
+                // Auto hide
+                toastTimeout = setTimeout(() => {
+                    toast.classList.add('-translate-y-full', 'opacity-0');
+                    toast.classList.remove('translate-y-4', 'opacity-100');
+                }, 4000);
+            };
+
+            // Toggle Password Visibility
+            document.querySelectorAll('.toggle-password').forEach(button => {
+                button.addEventListener('click', function() {
+                    const input = this.parentElement.querySelector('input');
+                    const eyeIcon = this.querySelector('.eye-icon');
+                    const eyeOffIcon = this.querySelector('.eye-off-icon');
+                    
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        eyeIcon.classList.add('hidden');
+                        eyeOffIcon.classList.remove('hidden');
+                    } else {
+                        input.type = 'password';
+                        eyeIcon.classList.remove('hidden');
+                        eyeOffIcon.classList.add('hidden');
+                    }
+                });
+            });
+
+            // Helper: Set Field State
+            const setFieldState = (input, isValid, showIcon = true) => {
+                const wrapper = input.parentElement;
+                const container = wrapper.parentElement;
+                const errorText = container.querySelector('.error-text');
+                const errorIcon = wrapper.querySelector('.error-icon');
+
+                if (!isValid) {
+                    // Set Error state
+                    input.classList.remove('border-slate-200', 'focus:border-orange-500', 'focus:ring-orange-50');
+                    input.classList.add('border-red-300', 'focus:border-red-500', 'focus:ring-red-50', 'bg-red-50/30');
+                    if(errorText) errorText.classList.remove('hidden');
+                    if(errorIcon && showIcon) errorIcon.classList.remove('hidden');
+                } else {
+                    // Set Normal state
+                    input.classList.add('border-slate-200', 'focus:border-orange-500', 'focus:ring-orange-50');
+                    input.classList.remove('border-red-300', 'focus:border-red-500', 'focus:ring-red-50', 'bg-red-50/30');
+                    if(errorText) errorText.classList.add('hidden');
+                    if(errorIcon) errorIcon.classList.add('hidden');
+                }
+            };
+
+            // Field Validations
+            const validateEmail = () => {
+                const val = emailInput.value.trim();
+                // Simple email check for login UI interaction
+                const isValid = val.length > 0 && val.includes('@');
+                if(val.length > 0) setFieldState(emailInput, isValid);
+                return isValid;
+            };
+
+            const validatePassword = () => {
+                const isValid = passwordInput.value.length > 0;
+                if(passwordInput.value.length > 0) setFieldState(passwordInput, isValid, false);
+                return isValid;
+            };
+
+            // Attach blur events
+            emailInput.addEventListener('blur', validateEmail);
+            passwordInput.addEventListener('blur', validatePassword);
+            
+            // Clear error on input focus
+            [emailInput, passwordInput].forEach(el => {
+                el.addEventListener('input', () => setFieldState(el, true, false));
+            });
+
+            // Form Submit Simulation
+            form.addEventListener('submit', (e) => {
+                e.preventDefault();
+
+                // Force validation
+                const isEmailValid = validateEmail();
+                const isPassValid = validatePassword();
+
+                if (!isEmailValid || !isPassValid) {
+                    if(emailInput.value === '') setFieldState(emailInput, false);
+                    if(passwordInput.value === '') setFieldState(passwordInput, false, false);
+                    return;
+                }
+
+                // UI Loading State
+                submitBtn.disabled = true;
+                btnText.textContent = "Memproses...";
+                btnSpinner.classList.remove('hidden');
+
+                // Simulate API Call delay
+                setTimeout(() => {
+                    // Dummy Check: Check for generic invalid credential text
+                    if (emailInput.value.toLowerCase().includes('salah')) {
+                        // Simulate Invalid Credentials
+                        submitBtn.disabled = false;
+                        btnText.textContent = "Masuk";
+                        btnSpinner.classList.add('hidden');
+                        
+                        setFieldState(emailInput, false);
+                        setFieldState(passwordInput, false, false);
+                        showToast('Email atau password salah. Silakan coba lagi.', 'error');
+                        return;
+                    }
+
+                    // Success State
+                    submitBtn.disabled = false;
+                    btnText.textContent = "Berhasil Masuk!";
+                    btnSpinner.classList.add('hidden');
+                    submitBtn.classList.replace('bg-orange-500', 'bg-emerald-500');
+                    submitBtn.classList.replace('hover:bg-orange-600', 'hover:bg-emerald-600');
+                    
+                    showToast('Autentikasi berhasil! Mengalihkan ke Dashboard...', 'success');
+
+                    // Simulate redirect (reset form)
+                    setTimeout(() => {
+                        form.reset();
+                        submitBtn.classList.replace('bg-emerald-500', 'bg-orange-500');
+                        submitBtn.classList.replace('hover:bg-emerald-600', 'hover:bg-orange-600');
+                        btnText.textContent = "Masuk";
+                    }, 2000);
+
+                }, 1200);
+            });
+        });
+    </script>
+</body>
+</html>

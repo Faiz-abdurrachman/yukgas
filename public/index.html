@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YUKgas.in — Marketplace Micro-Task Kampus UNU</title>
+    
+    <!-- Plus Jakarta Sans Font -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tailwind Configuration -->
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
+                    },
+                    colors: {
+                    colors: {
+                        orange: {
+                            50: '#FFF7ED',
+                            100: '#FFEDD5',
+                            500: '#F97316',
+                            600: '#EA580C',
+                        },
+                        amber: {
+                            50: '#FFFBEB',
+                            400: '#FBBF24',
+                            500: '#F59E0B',
+                        },
+                        emerald: {
+                            50: '#ECFDF5',
+                            500: '#10B981',
+                            600: '#059669',
+                        },
+                        red: {
+                            50: '#FEF2F2',
+                            200: '#FECACA',
+                            500: '#EF4444',
+                            600: '#DC2626',
+                        },
+                        blue: {
+                            50: '#EFF6FF',
+                            600: '#2563EB',
+                        },
+                        violet: {
+                            50: '#F5F3FF',
+                            600: '#7C3AED',
+                        },
+                        slate: {
+                            50: '#F8FAFC',
+                            100: '#F1F5F9',
+                            200: '#E2E8F0',
+                            300: '#CBD5E1',
+                            400: '#94A3B8',
+                            500: '#64748B',
+                            600: '#475569',
+                            700: '#334155',
+                            900: '#0F172A',
+                        },
+                        stone: {
+                            50: '#FAFAF9',
+                        }
+                    }
+                    },
+                        amber: {
+                            50: '#FFFBEB',
+                            400: '#FBBF24',
+                            500: '#F59E0B',
+                        },
+                        emerald: {
+                            50: '#ECFDF5',
+                            500: '#10B981',
+                        },
+                        slate: {
+                            50: '#F8FAFC',
+                            100: '#F1F5F9',
+                            400: '#94A3B8',
+                            500: '#64748B',
+                            700: '#334155',
+                            900: '#0F172A',
+                        },
+                        stone: {
+                            50: '#FAFAF9',
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-stone-50 text-slate-900 font-sans antialiased selection:bg-orange-100 selection:text-orange-900">
+
+    <!-- Navbar -->
+    <nav class="bg-white border-b border-slate-100 sticky top-0 z-50">
+        <div class="max-w-5xl mx-auto px-4 h-16 flex items-center justify-between">
+            <!-- Logo -->
+            <a href="/" class="flex items-center gap-2 group">
+                <div class="w-8 h-8 bg-orange-500 rounded-lg flex items-center justify-center text-white shadow-sm group-hover:bg-orange-600 transition-colors">
+                    <i data-lucide="rocket" class="w-5 h-5"></i>
+                </div>
+                <span class="font-bold text-xl tracking-tight text-slate-900">YUKgas<span class="text-orange-500">.in</span></span>
+            </a>
+
+            <!-- Desktop Actions -->
+            <div class="hidden sm:flex items-center gap-4">
+                <a href="/register" class="text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors">Daftar</a>
+                <a href="/login" class="text-sm font-semibold bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-xl shadow-sm transition-colors">
+                    Login
+                </a>
+            </div>
+
+            <!-- Mobile Menu Button (Optional functionality later) -->
+            <button class="sm:hidden text-slate-500 hover:text-slate-900 p-2">
+                <i data-lucide="menu" class="w-6 h-6"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section class="pt-20 pb-16 px-4 md:pt-32 md:pb-24 overflow-hidden relative">
+        <div class="max-w-3xl mx-auto text-center relative z-10">
+            <!-- Badge -->
+            <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full bg-orange-50 text-orange-600 font-medium text-sm mb-6 border border-orange-100">
+                <i data-lucide="sparkles" class="w-4 h-4 text-amber-500"></i>
+                Khusus Mahasiswa UNU
+            </div>
+            
+            <!-- Heading -->
+            <h1 class="text-4xl md:text-5xl lg:text-6xl font-extrabold tracking-tight text-slate-900 mb-6 leading-[1.15]">
+                Butuh Bantuan? <br class="hidden sm:block" />
+                <span class="text-orange-500 relative whitespace-nowrap">
+                    YUK gas!
+                    <svg class="absolute w-full h-3 -bottom-1 left-0 text-amber-400 opacity-60" viewBox="0 0 100 20" preserveAspectRatio="none">
+                        <path d="M0 15 Q 50 0 100 15" fill="none" stroke="currentColor" stroke-width="4" stroke-linecap="round"/>
+                    </svg>
+                </span>
+            </h1>
+            
+            <!-- Subtitle -->
+            <p class="text-lg md:text-xl text-slate-500 mb-10 max-w-2xl mx-auto leading-relaxed">
+                Marketplace micro-task pertama di kampus. Ada teman siap bantu beliin makan, print tugas, atau jemput barang dengan kompensasi transparan.
+            </p>
+            
+            <!-- CTA Buttons -->
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 w-full px-4 sm:px-0">
+                <a href="/login" class="w-full sm:w-auto px-8 py-3.5 bg-orange-500 hover:bg-orange-600 text-white font-semibold rounded-xl shadow-sm transition-all flex items-center justify-center gap-2 active:scale-95">
+                    Login dengan Email UNU
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </a>
+                <a href="/register" class="w-full sm:w-auto px-8 py-3.5 bg-white border border-slate-200 text-slate-700 hover:bg-slate-50 font-semibold rounded-xl transition-all active:scale-95">
+                    Belum punya akun? Daftar
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- How It Works Section -->
+    <section class="py-20 bg-white border-y border-slate-100">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-14">
+                <h2 class="text-3xl font-bold text-slate-900 mb-4">Cara Kerja</h2>
+                <p class="text-slate-500">Tiga langkah sederhana, semua urusan beres.</p>
+            </div>
+            
+            <div class="grid md:grid-cols-3 gap-8">
+                <!-- Step 1 -->
+                <div class="bg-stone-50 border border-slate-100 p-8 rounded-2xl relative">
+                    <div class="absolute -top-4 -left-4 w-10 h-10 bg-white border border-slate-100 rounded-full flex items-center justify-center font-bold text-slate-900 shadow-sm">1</div>
+                    <div class="w-14 h-14 bg-orange-50 text-orange-500 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="file-pen" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Post Quest</h3>
+                    <p class="text-slate-500 leading-relaxed">Butuh bantuan? Posting quest berisi detail tugas dan kompensasi (harga) yang wajar.</p>
+                </div>
+
+                <!-- Step 2 -->
+                <div class="bg-stone-50 border border-slate-100 p-8 rounded-2xl relative">
+                    <div class="absolute -top-4 -left-4 w-10 h-10 bg-white border border-slate-100 rounded-full flex items-center justify-center font-bold text-slate-900 shadow-sm">2</div>
+                    <div class="w-14 h-14 bg-amber-50 text-amber-500 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="handshake" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Seseorang Ambil</h3>
+                    <p class="text-slate-500 leading-relaxed">Mahasiswa lain yang sedang luang akan melihat quest kamu di feed dan mengambilnya.</p>
+                </div>
+
+                <!-- Step 3 -->
+                <div class="bg-stone-50 border border-slate-100 p-8 rounded-2xl relative">
+                    <div class="absolute -top-4 -left-4 w-10 h-10 bg-white border border-slate-100 rounded-full flex items-center justify-center font-bold text-slate-900 shadow-sm">3</div>
+                    <div class="w-14 h-14 bg-emerald-50 text-emerald-500 rounded-2xl flex items-center justify-center mb-6">
+                        <i data-lucide="check-circle-2" class="w-7 h-7"></i>
+                    </div>
+                    <h3 class="text-xl font-bold text-slate-900 mb-2">Quest Selesai!</h3>
+                    <p class="text-slate-500 leading-relaxed">Konfirmasi jika tugas sudah selesai, lakukan pembayaran, dan berikan rating bintang.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Categories Section -->
+    <section class="py-20 px-4">
+        <div class="max-w-5xl mx-auto">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-10 gap-4">
+                <div>
+                    <h2 class="text-3xl font-bold text-slate-900 mb-3">Kategori Quest</h2>
+                    <p class="text-slate-500">Apapun kebutuhanmu, kami kelompokkan biar mudah dicari.</p>
+                </div>
+            </div>
+
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6">
+                <!-- Kategori 1 -->
+                <div class="bg-white border border-slate-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                    <div class="w-12 h-12 bg-orange-50 text-orange-500 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i data-lucide="car" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 mb-1">Transportasi</h3>
+                    <p class="text-sm text-slate-500">Antar jemput, titip barang</p>
+                </div>
+
+                <!-- Kategori 2 -->
+                <div class="bg-white border border-slate-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                    <div class="w-12 h-12 bg-amber-50 text-amber-500 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i data-lucide="utensils" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 mb-1">Makanan</h3>
+                    <p class="text-sm text-slate-500">Beliin makan, kopi</p>
+                </div>
+
+                <!-- Kategori 3 -->
+                <div class="bg-white border border-slate-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                    <div class="w-12 h-12 bg-emerald-50 text-emerald-500 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i data-lucide="file-text" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 mb-1">Administrasi</h3>
+                    <p class="text-sm text-slate-500">Print, fotokopi, antri</p>
+                </div>
+
+                <!-- Kategori 4 -->
+                <div class="bg-white border border-slate-100 p-6 rounded-2xl shadow-sm hover:shadow-md transition-shadow cursor-pointer group">
+                    <div class="w-12 h-12 bg-slate-100 text-slate-600 rounded-full flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+                        <i data-lucide="package" class="w-6 h-6"></i>
+                    </div>
+                    <h3 class="font-bold text-slate-900 mb-1">Lainnya</h3>
+                    <p class="text-sm text-slate-500">Bantuan tak terduga</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA / Banner Section -->
+    <section class="py-16 px-4">
+        <div class="max-w-5xl mx-auto bg-slate-900 rounded-[2rem] p-10 md:p-16 text-center relative overflow-hidden">
+            <!-- Decorative circle -->
+            <div class="absolute -top-24 -right-24 w-64 h-64 bg-slate-800 rounded-full blur-3xl opacity-50"></div>
+            
+            <div class="relative z-10">
+                <h2 class="text-3xl md:text-4xl font-bold text-white mb-4">Siap untuk saling bantu?</h2>
+                <p class="text-slate-400 mb-8 max-w-xl mx-auto text-lg">
+                    Gabung dengan ratusan mahasiswa UNU lainnya. Jadikan waktu luangmu lebih produktif atau dapatkan bantuan saat kamu sibuk.
+                </p>
+                <a href="/register" class="inline-flex items-center gap-2 px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white font-bold rounded-xl shadow-sm transition-all active:scale-95">
+                    Buat Akun Sekarang — Gratis
+                    <i data-lucide="arrow-right" class="w-5 h-5"></i>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-white border-t border-slate-100 py-10 mt-10">
+        <div class="max-w-5xl mx-auto px-4 text-center">
+            <div class="flex items-center justify-center gap-2 mb-6">
+                <div class="w-6 h-6 bg-slate-200 rounded-md flex items-center justify-center text-slate-500">
+                    <i data-lucide="rocket" class="w-4 h-4"></i>
+                </div>
+                <span class="font-bold text-slate-900 tracking-tight">YUKgas<span class="text-slate-400">.in</span></span>
+            </div>
+            
+            <div class="flex flex-wrap justify-center gap-6 text-sm font-medium text-slate-500 mb-8">
+                <a href="javascript:void(0)" class="hover:text-orange-500 transition-colors">Tim Pengembang</a>
+                <a href="javascript:void(0)" class="hover:text-orange-500 transition-colors">Kebijakan Privasi</a>
+                <a href="javascript:void(0)" class="hover:text-orange-500 transition-colors">Syarat & Ketentuan</a>
+            </div>
+            
+            <p class="text-sm text-slate-400">
+                &copy; 2026 YUKgas.in. Dibuat untuk ekosistem Kampus UNU Yogyakarta.
+            </p>
+        </div>
+    </footer>
+
+    <!-- Initialize Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        lucide.createIcons();
+    </script>
+</body>
+</html>
