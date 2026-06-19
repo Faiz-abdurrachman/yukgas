@@ -101,7 +101,7 @@
                 </div>
 
                 <!-- Quest 1: OPEN -->
-                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-1" style="border-left: 5px solid var(--sunset)">
+                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-1">
                     <div class="flex items-start justify-between mb-2 gap-2">
                         <div class="flex items-center gap-2 flex-wrap">
                             <span class="text-xs font-bold text-sunset bg-sunset/10 px-2.5 py-1 rounded-full flex items-center gap-1">
@@ -130,7 +130,7 @@
                 </a>
 
                 <!-- Quest 2: TAKEN -->
-                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-2" style="border-left: 5px solid var(--teal)">
+                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-2">
                     <div class="flex items-start justify-between mb-2 gap-2">
                         <div class="flex items-center gap-2 flex-wrap">
                             <span class="text-xs font-bold text-teal-500 bg-teal-50 px-2.5 py-1 rounded-full flex items-center gap-1">
@@ -157,7 +157,7 @@
                 </a>
 
                 <!-- Quest 3: COMPLETED -->
-                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-3" style="border-left: 5px solid var(--mocha)">
+                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-3">
                     <div class="flex items-start justify-between mb-2 gap-2">
                         <div class="flex items-center gap-2 flex-wrap">
                             <span class="text-xs font-bold text-sunset bg-sunset/10 px-2.5 py-1 rounded-full flex items-center gap-1">
@@ -187,7 +187,7 @@
                 </a>
 
                 <!-- Quest 4: CANCELLED -->
-                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-4 opacity-60" style="border-left: 5px solid var(--coral)">
+                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-4 opacity-60">
                     <div class="flex items-start justify-between mb-2 gap-2">
                         <div class="flex items-center gap-2 flex-wrap">
                             <span class="text-xs font-bold text-golden bg-golden/15 px-2.5 py-1 rounded-full flex items-center gap-1">
@@ -224,7 +224,7 @@
                 </div>
 
                 <!-- Quest 1: IN PROGRESS (highlighted) -->
-                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-1" style="border: 2px solid var(--golden); border-left: 5px solid var(--golden); box-shadow: var(--shadow-glow);">
+                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-1" style="border: 2px solid var(--golden); box-shadow: var(--shadow-glow);">
                     <div class="absolute top-3 right-3">
                         <span class="relative flex h-3 w-3">
                             <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-golden opacity-75"></span>
@@ -257,7 +257,7 @@
                 </a>
 
                 <!-- Quest 2: TAKEN -->
-                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-2" style="border-left: 5px solid var(--golden)">
+                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-2">
                     <div class="flex items-start justify-between mb-2 gap-2">
                         <div class="flex items-center gap-2 flex-wrap">
                             <span class="text-xs font-bold text-golden bg-golden/15 px-2.5 py-1 rounded-full flex items-center gap-1">
@@ -284,7 +284,7 @@
                 </a>
 
                 <!-- Quest 3: COMPLETED -->
-                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-3" style="border-left: 5px solid var(--teal)">
+                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-3">
                     <div class="flex items-start justify-between mb-2 gap-2">
                         <div class="flex items-center gap-2 flex-wrap">
                             <span class="text-xs font-bold text-teal-500 bg-teal-50 px-2.5 py-1 rounded-full flex items-center gap-1">
@@ -318,19 +318,37 @@
         </main>
 
         <!-- Bottom Nav -->
-        <nav class="bottom-nav fixed bottom-0 left-0 right-0 max-w-md mx-auto flex items-center justify-around py-2 px-4 z-40">
-            <a href="/dashboard" class="flex flex-col items-center gap-0.5 px-6 py-2">
-                <i data-lucide="layout-grid" class="w-6 h-6 text-latte"></i>
-                <span class="text-[10px] font-semibold text-latte">Feed</span>
+        <nav class="bg-white/95 backdrop-blur-lg border-t-2 border-cream-deep px-4 py-3 pb-safe flex items-center justify-around" style="padding-bottom: env(safe-area-inset-bottom, 12px);">
+            <a href="/dashboard" class="flex flex-col items-center gap-1 px-2 py-1 group">
+                <div class="w-10 h-10 rounded-xl text-mocha flex items-center justify-center group-hover:bg-cream-deep group-hover:scale-110 transition-all">
+                    <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                </div>
+                <span class="text-[10px] font-semibold text-mocha">Feed</span>
             </a>
-            <a href="/my-quests" class="flex flex-col items-center gap-0.5 px-6 py-2 relative">
-                <div class="absolute -top-1 left-1/2 -translate-x-1/2 w-10 h-1 bg-sunset rounded-full"></div>
-                <i data-lucide="clipboard-list" class="w-6 h-6 text-sunset"></i>
+            <a href="/my-quests" class="flex flex-col items-center gap-1 px-2 py-1 group">
+                <div class="w-10 h-10 rounded-xl bg-sunset/10 text-sunset flex items-center justify-center group-hover:scale-110 transition-transform">
+                    <i data-lucide="list-checks" class="w-5 h-5"></i>
+                </div>
                 <span class="text-[10px] font-bold text-sunset">QuestKu</span>
             </a>
-            <a href="/profile" class="flex flex-col items-center gap-0.5 px-6 py-2">
-                <i data-lucide="user" class="w-6 h-6 text-latte"></i>
-                <span class="text-[10px] font-semibold text-latte">Profil</span>
+            <!-- FAB Create -->
+            <a href="/quests/create" class="flex flex-col items-center gap-1 -mt-6">
+                <div class="w-14 h-14 rounded-full bg-gradient-to-br from-sunset to-sunset-light flex items-center justify-center shadow-warm-lg hover:scale-110 hover:rotate-90 transition-all duration-300">
+                    <i data-lucide="plus" class="w-7 h-7 text-white"></i>
+                </div>
+                <span class="text-[10px] font-bold text-sunset">Gas!</span>
+            </a>
+            <a href="/profile" class="flex flex-col items-center gap-1 px-2 py-1 group">
+                <div class="w-10 h-10 rounded-xl text-mocha flex items-center justify-center group-hover:bg-cream-deep group-hover:scale-110 transition-all">
+                    <i data-lucide="bell" class="w-5 h-5"></i>
+                </div>
+                <span class="text-[10px] font-semibold text-mocha">Notif</span>
+            </a>
+            <a href="/profile" class="flex flex-col items-center gap-1 px-2 py-1 group">
+                <div class="w-10 h-10 rounded-xl text-mocha flex items-center justify-center group-hover:bg-cream-deep group-hover:scale-110 transition-all">
+                    <i data-lucide="user" class="w-5 h-5"></i>
+                </div>
+                <span class="text-[10px] font-semibold text-mocha">Profil</span>
             </a>
         </nav>
 
