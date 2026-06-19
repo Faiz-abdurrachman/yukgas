@@ -4,667 +4,476 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Detail Quest — YUKgas.in</title>
-    
-    <!-- Plus Jakarta Sans Font -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+    <link rel="stylesheet" href="/assets/style.css">
+
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                    },
-                    colors: {
-                    colors: {
-                        orange: {
-                            50: '#FFF7ED',
-                            100: '#FFEDD5',
-                            500: '#F97316',
-                            600: '#EA580C',
-                        },
-                        amber: {
-                            50: '#FFFBEB',
-                            400: '#FBBF24',
-                            500: '#F59E0B',
-                        },
-                        emerald: {
-                            50: '#ECFDF5',
-                            500: '#10B981',
-                            600: '#059669',
-                        },
-                        red: {
-                            50: '#FEF2F2',
-                            200: '#FECACA',
-                            500: '#EF4444',
-                            600: '#DC2626',
-                        },
-                        blue: {
-                            50: '#EFF6FF',
-                            600: '#2563EB',
-                        },
-                        violet: {
-                            50: '#F5F3FF',
-                            600: '#7C3AED',
-                        },
-                        slate: {
-                            50: '#F8FAFC',
-                            100: '#F1F5F9',
-                            200: '#E2E8F0',
-                            300: '#CBD5E1',
-                            400: '#94A3B8',
-                            500: '#64748B',
-                            600: '#475569',
-                            700: '#334155',
-                            900: '#0F172A',
-                        },
-                        stone: {
-                            50: '#FAFAF9',
-                        }
-                    }
-                    }
+            theme: { extend: {
+                fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
+                colors: {
+                    sunset: '#FF6B35', 'sunset-light': '#FF9F1C', golden: '#FFB627',
+                    teal: { 50: '#E6FAF5', 500: '#0CA789', 600: '#0A8E78' }, coral: '#FF4757',
+                    cream: { DEFAULT: '#FFF8F0', deep: '#FFF0E0' },
+                    espresso: '#2D1B12', mocha: '#8B7355', latte: '#B8A088',
+                    borderWarm: '#FFE4D1'
                 }
-            }
+            }}
         }
     </script>
     <style>
-        /* Safe area padding for mobile floating buttons */
         .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
-        
-        /* Hide scrollbar for clean look */
-        ::-webkit-scrollbar { width: 0px; background: transparent; }
     </style>
 </head>
-<body class="bg-slate-200 text-slate-900 font-sans antialiased selection:bg-orange-100 selection:text-orange-900 relative">
+<body class="bg-cream text-espresso font-sans antialiased">
 
-    <!-- MAIN APP CONTAINER (Mobile Simulation Frame) -->
-    <div class="max-w-md mx-auto bg-stone-50 min-h-screen relative shadow-2xl sm:border-x border-slate-200 flex flex-col overflow-hidden">
+    <div class="max-w-md mx-auto min-h-screen bg-cream bg-dotted relative flex flex-col">
 
-        <!-- ========================================== -->
+        <!-- State switcher (URL param driven, hidden by default) -->
+        <div class="fixed bottom-24 right-4 z-[60] flex flex-col gap-2">
+            <button onclick="YG.navigate('/quest-detail')" class="w-10 h-10 bg-white border-2 border-cream-deep rounded-full shadow-warm flex items-center justify-center text-mocha hover:border-sunset transition-colors" title="Open">
+                <i data-lucide="circle" class="w-4 h-4"></i>
+            </button>
+            <button onclick="YG.navigate('/quest-detail?state=progress')" class="w-10 h-10 bg-white border-2 border-cream-deep rounded-full shadow-warm flex items-center justify-center text-mocha hover:border-sunset transition-colors" title="In Progress">
+                <i data-lucide="loader" class="w-4 h-4"></i>
+            </button>
+            <button onclick="YG.navigate('/quest-detail?state=completed')" class="w-10 h-10 bg-white border-2 border-cream-deep rounded-full shadow-warm flex items-center justify-center text-mocha hover:border-sunset transition-colors" title="Completed">
+                <i data-lucide="check-circle" class="w-4 h-4"></i>
+            </button>
+        </div>
+
+        <!-- ============================================ -->
         <!-- SCENARIO 1: OPEN (Dilihat Pihak Ketiga) -->
-        <!-- ========================================== -->
-        <div id="scenario-1" class="flex flex-col h-full scenario-container">
-            <!-- TopBar -->
-            <header class="bg-white border-b border-slate-100 sticky top-0 z-40 px-4 h-14 flex items-center gap-3">
-                <a href="/dashboard" class="w-10 h-10 flex items-center justify-center -ml-2 text-slate-600 hover:bg-slate-50 rounded-full transition-colors">
+        <!-- ============================================ -->
+        <div id="scenario-1" class="flex flex-col h-full">
+            <header class="bg-white/90 backdrop-blur-lg border-b-2 border-cream-deep sticky top-0 z-40 px-4 h-14 flex items-center gap-3">
+                <a href="/dashboard" class="w-10 h-10 flex items-center justify-center -ml-2 text-mocha hover:bg-cream-deep rounded-xl transition-colors">
                     <i data-lucide="arrow-left" class="w-6 h-6"></i>
                 </a>
-                <h1 class="font-bold text-lg text-slate-900">Detail Quest</h1>
+                <h1 class="font-extrabold text-lg">Detail Quest</h1>
             </header>
 
-            <!-- Scrollable Content -->
-            <main class="flex-1 overflow-y-auto px-4 py-6 pb-32 flex flex-col gap-6">
-                
-                <!-- Header & Status -->
-                <div>
-                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-600 text-xs font-bold tracking-wide border border-emerald-100">
-                        <div class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></div>
-                        OPEN
-                    </div>
-                    <h2 class="text-2xl font-extrabold text-slate-900 mt-3 mb-3 leading-tight">Jemput barang di pos satpam</h2>
-                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-blue-50 text-blue-600 text-xs font-bold">
-                        <i data-lucide="car" class="w-3.5 h-3.5"></i>
-                        Transportasi
+            <main class="flex-1 overflow-y-auto px-4 py-6 pb-32 flex flex-col gap-5">
+
+                <!-- Status Badge -->
+                <div class="animate-reveal">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full badge-open text-sm font-bold">
+                        <span class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+                        OPEN — Siap Diambil
                     </div>
                 </div>
 
-                <!-- Info Card -->
-                <div class="bg-white border border-slate-100 rounded-2xl p-5 space-y-5 shadow-sm">
-                    <!-- Compensation -->
-                    <div class="flex gap-3 items-start">
-                        <div class="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center shrink-0 mt-0.5">
-                            <i data-lucide="banknote" class="w-4 h-4 text-orange-500"></i>
-                        </div>
-                        <div>
-                            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Kompensasi</p>
-                            <p class="text-xl font-extrabold text-orange-500">Rp 5.000</p>
-                        </div>
+                <!-- Title & Category -->
+                <div class="animate-reveal delay-1">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="px-3 py-1 rounded-full bg-sunset/10 text-sunset text-xs font-bold uppercase tracking-wide">Transportasi</span>
                     </div>
-                    <hr class="border-slate-50">
-                    <!-- Description -->
-                    <div class="flex gap-3 items-start">
-                        <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center shrink-0 mt-0.5">
-                            <i data-lucide="align-left" class="w-4 h-4 text-slate-500"></i>
-                        </div>
-                        <div>
-                            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Deskripsi</p>
-                            <p class="text-sm text-slate-700 leading-relaxed">Tolong jemput paket JNE saya di pos satpam depan. Namanya Faiz. Barangnya kecil kok cuma buku. Kalo udah sampe WA aja ke 0812345678.</p>
-                        </div>
+                    <h2 class="text-2xl font-extrabold leading-tight">Beliin Kopi Senja di Kantin Utama</h2>
+                </div>
+
+                <!-- Price Card -->
+                <div class="warm-card p-5 flex items-center justify-between animate-reveal delay-2">
+                    <div>
+                        <p class="text-xs text-mocha font-semibold uppercase tracking-wide mb-1">Kompensasi</p>
+                        <p class="text-3xl font-mono font-extrabold text-sunset">Rp 5.000</p>
                     </div>
-                    <hr class="border-slate-50">
-                    <!-- Location -->
-                    <div class="flex gap-3 items-start">
-                        <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center shrink-0 mt-0.5">
-                            <i data-lucide="map-pin" class="w-4 h-4 text-slate-500"></i>
-                        </div>
-                        <div>
-                            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Lokasi</p>
-                            <p class="text-sm font-semibold text-slate-800">Pos Satpam Depan Kampus UNU</p>
-                        </div>
+                    <div class="w-14 h-14 bg-gradient-to-br from-sunset to-sunset-light rounded-2xl flex items-center justify-center">
+                        <i data-lucide="wallet" class="w-7 h-7 text-white"></i>
                     </div>
-                    <hr class="border-slate-50">
-                    <!-- Deadline -->
-                    <div class="flex gap-3 items-start">
-                        <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center shrink-0 mt-0.5">
-                            <i data-lucide="clock" class="w-4 h-4 text-slate-500"></i>
+                </div>
+
+                <!-- Description -->
+                <div class="animate-reveal delay-3">
+                    <h3 class="font-bold text-sm text-mocha uppercase tracking-wide mb-2">Deskripsi</h3>
+                    <p class="text-espresso leading-relaxed">Tolong beliin kopi senza (espresso) di kantin utama. Kirim ke ruang BK lantai 2. Kalau naik 1 kopi senja lagi, aku tambah Rp 3.000. Thanks!</p>
+                </div>
+
+                <!-- Info Grid -->
+                <div class="grid grid-cols-2 gap-3 animate-reveal delay-4">
+                    <div class="warm-card p-4">
+                        <div class="flex items-center gap-2 text-mocha mb-1">
+                            <i data-lucide="map-pin" class="w-4 h-4"></i>
+                            <span class="text-xs font-semibold uppercase tracking-wide">Lokasi</span>
                         </div>
-                        <div>
-                            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Deadline</p>
-                            <p class="text-sm font-semibold text-slate-800">20 Juni 2026, 14:00 WIB</p>
-                            <p class="text-xs font-medium text-slate-500 mt-0.5">2 jam lagi</p>
+                        <p class="font-bold text-sm">Kantin Utama → Ruang BK Lt.2</p>
+                    </div>
+                    <div class="warm-card p-4">
+                        <div class="flex items-center gap-2 text-mocha mb-1">
+                            <i data-lucide="clock" class="w-4 h-4"></i>
+                            <span class="text-xs font-semibold uppercase tracking-wide">Deadline</span>
                         </div>
+                        <p class="font-bold text-sm">Hari ini, 2 jam lagi</p>
                     </div>
                 </div>
 
                 <!-- Giver Card -->
-                <div>
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3 px-1">Pemberi Quest</p>
-                    <div class="bg-white border border-slate-100 rounded-2xl p-4 flex items-center gap-4 cursor-pointer hover:bg-slate-50 transition-colors shadow-sm active:scale-[0.98]">
-                        <div class="w-12 h-12 rounded-full bg-orange-100 text-orange-600 border border-orange-200 flex items-center justify-center font-bold text-lg shrink-0">
-                            FA
-                        </div>
-                        <div class="flex-1">
-                            <h3 class="font-bold text-slate-900 mb-0.5">Faiz Abdurrachman</h3>
-                            <div class="flex items-center gap-1.5 mb-1.5">
-                                <i data-lucide="star" class="w-3.5 h-3.5 text-amber-400 fill-amber-400"></i>
-                                <span class="text-xs font-bold text-slate-700">4.8</span>
-                                <span class="text-xs text-slate-400">(20 ulasan)</span>
+                <a href="/user-profile" class="warm-card p-4 flex items-center gap-4 group animate-reveal delay-5">
+                    <div class="w-14 h-14 rounded-2xl bg-gradient-to-br from-golden to-sunset-light flex items-center justify-center font-extrabold text-white text-lg">N</div>
+                    <div class="flex-1">
+                        <p class="text-xs text-mocha font-semibold">Diposting oleh</p>
+                        <p class="font-bold flex items-center gap-1.5">Nicky Admin <i data-lucide="badge-check" class="w-4 h-4 text-teal-500"></i></p>
+                        <div class="flex items-center gap-2 mt-0.5">
+                            <div class="flex items-center gap-0.5">
+                                <i data-lucide="star" class="w-3 h-3 fill-golden text-golden"></i>
+                                <span class="text-xs font-bold">4.9</span>
                             </div>
-                            <p class="text-[11px] text-slate-500 font-medium">15 Diberikan · 5 Diambil</p>
+                            <span class="text-xs text-mocha">· 15 Diberikan · 5 Diambil</span>
                         </div>
-                        <i data-lucide="chevron-right" class="w-5 h-5 text-slate-300"></i>
                     </div>
-                </div>
+                    <i data-lucide="chevron-right" class="w-5 h-5 text-latte group-hover:text-sunset transition-colors"></i>
+                </a>
 
                 <!-- Progress Stepper -->
-                <div class="mt-2">
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 px-1">Status Progress</p>
-                    <div class="relative px-2">
-                        <!-- Line -->
-                        <div class="absolute top-3 left-6 right-6 h-0.5 bg-slate-200 rounded-full"></div>
-                        
-                        <div class="relative flex justify-between">
-                            <!-- Step 1: Current -->
-                            <div class="flex flex-col items-center gap-2 z-10 w-12">
-                                <div class="w-6 h-6 rounded-full bg-orange-500 ring-4 ring-orange-100 flex items-center justify-center">
-                                    <div class="w-2 h-2 bg-white rounded-full"></div>
-                                </div>
-                                <span class="text-[10px] font-bold text-orange-600 text-center">Open</span>
+                <div class="animate-reveal delay-6">
+                    <h3 class="font-bold text-sm text-mocha uppercase tracking-wide mb-3">Progress</h3>
+                    <div class="flex items-center justify-between relative">
+                        <div class="absolute top-5 left-5 right-5 h-1 bg-cream-deep rounded-full"></div>
+                        <div class="absolute top-5 left-5 w-[0%] h-1 bg-gradient-to-r from-sunset to-sunset-light rounded-full"></div>
+                        <div class="relative z-10 flex flex-col items-center gap-1.5">
+                            <div class="w-10 h-10 rounded-full bg-sunset text-white flex items-center justify-center shadow-warm">
+                                <i data-lucide="check" class="w-5 h-5"></i>
                             </div>
-                            <!-- Step 2 -->
-                            <div class="flex flex-col items-center gap-2 z-10 w-12">
-                                <div class="w-6 h-6 rounded-full bg-white border-2 border-slate-200 flex items-center justify-center"></div>
-                                <span class="text-[10px] font-semibold text-slate-400 text-center">Taken</span>
-                            </div>
-                            <!-- Step 3 -->
-                            <div class="flex flex-col items-center gap-2 z-10 w-12">
-                                <div class="w-6 h-6 rounded-full bg-white border-2 border-slate-200 flex items-center justify-center"></div>
-                                <span class="text-[10px] font-semibold text-slate-400 text-center">Proses</span>
-                            </div>
-                            <!-- Step 4 -->
-                            <div class="flex flex-col items-center gap-2 z-10 w-12">
-                                <div class="w-6 h-6 rounded-full bg-white border-2 border-slate-200 flex items-center justify-center"></div>
-                                <span class="text-[10px] font-semibold text-slate-400 text-center">Selesai</span>
-                            </div>
+                            <span class="text-[10px] font-bold">Posted</span>
+                        </div>
+                        <div class="relative z-10 flex flex-col items-center gap-1.5">
+                            <div class="w-10 h-10 rounded-full bg-white border-2 border-cream-deep text-latte flex items-center justify-center">2</div>
+                            <span class="text-[10px] font-semibold text-mocha">Diambil</span>
+                        </div>
+                        <div class="relative z-10 flex flex-col items-center gap-1.5">
+                            <div class="w-10 h-10 rounded-full bg-white border-2 border-cream-deep text-latte flex items-center justify-center">3</div>
+                            <span class="text-[10px] font-semibold text-mocha">Proses</span>
+                        </div>
+                        <div class="relative z-10 flex flex-col items-center gap-1.5">
+                            <div class="w-10 h-10 rounded-full bg-white border-2 border-cream-deep text-latte flex items-center justify-center">4</div>
+                            <span class="text-[10px] font-semibold text-mocha">Selesai</span>
                         </div>
                     </div>
                 </div>
             </main>
 
-            <!-- Sticky Action Bottom -->
-            <div class="absolute bottom-0 left-0 w-full bg-white/90 backdrop-blur-md border-t border-slate-100 p-4 pb-safe z-40">
-                <button class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-xl shadow-sm transition-all active:scale-[0.98] flex justify-center items-center gap-2" onclick="simulateLoading(this, 'Mengambil...', 'Berhasil Diambil!')">
-                    Ambil Quest
+            <!-- Sticky CTA -->
+            <div class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t-2 border-cream-deep px-4 py-4 pb-safe">
+                <button onclick="takeQuest(this)" class="btn-sunset w-full text-base flex items-center justify-center gap-2">
+                    <i data-lucide="hand" class="w-5 h-5"></i>
+                    <span>Ambil Quest Ini</span>
                 </button>
             </div>
         </div>
 
-        <!-- ========================================== -->
+        <!-- ============================================ -->
         <!-- SCENARIO 2: IN PROGRESS (Dilihat Taker) -->
-        <!-- ========================================== -->
-        <div id="scenario-2" class="hidden flex-col h-full scenario-container">
-            <header class="bg-white border-b border-slate-100 sticky top-0 z-40 px-4 h-14 flex items-center gap-3">
-                <a href="/dashboard" class="w-10 h-10 flex items-center justify-center -ml-2 text-slate-600 hover:bg-slate-50 rounded-full transition-colors">
+        <!-- ============================================ -->
+        <div id="scenario-2" class="hidden flex-col h-full">
+            <header class="bg-white/90 backdrop-blur-lg border-b-2 border-cream-deep sticky top-0 z-40 px-4 h-14 flex items-center gap-3">
+                <a href="/dashboard" class="w-10 h-10 flex items-center justify-center -ml-2 text-mocha hover:bg-cream-deep rounded-xl transition-colors">
                     <i data-lucide="arrow-left" class="w-6 h-6"></i>
                 </a>
-                <h1 class="font-bold text-lg text-slate-900">Detail Quest</h1>
+                <h1 class="font-extrabold text-lg">Detail Quest</h1>
             </header>
 
-            <main class="flex-1 overflow-y-auto px-4 py-6 pb-32 flex flex-col gap-6">
-                <!-- Header & Status -->
-                <div>
-                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-600 text-xs font-bold tracking-wide border border-amber-100">
-                        <div class="w-1.5 h-1.5 rounded-full bg-amber-500 animate-pulse"></div>
-                        IN PROGRESS
-                    </div>
-                    <h2 class="text-2xl font-extrabold text-slate-900 mt-3 mb-3 leading-tight">Beliin nasi goreng kantin A</h2>
-                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-orange-50 text-orange-600 text-xs font-bold">
-                        <i data-lucide="utensils" class="w-3.5 h-3.5"></i>
-                        Makanan
+            <main class="flex-1 overflow-y-auto px-4 py-6 pb-32 flex flex-col gap-5">
+
+                <div class="animate-reveal">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full badge-progress text-sm font-bold">
+                        <span class="w-2 h-2 rounded-full bg-golden animate-pulse"></span>
+                        IN PROGRESS — Kamu sedang mengerjakan
                     </div>
                 </div>
 
-                <!-- Info Card -->
-                <div class="bg-white border border-slate-100 rounded-2xl p-5 space-y-5 shadow-sm">
-                    <div class="flex gap-3 items-start">
-                        <div class="w-8 h-8 rounded-full bg-orange-50 flex items-center justify-center shrink-0 mt-0.5">
-                            <i data-lucide="banknote" class="w-4 h-4 text-orange-500"></i>
-                        </div>
-                        <div>
-                            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-0.5">Kompensasi</p>
-                            <p class="text-xl font-extrabold text-orange-500">Rp 10.000</p>
-                        </div>
+                <div class="animate-reveal delay-1">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="px-3 py-1 rounded-full bg-sunset/10 text-sunset text-xs font-bold uppercase tracking-wide">Transportasi</span>
                     </div>
-                    <hr class="border-slate-50">
-                    <div class="flex gap-3 items-start">
-                        <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center shrink-0 mt-0.5">
-                            <i data-lucide="align-left" class="w-4 h-4 text-slate-500"></i>
-                        </div>
-                        <div>
-                            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Deskripsi</p>
-                            <p class="text-sm text-slate-700 leading-relaxed">Lagi nugas di lab laper banget. Tolong beliin nasi goreng ayam satu, pedes dikit, minumnya es teh manis. Duitnya aku ganti plus ongkosnya via QRIS ya nanti.</p>
-                        </div>
-                    </div>
-                    <hr class="border-slate-50">
-                    <div class="flex gap-3 items-start">
-                        <div class="w-8 h-8 rounded-full bg-slate-50 flex items-center justify-center shrink-0 mt-0.5">
-                            <i data-lucide="map-pin" class="w-4 h-4 text-slate-500"></i>
-                        </div>
-                        <div>
-                            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Lokasi</p>
-                            <p class="text-sm font-semibold text-slate-800">Kantin A → Lab Komputer Lt 2</p>
-                        </div>
-                    </div>
-                    <hr class="border-slate-50">
-                    <div class="flex gap-3 items-start">
-                        <div class="w-8 h-8 rounded-full bg-red-50 flex items-center justify-center shrink-0 mt-0.5">
-                            <i data-lucide="clock" class="w-4 h-4 text-red-500"></i>
-                        </div>
-                        <div>
-                            <p class="text-[11px] font-bold text-slate-400 uppercase tracking-wider mb-1">Deadline</p>
-                            <p class="text-sm font-semibold text-slate-800">Hari ini, 12:30 WIB</p>
-                            <p class="text-xs font-bold text-red-500 mt-0.5">15 menit lagi!</p>
-                        </div>
-                    </div>
+                    <h2 class="text-2xl font-extrabold leading-tight">Beliin Kopi Senja di Kantin Utama</h2>
                 </div>
 
                 <!-- Persons Grid -->
-                <div class="grid grid-cols-2 gap-3">
-                    <!-- Giver -->
-                    <div class="bg-white border border-slate-100 rounded-2xl p-3 flex flex-col items-center text-center shadow-sm">
-                        <p class="text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">Pemberi</p>
-                        <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-sm mb-2">HI</div>
-                        <h3 class="font-bold text-slate-900 text-xs truncate w-full">Hilman</h3>
-                        <div class="flex items-center gap-1 mt-1">
-                            <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
-                            <span class="text-xs font-bold text-slate-700">4.8</span>
-                        </div>
+                <div class="grid grid-cols-2 gap-3 animate-reveal delay-2">
+                    <a href="/user-profile" class="warm-card p-4 text-center group">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-golden to-sunset-light flex items-center justify-center font-extrabold text-white mx-auto mb-2">N</div>
+                        <p class="text-xs text-mocha font-semibold">Giver</p>
+                        <p class="font-bold text-sm">Nicky</p>
+                    </a>
+                    <div class="warm-card p-4 text-center border-sunset bg-sunset/5">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-sunset to-sunset-light flex items-center justify-center font-extrabold text-white mx-auto mb-2">F</div>
+                        <p class="text-xs text-sunset font-semibold">Taker (Kamu)</p>
+                        <p class="font-bold text-sm">Faiz</p>
                     </div>
-                    <!-- Taker (You) -->
-                    <div class="bg-orange-50 border border-orange-100 rounded-2xl p-3 flex flex-col items-center text-center shadow-sm relative overflow-hidden">
-                        <div class="absolute top-0 right-0 bg-orange-500 text-white text-[8px] font-bold px-1.5 py-0.5 rounded-bl-lg">KAMU</div>
-                        <p class="text-[10px] font-bold text-orange-400 uppercase tracking-wider mb-2">Pengambil</p>
-                        <div class="w-10 h-10 rounded-full bg-orange-200 text-orange-700 border border-white shadow-sm flex items-center justify-center font-bold text-sm mb-2">ES</div>
-                        <h3 class="font-bold text-slate-900 text-xs truncate w-full">Esa (Kamu)</h3>
-                        <div class="flex items-center gap-1 mt-1">
-                            <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
-                            <span class="text-xs font-bold text-slate-700">4.9</span>
+                </div>
+
+                <!-- Price -->
+                <div class="warm-card p-5 flex items-center justify-between animate-reveal delay-3">
+                    <div>
+                        <p class="text-xs text-mocha font-semibold uppercase tracking-wide mb-1">Kamu dapat</p>
+                        <p class="text-3xl font-mono font-extrabold text-teal-500">Rp 5.000</p>
+                    </div>
+                    <div class="w-14 h-14 bg-teal-50 rounded-2xl flex items-center justify-center">
+                        <i data-lucide="wallet" class="w-7 h-7 text-teal-500"></i>
+                    </div>
+                </div>
+
+                <!-- Task Detail -->
+                <div class="animate-reveal delay-4">
+                    <h3 class="font-bold text-sm text-mocha uppercase tracking-wide mb-2">Detail Tugas</h3>
+                    <p class="text-espresso leading-relaxed">Beli kopi senza di kantin utama, kirim ke ruang BK lantai 2.</p>
+                    <div class="warm-card p-4 mt-3 space-y-2">
+                        <div class="flex items-center gap-2 text-sm">
+                            <i data-lucide="map-pin" class="w-4 h-4 text-sunset"></i>
+                            <span class="font-semibold">Kantin Utama → Ruang BK Lt.2</span>
+                        </div>
+                        <div class="flex items-center gap-2 text-sm">
+                            <i data-lucide="clock" class="w-4 h-4 text-coral"></i>
+                            <span class="font-semibold text-coral">Deadline: 1 jam lagi!</span>
                         </div>
                     </div>
                 </div>
 
                 <!-- Progress Stepper -->
-                <div class="mt-2">
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 px-1">Status Progress</p>
-                    <div class="relative px-2">
-                        <div class="absolute top-3 left-6 right-6 h-0.5 bg-slate-200 rounded-full"></div>
-                        <!-- Active line part -->
-                        <div class="absolute top-3 left-6 w-[50%] h-0.5 bg-orange-500 rounded-full"></div>
-                        
-                        <div class="relative flex justify-between">
-                            <div class="flex flex-col items-center gap-2 z-10 w-12">
-                                <div class="w-6 h-6 rounded-full bg-orange-500 text-white flex items-center justify-center">
-                                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                                </div>
-                                <span class="text-[10px] font-bold text-orange-600 text-center">Open</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-2 z-10 w-12">
-                                <div class="w-6 h-6 rounded-full bg-orange-500 text-white flex items-center justify-center">
-                                    <i data-lucide="check" class="w-3.5 h-3.5"></i>
-                                </div>
-                                <span class="text-[10px] font-bold text-orange-600 text-center">Taken</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-2 z-10 w-12">
-                                <div class="w-6 h-6 rounded-full bg-orange-500 ring-4 ring-orange-100 flex items-center justify-center">
-                                    <div class="w-2 h-2 bg-white rounded-full"></div>
-                                </div>
-                                <span class="text-[10px] font-bold text-orange-600 text-center">Proses</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-2 z-10 w-12">
-                                <div class="w-6 h-6 rounded-full bg-white border-2 border-slate-200 flex items-center justify-center"></div>
-                                <span class="text-[10px] font-semibold text-slate-400 text-center">Selesai</span>
-                            </div>
+                <div class="animate-reveal delay-5">
+                    <h3 class="font-bold text-sm text-mocha uppercase tracking-wide mb-3">Progress</h3>
+                    <div class="flex items-center justify-between relative">
+                        <div class="absolute top-5 left-5 right-5 h-1 bg-cream-deep rounded-full"></div>
+                        <div class="absolute top-5 left-5 w-[60%] h-1 bg-gradient-to-r from-sunset to-sunset-light rounded-full"></div>
+                        <div class="relative z-10 flex flex-col items-center gap-1.5">
+                            <div class="w-10 h-10 rounded-full bg-sunset text-white flex items-center justify-center shadow-warm"><i data-lucide="check" class="w-5 h-5"></i></div>
+                            <span class="text-[10px] font-bold">Posted</span>
+                        </div>
+                        <div class="relative z-10 flex flex-col items-center gap-1.5">
+                            <div class="w-10 h-10 rounded-full bg-sunset text-white flex items-center justify-center shadow-warm"><i data-lucide="check" class="w-5 h-5"></i></div>
+                            <span class="text-[10px] font-bold">Diambil</span>
+                        </div>
+                        <div class="relative z-10 flex flex-col items-center gap-1.5">
+                            <div class="w-10 h-10 rounded-full bg-sunset text-white flex items-center justify-center shadow-warm animate-pulse"><i data-lucide="loader" class="w-5 h-5 animate-spin-slow"></i></div>
+                            <span class="text-[10px] font-bold text-sunset">Proses</span>
+                        </div>
+                        <div class="relative z-10 flex flex-col items-center gap-1.5">
+                            <div class="w-10 h-10 rounded-full bg-white border-2 border-cream-deep text-latte flex items-center justify-center">4</div>
+                            <span class="text-[10px] font-semibold text-mocha">Selesai</span>
                         </div>
                     </div>
                 </div>
             </main>
 
-            <!-- Sticky Action Bottom -->
-            <div class="absolute bottom-0 left-0 w-full bg-white/90 backdrop-blur-md border-t border-slate-100 p-4 pb-safe z-40">
-                <button class="w-full bg-emerald-500 hover:bg-emerald-600 text-white font-bold py-3.5 rounded-xl shadow-sm transition-all active:scale-[0.98] flex justify-center items-center gap-2" onclick="simulateLoading(this, 'Menandai Selesai...', 'Quest Selesai!')">
+            <div class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t-2 border-cream-deep px-4 py-4 pb-safe">
+                <button onclick="completeQuest(this)" class="w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-3.5 rounded-full shadow-warm transition-all active:scale-95 flex justify-center items-center gap-2">
                     <i data-lucide="check-circle" class="w-5 h-5"></i>
-                    Tandai Selesai
+                    <span>Tandai Selesai</span>
                 </button>
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- SCENARIO 3: COMPLETED (Dilihat Giver, Belum Bayar) -->
-        <!-- ========================================== -->
-        <div id="scenario-3" class="hidden flex-col h-full scenario-container">
-            <header class="bg-white border-b border-slate-100 sticky top-0 z-40 px-4 h-14 flex items-center gap-3">
-                <a href="/dashboard" class="w-10 h-10 flex items-center justify-center -ml-2 text-slate-600 hover:bg-slate-50 rounded-full transition-colors">
+        <!-- ============================================ -->
+        <!-- SCENARIO 3: COMPLETED (Giver view, unpaid) -->
+        <!-- ============================================ -->
+        <div id="scenario-3" class="hidden flex-col h-full">
+            <header class="bg-white/90 backdrop-blur-lg border-b-2 border-cream-deep sticky top-0 z-40 px-4 h-14 flex items-center gap-3">
+                <a href="/dashboard" class="w-10 h-10 flex items-center justify-center -ml-2 text-mocha hover:bg-cream-deep rounded-xl transition-colors">
                     <i data-lucide="arrow-left" class="w-6 h-6"></i>
                 </a>
-                <h1 class="font-bold text-lg text-slate-900">Detail Quest</h1>
+                <h1 class="font-extrabold text-lg">Detail Quest</h1>
             </header>
 
-            <main class="flex-1 overflow-y-auto px-4 py-6 pb-32 flex flex-col gap-6">
-                <!-- Header & Status -->
-                <div>
-                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-violet-50 text-violet-600 text-xs font-bold tracking-wide border border-violet-100">
-                        <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
-                        COMPLETED
-                    </div>
-                    <h2 class="text-2xl font-extrabold text-slate-900 mt-3 mb-3 leading-tight">Print dokumen 5 lembar</h2>
-                    <div class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-emerald-50 text-emerald-600 text-xs font-bold">
-                        <i data-lucide="file-text" class="w-3.5 h-3.5"></i>
-                        Administrasi
+            <main class="flex-1 overflow-y-auto px-4 py-6 pb-32 flex flex-col gap-5">
+
+                <div class="animate-reveal">
+                    <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full badge-progress text-sm font-bold">
+                        <i data-lucide="alert-circle" class="w-4 h-4"></i>
+                        SELESAI — Menunggu Pembayaran
                     </div>
                 </div>
 
-                <!-- Giver & Taker Mini Profile (Vertical this time) -->
-                <div class="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm flex flex-col gap-4">
-                    <div class="flex items-center justify-between">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-sm">ES</div>
-                            <div>
-                                <p class="text-[10px] font-bold text-slate-400 uppercase">Pemberi Quest</p>
-                                <p class="font-bold text-slate-900 text-sm">Esa (Kamu)</p>
-                            </div>
-                        </div>
+                <div class="animate-reveal delay-1">
+                    <div class="flex items-center gap-2 mb-2">
+                        <span class="px-3 py-1 rounded-full bg-sunset/10 text-sunset text-xs font-bold uppercase tracking-wide">Transportasi</span>
                     </div>
-                    <hr class="border-slate-50">
-                    <div class="flex items-center justify-between cursor-pointer hover:bg-slate-50 p-1 -m-1 rounded-xl transition-colors">
-                        <div class="flex items-center gap-3">
-                            <div class="w-10 h-10 rounded-full bg-emerald-100 text-emerald-600 border border-emerald-200 flex items-center justify-center font-bold text-sm">FA</div>
-                            <div>
-                                <p class="text-[10px] font-bold text-emerald-500 uppercase">Telah Diselesaikan Oleh</p>
-                                <p class="font-bold text-slate-900 text-sm">Faiz Abdurrachman</p>
-                            </div>
-                        </div>
-                        <div class="text-right">
-                            <div class="flex items-center justify-end gap-1">
-                                <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
-                                <span class="text-xs font-bold text-slate-700">4.5</span>
-                            </div>
-                            <p class="text-[10px] text-slate-400 mt-0.5">Lihat Profil</p>
-                        </div>
+                    <h2 class="text-2xl font-extrabold leading-tight">Beliin Kopi Senja di Kantin Utama</h2>
+                </div>
+
+                <!-- Persons -->
+                <div class="warm-card p-4 flex items-center gap-4 animate-reveal delay-2">
+                    <div class="flex -space-x-3">
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-golden to-sunset-light flex items-center justify-center font-extrabold text-white border-2 border-white">N</div>
+                        <div class="w-12 h-12 rounded-2xl bg-gradient-to-br from-sunset to-sunset-light flex items-center justify-center font-extrabold text-white border-2 border-white">F</div>
+                    </div>
+                    <div>
+                        <p class="text-xs text-mocha font-semibold">Giver & Taker</p>
+                        <p class="font-bold text-sm">Nicky → Faiz</p>
                     </div>
                 </div>
 
-                <!-- Info Compact -->
-                <div class="bg-white border border-slate-100 rounded-2xl p-4 shadow-sm">
-                    <div class="flex justify-between items-center mb-3">
-                        <p class="text-xs font-bold text-slate-400 uppercase">Kompensasi</p>
-                        <p class="text-lg font-extrabold text-orange-500">Rp 2.000</p>
-                    </div>
-                    <p class="text-sm text-slate-600">Tugas nge-print A4 hitam putih di fotokopian depan udah selesai dikerjain Faiz.</p>
+                <!-- Price to Pay -->
+                <div class="warm-card p-5 text-center border-sunset bg-sunset/5 animate-reveal delay-3">
+                    <p class="text-xs text-mocha font-semibold uppercase tracking-wide mb-1">Bayar ke Taker</p>
+                    <p class="text-4xl font-mono font-extrabold text-sunset">Rp 5.000</p>
                 </div>
 
-                <!-- Progress Stepper (All Done) -->
-                <div class="mt-2">
-                    <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-4 px-1">Status Progress</p>
-                    <div class="relative px-2">
-                        <div class="absolute top-3 left-6 right-6 h-0.5 bg-orange-500 rounded-full"></div>
-                        
-                        <div class="relative flex justify-between">
-                            <div class="flex flex-col items-center gap-2 z-10 w-12">
-                                <div class="w-6 h-6 rounded-full bg-orange-500 text-white flex items-center justify-center"><i data-lucide="check" class="w-3.5 h-3.5"></i></div>
-                                <span class="text-[10px] font-bold text-slate-500 text-center">Open</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-2 z-10 w-12">
-                                <div class="w-6 h-6 rounded-full bg-orange-500 text-white flex items-center justify-center"><i data-lucide="check" class="w-3.5 h-3.5"></i></div>
-                                <span class="text-[10px] font-bold text-slate-500 text-center">Taken</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-2 z-10 w-12">
-                                <div class="w-6 h-6 rounded-full bg-orange-500 text-white flex items-center justify-center"><i data-lucide="check" class="w-3.5 h-3.5"></i></div>
-                                <span class="text-[10px] font-bold text-slate-500 text-center">Proses</span>
-                            </div>
-                            <div class="flex flex-col items-center gap-2 z-10 w-12">
-                                <div class="w-6 h-6 rounded-full bg-violet-500 ring-4 ring-violet-100 text-white flex items-center justify-center"><i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i></div>
-                                <span class="text-[10px] font-bold text-violet-600 text-center">Selesai</span>
-                            </div>
+                <!-- Progress Stepper (all done) -->
+                <div class="animate-reveal delay-4">
+                    <div class="flex items-center justify-between relative">
+                        <div class="absolute top-5 left-5 right-5 h-1 bg-cream-deep rounded-full"></div>
+                        <div class="absolute top-5 left-5 w-[100%] h-1 bg-gradient-to-r from-sunset to-sunset-light rounded-full"></div>
+                        <div class="relative z-10 flex flex-col items-center gap-1.5">
+                            <div class="w-10 h-10 rounded-full bg-sunset text-white flex items-center justify-center shadow-warm"><i data-lucide="check" class="w-5 h-5"></i></div>
+                            <span class="text-[10px] font-bold">Posted</span>
+                        </div>
+                        <div class="relative z-10 flex flex-col items-center gap-1.5">
+                            <div class="w-10 h-10 rounded-full bg-sunset text-white flex items-center justify-center shadow-warm"><i data-lucide="check" class="w-5 h-5"></i></div>
+                            <span class="text-[10px] font-bold">Diambil</span>
+                        </div>
+                        <div class="relative z-10 flex flex-col items-center gap-1.5">
+                            <div class="w-10 h-10 rounded-full bg-sunset text-white flex items-center justify-center shadow-warm"><i data-lucide="check" class="w-5 h-5"></i></div>
+                            <span class="text-[10px] font-bold">Proses</span>
+                        </div>
+                        <div class="relative z-10 flex flex-col items-center gap-1.5">
+                            <div class="w-10 h-10 rounded-full bg-teal-500 text-white flex items-center justify-center shadow-warm"><i data-lucide="check" class="w-5 h-5"></i></div>
+                            <span class="text-[10px] font-bold text-teal-500">Selesai</span>
                         </div>
                     </div>
                 </div>
 
-                <!-- Rating Preview (Dummy for design showcase) -->
-                <div class="mt-4">
-                    <div class="flex items-center justify-between px-1 mb-3">
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider">Ulasan</p>
-                    </div>
-                    <!-- Empty State for Rating -->
-                    <div class="bg-slate-50 border border-slate-100 rounded-2xl p-6 text-center border-dashed">
-                        <i data-lucide="star" class="w-6 h-6 text-slate-300 mx-auto mb-2"></i>
-                        <p class="text-sm font-semibold text-slate-600">Belum ada ulasan</p>
-                        <p class="text-xs text-slate-400 mt-1">Ulasan dapat diberikan setelah pembayaran dikonfirmasi.</p>
-                    </div>
-                </div>
-
-                <div class="text-center mt-2">
-                    <button class="inline-flex items-center gap-1.5 text-[11px] font-medium text-slate-400 hover:text-slate-600 transition-colors">
-                        <i data-lucide="flag" class="w-3 h-3"></i> Laporkan Masalah
-                    </button>
+                <!-- Empty Rating Section -->
+                <div class="warm-card p-6 text-center animate-reveal delay-5 border-dashed">
+                    <i data-lucide="star" class="w-10 h-10 text-golden mx-auto mb-2"></i>
+                    <p class="font-bold mb-1">Berikan Rating</p>
+                    <p class="text-sm text-mocha mb-4">Setelah bayar, kasih rating ke taker</p>
+                    <a href="/rating" class="btn-outline text-sm inline-flex items-center gap-2">
+                        <i data-lucide="star" class="w-4 h-4"></i>
+                        <span>Beri Rating</span>
+                    </a>
                 </div>
             </main>
 
-            <!-- Sticky Action Bottom -->
-            <div class="absolute bottom-0 left-0 w-full bg-white/90 backdrop-blur-md border-t border-slate-100 p-4 pb-safe z-40">
-                <button class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-xl shadow-[0_4px_15px_-3px_rgba(249,115,22,0.4)] transition-all active:scale-[0.98] flex justify-center items-center gap-2 animate-bounce-subtle" onclick="togglePaymentModal()">
+            <div class="absolute bottom-0 left-0 right-0 bg-white/90 backdrop-blur-lg border-t-2 border-cream-deep px-4 py-4 pb-safe">
+                <button onclick="openPayment()" class="btn-sunset w-full text-base flex items-center justify-center gap-2">
                     <i data-lucide="wallet" class="w-5 h-5"></i>
-                    Konfirmasi Pembayaran
+                    <span>Konfirmasi Pembayaran</span>
                 </button>
             </div>
         </div>
 
-        <!-- ========================================== -->
-        <!-- PAYMENT CONFIRMATION MODAL (Overlay) -->
-        <!-- ========================================== -->
-        <div id="payment-modal" class="fixed inset-0 z-50 flex items-end sm:items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300">
-            <!-- Backdrop -->
-            <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="togglePaymentModal()"></div>
-            
-            <!-- Modal Content -->
-            <div class="bg-white w-full sm:max-w-sm sm:rounded-3xl rounded-t-3xl relative z-10 transform translate-y-full sm:translate-y-4 transition-transform duration-300 flex flex-col max-h-[90vh]" id="payment-modal-content">
-                
-                <!-- Handle for mobile drag visual -->
-                <div class="w-full flex justify-center pt-3 pb-2 sm:hidden">
-                    <div class="w-12 h-1.5 bg-slate-200 rounded-full"></div>
-                </div>
+        <!-- Payment Modal -->
+        <div id="payment-modal" class="fixed inset-0 z-[80] opacity-0 pointer-events-none transition-opacity duration-300">
+            <div class="absolute inset-0 bg-espresso/40 backdrop-blur-sm" onclick="closePayment()"></div>
+            <div id="payment-content" class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white rounded-t-[32px] p-6 transform translate-y-full transition-transform duration-300 pb-safe">
+                <div class="w-12 h-1.5 bg-cream-deep rounded-full mx-auto mb-5"></div>
+                <h3 class="font-extrabold text-xl mb-1">Konfirmasi Pembayaran</h3>
+                <p class="text-sm text-mocha mb-5">Pilih metode pembayaran</p>
 
-                <div class="px-6 pb-2 pt-2 sm:pt-6 flex justify-between items-center">
-                    <h3 class="font-extrabold text-lg text-slate-900">Konfirmasi Pembayaran</h3>
-                    <button class="text-slate-400 hover:text-slate-600 bg-slate-50 p-1.5 rounded-full transition-colors" onclick="togglePaymentModal()">
-                        <i data-lucide="x" class="w-5 h-5"></i>
-                    </button>
-                </div>
-
-                <div class="px-6 py-4 overflow-y-auto">
-                    <div class="text-center mb-6">
-                        <p class="text-xs font-bold text-slate-400 uppercase tracking-wider mb-1">Total Harus Dibayar</p>
-                        <p class="text-3xl font-black text-slate-900">Rp 2.000</p>
-                    </div>
-
-                    <p class="text-sm font-bold text-slate-900 mb-3">Pilih Metode Pembayaran</p>
-                    
-                    <!-- Radio Options -->
-                    <div class="space-y-3 mb-6">
-                        <label class="flex items-center p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50 has-[:checked]:ring-1 has-[:checked]:ring-orange-500">
-                            <input type="radio" name="payment" value="cash" class="w-4 h-4 text-orange-500 border-slate-300 focus:ring-orange-500" checked onchange="toggleQrisView()">
-                            <div class="ml-3 flex-1">
-                                <span class="block text-sm font-bold text-slate-900">Tunai / Cash</span>
-                                <span class="block text-xs text-slate-500 mt-0.5">Bayar langsung saat bertemu</span>
-                            </div>
-                            <i data-lucide="banknote" class="w-5 h-5 text-slate-400"></i>
-                        </label>
-
-                        <label class="flex items-center p-3 border border-slate-200 rounded-xl cursor-pointer hover:bg-slate-50 transition-colors has-[:checked]:border-orange-500 has-[:checked]:bg-orange-50 has-[:checked]:ring-1 has-[:checked]:ring-orange-500">
-                            <input type="radio" name="payment" value="qris" class="w-4 h-4 text-orange-500 border-slate-300 focus:ring-orange-500" onchange="toggleQrisView()">
-                            <div class="ml-3 flex-1">
-                                <span class="block text-sm font-bold text-slate-900">QRIS Transfer</span>
-                                <span class="block text-xs text-slate-500 mt-0.5">Scan kode QR milik Taker</span>
-                            </div>
-                            <i data-lucide="qr-code" class="w-5 h-5 text-slate-400"></i>
-                        </label>
-                    </div>
-
-                    <!-- QRIS Image Container (Hidden by default) -->
-                    <div id="qris-container" class="hidden mb-6 flex-col items-center animate-fade-in">
-                        <p class="text-xs font-semibold text-slate-500 mb-2">QRIS Faiz Abdurrachman</p>
-                        <div class="w-48 h-48 bg-slate-100 rounded-2xl border-2 border-dashed border-slate-300 flex items-center justify-center p-2 relative overflow-hidden">
-                            <!-- Placeholder for real QR image -->
-                            <img src="https://placehold.co/200x200/f1f5f9/94a3b8?text=QRIS+CODE" alt="QRIS Placeholder" class="w-full h-full object-contain rounded-xl opacity-80">
-                        </div>
-                        <p class="text-[10px] text-slate-400 mt-2 text-center max-w-[200px]">Download atau screenshot untuk bayar via m-banking/e-wallet.</p>
-                    </div>
-
-                    <!-- Checkbox Confirmation -->
-                    <label class="flex items-start gap-3 p-3 bg-amber-50 rounded-xl border border-amber-100 cursor-pointer mb-2">
-                        <input type="checkbox" id="confirm-check" class="mt-0.5 w-4 h-4 text-orange-500 border-amber-300 rounded focus:ring-orange-500" onchange="document.getElementById('btn-confirm-paid').disabled = !this.checked">
-                        <span class="text-xs text-amber-800 leading-relaxed font-medium">Saya menyatakan bahwa saya <strong>benar-benar telah membayar</strong> tagihan ini kepada Taker.</span>
+                <div class="space-y-3 mb-5">
+                    <label class="flex items-center gap-3 p-4 border-2 border-cream-deep rounded-xl cursor-pointer has-[:checked]:border-sunset has-[:checked]:bg-sunset/5">
+                        <input type="radio" name="payment" value="cash" checked class="text-sunset">
+                        <i data-lucide="banknote" class="w-5 h-5 text-sunset"></i>
+                        <span class="font-semibold">Cash</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-4 border-2 border-cream-deep rounded-xl cursor-pointer has-[:checked]:border-sunset has-[:checked]:bg-sunset/5">
+                        <input type="radio" name="payment" value="qris" class="text-sunset">
+                        <i data-lucide="qr-code" class="w-5 h-5 text-sunset"></i>
+                        <span class="font-semibold">QRIS</span>
                     </label>
                 </div>
 
-                <div class="p-4 border-t border-slate-100 pb-safe">
-                    <button id="btn-confirm-paid" disabled class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-xl transition-all disabled:opacity-50 disabled:cursor-not-allowed flex justify-center items-center gap-2" onclick="processPayment()">
-                        Konfirmasi Dibayar
-                    </button>
+                <div class="bg-cream rounded-xl p-4 flex items-center justify-between mb-5">
+                    <span class="text-sm text-mocha font-semibold">Total</span>
+                    <span class="font-mono font-extrabold text-xl text-sunset">Rp 5.000</span>
                 </div>
+
+                <label class="flex items-center gap-2 mb-5 cursor-pointer">
+                    <input type="checkbox" id="confirm-check" onchange="document.getElementById('btn-pay').disabled = !this.checked" class="text-sunset rounded">
+                    <span class="text-sm">Saya sudah membayar taker</span>
+                </label>
+
+                <button id="btn-pay" disabled onclick="processPayment()" class="btn-sunset w-full text-base disabled:opacity-40 disabled:cursor-not-allowed">
+                    Konfirmasi
+                </button>
             </div>
         </div>
 
     </div>
 
-    <style>
-        .animate-bounce-subtle { animation: bounce-subtle 2s infinite; }
-        @keyframes bounce-subtle {
-            0%, 100% { transform: translateY(-3%); }
-            50% { transform: translateY(0); }
-        }
-        .animate-fade-in { animation: fadeIn 0.3s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(-5px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
-
+    <script src="/assets/app.js"></script>
     <script>
-        // Initialize Icons
-        lucide.createIcons();
+        // Show scenario based on URL param
+        function showScenario() {
+            const params = new URLSearchParams(window.location.search);
+            const state = params.get('state') || 'open';
 
-        // 1. Scenario switching via URL param (?state=open|progress|completed)
-        const scenarios = ['scenario-1', 'scenario-2', 'scenario-3'];
-        
-        function switchScenario(targetId) {
-            // Hide all
-            scenarios.forEach(id => {
-                document.getElementById(id).classList.add('hidden');
-                document.getElementById(id).classList.remove('flex');
-            });
-            // Show target
-            document.getElementById(targetId).classList.remove('hidden');
-            document.getElementById(targetId).classList.add('flex');
-            lucide.createIcons();
+            document.querySelectorAll('[id^="scenario-"]').forEach(s => s.classList.add('hidden'));
+
+            let scenarioId;
+            if (state === 'progress') scenarioId = 'scenario-2';
+            else if (state === 'completed') scenarioId = 'scenario-3';
+            else scenarioId = 'scenario-1';
+
+            const el = document.getElementById(scenarioId);
+            el.classList.remove('hidden');
+            el.classList.add('flex', 'animate-page-enter');
+            if (window.lucide) lucide.createIcons();
         }
 
-        // Auto-select scenario based on ?state= param
-        const params = new URLSearchParams(window.location.search);
-        const state = params.get('state');
-        if (state === 'progress') {
-            switchScenario('scenario-2');
-        } else if (state === 'completed') {
-            switchScenario('scenario-3');
-        } else {
-            switchScenario('scenario-1');
-        }
-
-        // 2. Logic for Loading Button Simulation
-        function simulateLoading(btn, loadingText, successText) {
-            if(btn.disabled) return;
-            const originalHTML = btn.innerHTML;
+        // Take quest action
+        function takeQuest(btn) {
+            const original = btn.innerHTML;
+            btn.innerHTML = '<svg class="animate-spin-slow w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg><span>Mengambil...</span>';
             btn.disabled = true;
-            btn.innerHTML = `<i data-lucide="loader-2" class="w-5 h-5 animate-spin"></i> ${loadingText}`;
-            lucide.createIcons();
 
             setTimeout(() => {
-                btn.classList.replace('bg-orange-500', 'bg-emerald-500');
-                btn.classList.replace('hover:bg-orange-600', 'hover:bg-emerald-600');
-                btn.innerHTML = `<i data-lucide="check" class="w-5 h-5"></i> ${successText}`;
-                lucide.createIcons();
-            }, 1500);
+                YG.confetti();
+                YG.toast('Quest berhasil diambil! Gas kerjain!', 'success');
+                setTimeout(() => YG.navigate('/quest-detail?state=progress'), 1200);
+            }, 800);
         }
 
-        // 3. Logic for Payment Modal
-        const modal = document.getElementById('payment-modal');
-        const modalContent = document.getElementById('payment-modal-content');
-        
-        function togglePaymentModal() {
-            const isHidden = modal.classList.contains('opacity-0');
-            if (isHidden) {
-                // Open
-                modal.classList.remove('opacity-0', 'pointer-events-none');
-                modalContent.classList.remove('translate-y-full', 'sm:translate-y-4');
-                document.body.style.overflow = 'hidden'; // prevent bg scroll
-            } else {
-                // Close
+        // Complete quest action
+        function completeQuest(btn) {
+            const original = btn.innerHTML;
+            btn.innerHTML = '<svg class="animate-spin-slow w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg><span>Menandai...</span>';
+            btn.disabled = true;
+
+            setTimeout(() => {
+                YG.confetti();
+                YG.toast('Quest ditandai selesai! Tunggu pembayaran', 'success');
+                setTimeout(() => YG.navigate('/quest-detail?state=completed'), 1200);
+            }, 800);
+        }
+
+        // Payment modal
+        function openPayment() {
+            const modal = document.getElementById('payment-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100');
+            setTimeout(() => {
+                document.getElementById('payment-content').classList.remove('translate-y-full');
+            }, 10);
+        }
+
+        function closePayment() {
+            const content = document.getElementById('payment-content');
+            content.classList.add('translate-y-full');
+            setTimeout(() => {
+                const modal = document.getElementById('payment-modal');
                 modal.classList.add('opacity-0', 'pointer-events-none');
-                modalContent.classList.add('translate-y-full', 'sm:translate-y-4');
-                document.body.style.overflow = '';
-                
-                // reset modal state
-                setTimeout(() => {
-                    document.getElementById('confirm-check').checked = false;
-                    document.getElementById('btn-confirm-paid').disabled = true;
-                }, 300);
-            }
-        }
-
-        function toggleQrisView() {
-            const isQris = document.querySelector('input[name="payment"]:checked').value === 'qris';
-            const qrisContainer = document.getElementById('qris-container');
-            if(isQris) {
-                qrisContainer.classList.remove('hidden');
-                qrisContainer.classList.add('flex');
-            } else {
-                qrisContainer.classList.add('hidden');
-                qrisContainer.classList.remove('flex');
-            }
+                modal.classList.remove('opacity-100');
+            }, 300);
         }
 
         function processPayment() {
-            const btn = document.getElementById('btn-confirm-paid');
-            simulateLoading(btn, 'Memproses...', 'Pembayaran Selesai!');
-            
+            closePayment();
             setTimeout(() => {
-                togglePaymentModal();
-                console.log('Pembayaran terkonfirmasi. UI akan berpindah ke mode Rating.');
-            }, 2500);
+                YG.confetti();
+                YG.toast('Pembayaran terkonfirmasi! Quest selesai', 'success');
+            }, 400);
         }
 
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            showScenario();
+        });
     </script>
 </body>
 </html>

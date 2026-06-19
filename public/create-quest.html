@@ -4,560 +4,386 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Posting Quest — YUKgas.in</title>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+    <link rel="stylesheet" href="/assets/style.css">
+
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
-                    colors: {
-                    colors: {
-                        orange: {
-                            50: '#FFF7ED',
-                            100: '#FFEDD5',
-                            500: '#F97316',
-                            600: '#EA580C',
-                        },
-                        amber: {
-                            50: '#FFFBEB',
-                            400: '#FBBF24',
-                            500: '#F59E0B',
-                        },
-                        emerald: {
-                            50: '#ECFDF5',
-                            500: '#10B981',
-                            600: '#059669',
-                        },
-                        red: {
-                            50: '#FEF2F2',
-                            200: '#FECACA',
-                            500: '#EF4444',
-                            600: '#DC2626',
-                        },
-                        blue: {
-                            50: '#EFF6FF',
-                            600: '#2563EB',
-                        },
-                        violet: {
-                            50: '#F5F3FF',
-                            600: '#7C3AED',
-                        },
-                        slate: {
-                            50: '#F8FAFC',
-                            100: '#F1F5F9',
-                            200: '#E2E8F0',
-                            300: '#CBD5E1',
-                            400: '#94A3B8',
-                            500: '#64748B',
-                            600: '#475569',
-                            700: '#334155',
-                            900: '#0F172A',
-                        },
-                        stone: {
-                            50: '#FAFAF9',
-                        }
-                    }
-                    }
+            theme: { extend: {
+                fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
+                colors: {
+                    sunset: '#FF6B35', 'sunset-light': '#FF9F1C', golden: '#FFB627',
+                    teal: { 50: '#E6FAF5', 500: '#0CA789', 600: '#0A8E78' }, coral: '#FF4757',
+                    cream: { DEFAULT: '#FFF8F0', deep: '#FFF0E0' },
+                    espresso: '#2D1B12', mocha: '#8B7355', latte: '#B8A088',
+                    borderWarm: '#FFE4D1'
                 }
-            }
+            }}
         }
     </script>
-    <style>
-        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
-        /* Hide number input arrows */
-        input[type=number]::-webkit-inner-spin-button, 
-        input[type=number]::-webkit-outer-spin-button { -webkit-appearance: none; margin: 0; }
-        input[type=number] { -moz-appearance: textfield; }
-        
-        /* Smooth transitions */
-        .preview-transition { transition: all 0.3s ease; }
-    </style>
 </head>
-<body class="bg-slate-200 text-slate-900 font-sans antialiased selection:bg-orange-100 selection:text-orange-900 relative">
+<body class="bg-cream text-espresso font-sans antialiased bg-dotted">
 
-    <!-- Toast Error Simulation -->
-    <div id="toast" class="fixed top-0 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-md transform -translate-y-full opacity-0 transition-all duration-300 z-50 mt-4 pointer-events-none">
-        <div id="toast-content" class="flex items-center gap-3 px-4 py-3 rounded-xl shadow-lg border border-red-200 bg-red-50 text-red-700">
-            <i id="toast-icon" data-lucide="alert-circle" class="w-5 h-5"></i>
-            <p id="toast-message" class="text-sm font-medium"></p>
-        </div>
-    </div>
+    <!-- Mobile frame -->
+    <div class="max-w-md mx-auto min-h-screen relative flex flex-col">
 
-    <!-- MAIN APP CONTAINER -->
-    <div class="max-w-md mx-auto bg-stone-50 min-h-screen relative shadow-2xl sm:border-x border-slate-200 flex flex-col">
-
-        <!-- TopBar (Sticky) -->
-        <header class="bg-white border-b border-slate-100 sticky top-0 z-40 px-4 h-14 flex items-center justify-between">
-            <h1 class="font-bold text-lg text-slate-900 mx-auto">Posting Quest</h1>
-            <a href="/dashboard" class="absolute left-4 w-10 h-10 flex items-center justify-center -ml-2 text-slate-400 hover:text-slate-900 hover:bg-slate-50 rounded-full transition-colors" title="Batal">
-                <i data-lucide="x" class="w-6 h-6"></i>
-            </a>
+        <!-- Header -->
+        <header class="bg-white/90 backdrop-blur-lg border-b-2 border-cream-deep sticky top-0 z-50 px-4 py-3">
+            <div class="flex items-center justify-between">
+                <a href="/dashboard" class="w-10 h-10 flex items-center justify-center rounded-xl text-mocha hover:bg-cream-deep transition-colors">
+                    <i data-lucide="x" class="w-6 h-6"></i>
+                </a>
+                <h1 class="font-extrabold text-lg">Posting Quest</h1>
+                <div class="w-10"></div>
+            </div>
         </header>
 
-        <!-- Scrollable Form Area -->
-        <main class="flex-1 overflow-y-auto px-6 py-6 pb-32 flex flex-col gap-6">
-            
-            <div class="mb-2">
-                <h2 class="text-2xl font-extrabold text-slate-900 tracking-tight">Buat Quest Baru</h2>
-                <p class="text-slate-500 text-sm mt-1">Lengkapi form di bawah untuk meminta bantuan.</p>
+        <!-- Main Form -->
+        <main class="flex-1 overflow-y-auto px-4 py-5 pb-36 space-y-6">
+
+            <!-- Hero -->
+            <div class="animate-reveal">
+                <h2 class="text-2xl font-extrabold tracking-tight mb-1">Buat Quest Baru</h2>
+                <p class="text-sm text-mocha">Lengkapi form, posting, tunggu seseorang ambil.</p>
             </div>
 
-            <form id="questForm" class="space-y-6" novalidate>
-                
-                <!-- 1. Kategori (Radio Cards) -->
-                <div>
-                    <label class="block text-sm font-bold text-slate-900 mb-2">Kategori <span class="text-red-500">*</span></label>
-                    <div class="grid grid-cols-2 gap-3" id="categoryGrid">
-                        
-                        <!-- Transportasi -->
-                        <label class="category-label cursor-pointer group">
-                            <input type="radio" name="category" value="TRANSPORT" class="peer sr-only" required>
-                            <div class="h-full border border-slate-200 rounded-xl p-3 flex flex-col gap-2 transition-all hover:bg-slate-50 peer-checked:border-blue-500 peer-checked:bg-blue-50 peer-checked:ring-1 peer-checked:ring-blue-500">
-                                <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center transition-colors peer-checked:bg-blue-100 peer-checked:text-blue-600">
-                                    <i data-lucide="car" class="w-4 h-4"></i>
-                                </div>
-                                <div>
-                                    <span class="block text-sm font-bold text-slate-700 peer-checked:text-blue-700">Transportasi</span>
-                                    <span class="block text-[10px] text-slate-400 mt-0.5 leading-tight">Antar jemput, barang</span>
-                                </div>
+            <!-- Section 1: Kategori -->
+            <section class="animate-reveal delay-1">
+                <label class="flex items-center gap-2 text-sm font-extrabold mb-3">
+                    <i data-lucide="grid-2x2" class="w-4 h-4 text-sunset"></i>
+                    Kategori <span class="text-coral">*</span>
+                </label>
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" onclick="selectCategory(this, 'transport')" data-cat="transport" class="cat-card warm-card p-4 flex flex-col items-center gap-2 text-center transition-all">
+                        <div class="w-12 h-12 rounded-2xl bg-sunset/10 text-sunset flex items-center justify-center">
+                            <i data-lucide="bike" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-sm font-bold">Transportasi</span>
+                    </button>
+                    <button type="button" onclick="selectCategory(this, 'food')" data-cat="food" class="cat-card warm-card p-4 flex flex-col items-center gap-2 text-center transition-all">
+                        <div class="w-12 h-12 rounded-2xl bg-golden/15 text-golden flex items-center justify-center">
+                            <i data-lucide="utensils-crossed" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-sm font-bold">Makanan</span>
+                    </button>
+                    <button type="button" onclick="selectCategory(this, 'admin')" data-cat="admin" class="cat-card warm-card p-4 flex flex-col items-center gap-2 text-center transition-all">
+                        <div class="w-12 h-12 rounded-2xl bg-teal-50 text-teal-500 flex items-center justify-center">
+                            <i data-lucide="printer" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-sm font-bold">Administrasi</span>
+                    </button>
+                    <button type="button" onclick="selectCategory(this, 'other')" data-cat="other" class="cat-card warm-card p-4 flex flex-col items-center gap-2 text-center transition-all">
+                        <div class="w-12 h-12 rounded-2xl bg-mocha/10 text-mocha flex items-center justify-center">
+                            <i data-lucide="package-2" class="w-6 h-6"></i>
+                        </div>
+                        <span class="text-sm font-bold">Lainnya</span>
+                    </button>
+                </div>
+            </section>
+
+            <!-- Section 2: Judul Quest -->
+            <section class="animate-reveal delay-2">
+                <label class="flex items-center gap-2 text-sm font-extrabold mb-2">
+                    <i data-lucide="type" class="w-4 h-4 text-sunset"></i>
+                    Judul Quest <span class="text-coral">*</span>
+                </label>
+                <input id="titleInput" type="text" maxlength="100" placeholder="Misal: Beliin kopi di kantin utama" class="warm-input" oninput="onTitleInput()">
+                <div class="flex justify-end mt-1">
+                    <span id="titleCounter" class="text-xs text-latte font-mono font-semibold">0 / 100</span>
+                </div>
+            </section>
+
+            <!-- Section 3: Deskripsi -->
+            <section class="animate-reveal delay-3">
+                <label class="flex items-center gap-2 text-sm font-extrabold mb-2">
+                    <i data-lucide="align-left" class="w-4 h-4 text-sunset"></i>
+                    Deskripsi
+                </label>
+                <textarea id="descInput" maxlength="500" rows="3" placeholder="Jelaskan detail tugas..." class="warm-input resize-none" oninput="onDescInput()"></textarea>
+                <div class="flex justify-end mt-1">
+                    <span id="descCounter" class="text-xs text-latte font-mono font-semibold">0 / 500</span>
+                </div>
+            </section>
+
+            <!-- Section 4: Lokasi & Deadline -->
+            <section class="animate-reveal delay-4">
+                <label class="flex items-center gap-2 text-sm font-extrabold mb-3">
+                    <i data-lucide="map-pin" class="w-4 h-4 text-sunset"></i>
+                    Lokasi & Deadline
+                </label>
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="relative">
+                        <i data-lucide="map-pin" class="w-4 h-4 text-latte absolute left-4 top-1/2 -translate-y-1/2 z-10"></i>
+                        <input id="locationInput" type="text" placeholder="Lokasi" class="warm-input pl-10 text-sm" oninput="updatePreview()">
+                    </div>
+                    <div class="relative">
+                        <i data-lucide="clock" class="w-4 h-4 text-latte absolute left-4 top-1/2 -translate-y-1/2 z-10 pointer-events-none"></i>
+                        <input id="deadlineInput" type="datetime-local" class="warm-input pl-10 text-sm" onchange="updatePreview()">
+                    </div>
+                </div>
+            </section>
+
+            <!-- Section 5: Kompensasi -->
+            <section class="animate-reveal delay-5">
+                <label class="flex items-center gap-2 text-sm font-extrabold mb-2">
+                    <i data-lucide="wallet" class="w-4 h-4 text-sunset"></i>
+                    Kompensasi <span class="text-coral">*</span>
+                </label>
+                <div class="relative">
+                    <span class="absolute left-4 top-1/2 -translate-y-1/2 font-mono font-bold text-mocha text-lg z-10">Rp</span>
+                    <input id="priceInput" type="text" inputmode="numeric" placeholder="0" class="warm-input pl-12 font-mono font-bold text-lg" oninput="onPriceInput()">
+                </div>
+                <p class="flex items-center gap-1 text-xs text-mocha mt-1.5">
+                    <i data-lucide="info" class="w-3.5 h-3.5"></i>
+                    Min. Rp 1.000
+                </p>
+            </section>
+
+            <!-- Live Preview -->
+            <section class="animate-reveal delay-6">
+                <label class="flex items-center gap-2 text-sm font-extrabold mb-3">
+                    <i data-lucide="eye" class="w-4 h-4 text-sunset"></i>
+                    Preview Quest
+                </label>
+                <div id="previewCard" class="warm-card p-4 relative overflow-hidden">
+                    <div id="previewAccent" class="absolute left-0 top-0 bottom-0 w-1.5 bg-latte transition-colors"></div>
+                    <div class="ml-2">
+                        <div class="flex items-start justify-between mb-2">
+                            <div class="flex items-center gap-2">
+                                <span id="previewCatBadge" class="text-xs font-bold text-latte bg-cream-deep px-2.5 py-1 rounded-full flex items-center gap-1">
+                                    <i data-lucide="tag" class="w-3 h-3"></i> <span id="previewCatText">Kategori</span>
+                                </span>
+                                <span class="badge-open text-xs font-bold px-2.5 py-1 rounded-full">OPEN</span>
                             </div>
-                        </label>
-
-                        <!-- Makanan -->
-                        <label class="category-label cursor-pointer group">
-                            <input type="radio" name="category" value="FOOD" class="peer sr-only">
-                            <div class="h-full border border-slate-200 rounded-xl p-3 flex flex-col gap-2 transition-all hover:bg-slate-50 peer-checked:border-orange-500 peer-checked:bg-orange-50 peer-checked:ring-1 peer-checked:ring-orange-500">
-                                <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center transition-colors peer-checked:bg-orange-100 peer-checked:text-orange-600">
-                                    <i data-lucide="utensils" class="w-4 h-4"></i>
-                                </div>
-                                <div>
-                                    <span class="block text-sm font-bold text-slate-700 peer-checked:text-orange-700">Makanan</span>
-                                    <span class="block text-[10px] text-slate-400 mt-0.5 leading-tight">Beliin makan, kopi</span>
-                                </div>
+                            <span id="previewPrice" class="price-badge text-sm opacity-40">Rp 0</span>
+                        </div>
+                        <h3 id="previewTitle" class="font-extrabold text-base mb-1 text-latte">Judul Quest</h3>
+                        <div class="flex items-center gap-3 text-xs text-mocha mb-3">
+                            <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i> <span id="previewLocation">Lokasi</span></span>
+                            <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> <span id="previewDeadline">Deadline</span></span>
+                        </div>
+                        <div class="flex items-center justify-between pt-3 border-t border-cream-deep">
+                            <div class="flex items-center gap-2">
+                                <div class="w-7 h-7 rounded-lg bg-gradient-to-br from-sunset to-sunset-light flex items-center justify-center text-white text-xs font-extrabold">K</div>
+                                <span class="text-xs font-bold">KAMU</span>
                             </div>
-                        </label>
-
-                        <!-- Administrasi -->
-                        <label class="category-label cursor-pointer group">
-                            <input type="radio" name="category" value="ADMIN" class="peer sr-only">
-                            <div class="h-full border border-slate-200 rounded-xl p-3 flex flex-col gap-2 transition-all hover:bg-slate-50 peer-checked:border-emerald-500 peer-checked:bg-emerald-50 peer-checked:ring-1 peer-checked:ring-emerald-500">
-                                <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center transition-colors peer-checked:bg-emerald-100 peer-checked:text-emerald-600">
-                                    <i data-lucide="file-text" class="w-4 h-4"></i>
-                                </div>
-                                <div>
-                                    <span class="block text-sm font-bold text-slate-700 peer-checked:text-emerald-700">Administrasi</span>
-                                    <span class="block text-[10px] text-slate-400 mt-0.5 leading-tight">Print, fotokopi</span>
-                                </div>
-                            </div>
-                        </label>
-
-                        <!-- Lainnya -->
-                        <label class="category-label cursor-pointer group">
-                            <input type="radio" name="category" value="OTHER" class="peer sr-only">
-                            <div class="h-full border border-slate-200 rounded-xl p-3 flex flex-col gap-2 transition-all hover:bg-slate-50 peer-checked:border-violet-500 peer-checked:bg-violet-50 peer-checked:ring-1 peer-checked:ring-violet-500">
-                                <div class="w-8 h-8 rounded-full bg-slate-100 text-slate-400 flex items-center justify-center transition-colors peer-checked:bg-violet-100 peer-checked:text-violet-600">
-                                    <i data-lucide="package" class="w-4 h-4"></i>
-                                </div>
-                                <div>
-                                    <span class="block text-sm font-bold text-slate-700 peer-checked:text-violet-700">Lainnya</span>
-                                    <span class="block text-[10px] text-slate-400 mt-0.5 leading-tight">Bantuan tak terduga</span>
-                                </div>
-                            </div>
-                        </label>
-
-                    </div>
-                    <p class="error-text hidden text-xs text-red-500 mt-1.5" id="catError">Pilih kategori quest terlebih dahulu.</p>
-                </div>
-
-                <!-- 2. Judul -->
-                <div class="flex flex-col gap-1.5 relative">
-                    <div class="flex justify-between items-end">
-                        <label for="title" class="text-sm font-bold text-slate-900">Judul Quest <span class="text-red-500">*</span></label>
-                        <span id="titleCounter" class="text-xs text-slate-400 font-medium">0/100</span>
-                    </div>
-                    <input type="text" id="title" name="title" placeholder="Misal: Beliin nasi goreng kantin A" maxlength="100"
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-50 transition-all font-semibold">
-                    <p class="error-text hidden text-xs text-red-500 mt-0.5">Judul minimal 10 karakter.</p>
-                </div>
-
-                <!-- 3. Deskripsi -->
-                <div class="flex flex-col gap-1.5 relative">
-                    <div class="flex justify-between items-end">
-                        <label for="description" class="text-sm font-bold text-slate-900">Deskripsi Detail <span class="text-red-500">*</span></label>
-                        <span id="descCounter" class="text-xs text-slate-400 font-medium">0/500</span>
-                    </div>
-                    <textarea id="description" name="description" rows="3" placeholder="Jelaskan detail quest secara jelas agar tidak ada kesalahpahaman..." maxlength="500"
-                        class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-50 transition-all resize-none text-sm leading-relaxed"></textarea>
-                    <p class="error-text hidden text-xs text-red-500 mt-0.5">Deskripsi minimal 20 karakter.</p>
-                </div>
-
-                <!-- 4. Lokasi & Deadline Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <!-- Lokasi -->
-                    <div class="flex flex-col gap-1.5 relative">
-                        <label for="location" class="text-sm font-bold text-slate-900">Lokasi <span class="text-red-500">*</span></label>
-                        <div class="relative">
-                            <i data-lucide="map-pin" class="w-4 h-4 absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400"></i>
-                            <input type="text" id="location" name="location" placeholder="Misal: Pos Satpam" 
-                                class="w-full pl-10 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-50 transition-all text-sm">
                         </div>
-                        <p class="error-text hidden text-xs text-red-500 mt-0.5">Lokasi wajib diisi.</p>
-                    </div>
-
-                    <!-- Deadline -->
-                    <div class="flex flex-col gap-1.5 relative">
-                        <label for="deadline" class="text-sm font-bold text-slate-900">Deadline <span class="text-red-500">*</span></label>
-                        <div class="relative">
-                            <input type="datetime-local" id="deadline" name="deadline" 
-                                class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-400 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-50 transition-all text-sm font-medium appearance-none">
-                        </div>
-                        <p class="error-text hidden text-xs text-red-500 mt-0.5">Minimal 1 jam dari sekarang.</p>
                     </div>
                 </div>
-
-                <!-- 5. Kompensasi -->
-                <div class="flex flex-col gap-1.5 relative">
-                    <label for="compensationDisplay" class="text-sm font-bold text-slate-900">Kompensasi (Imbalan) <span class="text-red-500">*</span></label>
-                    <div class="relative flex items-center">
-                        <div class="absolute left-1 top-1 bottom-1 w-12 bg-slate-50 border-r border-slate-200 rounded-l-lg flex items-center justify-center pointer-events-none">
-                            <span class="text-sm font-bold text-slate-500">Rp</span>
-                        </div>
-                        <!-- Hidden actual input for logic -->
-                        <input type="number" id="compensationVal" name="compensation" class="hidden" value="">
-                        <!-- Display input for formatting -->
-                        <input type="text" id="compensationDisplay" placeholder="5.000" inputmode="numeric"
-                            class="w-full pl-16 pr-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 placeholder:text-slate-300 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-50 transition-all font-extrabold text-lg">
-                    </div>
-                    <p class="helper-text text-xs text-slate-500 mt-0.5 font-medium">Minimal kompensasi adalah Rp 1.000</p>
-                    <p class="error-text hidden text-xs text-red-500 mt-0.5">Nilai tidak valid (Min. 1.000)</p>
-                </div>
-
-            </form>
-
-            <hr class="border-slate-200 border-dashed my-2">
-
-            <!-- LIVE PREVIEW SECTION -->
-            <div>
-                <div class="flex items-center gap-2 mb-4">
-                    <i data-lucide="eye" class="w-4 h-4 text-slate-400"></i>
-                    <h3 class="text-sm font-bold text-slate-500 uppercase tracking-wider">Preview Card</h3>
-                </div>
-
-                <!-- Placeholder Preview -->
-                <div id="previewPlaceholder" class="border-2 border-dashed border-slate-200 bg-slate-50 rounded-2xl p-6 text-center transition-all">
-                    <div class="w-12 h-12 bg-slate-200 rounded-full flex items-center justify-center mx-auto mb-3">
-                        <i data-lucide="layout-template" class="w-5 h-5 text-slate-400"></i>
-                    </div>
-                    <p class="text-sm font-bold text-slate-400">Mulai ketik form di atas</p>
-                    <p class="text-xs text-slate-400 mt-1">Preview quest akan muncul secara otomatis di sini.</p>
-                </div>
-
-                <!-- QuestCard Live Preview (Hidden by default) -->
-                <article id="previewCard" class="hidden bg-white border border-slate-200 rounded-2xl p-4 shadow-md transition-all preview-transition">
-                    <!-- Row 1: Badge & Price -->
-                    <div class="flex justify-between items-start mb-3">
-                        <div id="prevBadge" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold bg-slate-100 text-slate-600 transition-colors">
-                            <i id="prevBadgeIcon" data-lucide="help-circle" class="w-3.5 h-3.5"></i>
-                            <span id="prevBadgeText">Kategori</span>
-                        </div>
-                        <span id="prevPrice" class="font-extrabold text-slate-900 text-lg">Rp 0</span>
-                    </div>
-                    <!-- Row 2: Title -->
-                    <h2 id="prevTitle" class="font-bold text-slate-900 text-base mb-1 truncate">Judul Quest...</h2>
-                    <!-- Row 3: Desc -->
-                    <p id="prevDesc" class="text-sm text-slate-500 line-clamp-2 leading-relaxed mb-4 min-h-[40px]">Deskripsi singkat akan muncul di sini.</p>
-                    <!-- Row 4: Location & Time -->
-                    <div class="flex items-center gap-4 mb-4">
-                        <div class="flex items-center gap-1.5 text-xs font-medium text-slate-500 truncate max-w-[50%]">
-                            <i data-lucide="map-pin" class="w-3.5 h-3.5 text-slate-400 shrink-0"></i>
-                            <span id="prevLoc" class="truncate">Lokasi</span>
-                        </div>
-                        <div class="flex items-center gap-1.5 text-xs font-medium text-slate-500">
-                            <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i>
-                            <span id="prevTime">Deadline</span>
-                        </div>
-                    </div>
-                    <!-- Row 5: Giver (Static for Preview) -->
-                    <div class="flex justify-between items-center pt-4 border-t border-slate-50">
-                        <div class="flex items-center gap-2">
-                            <div class="w-6 h-6 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center text-[10px] font-bold">KAMU</div>
-                            <span class="text-xs font-semibold text-slate-700">Nama Kamu</span>
-                        </div>
-                        <div class="flex items-center gap-1">
-                            <i data-lucide="star" class="w-3 h-3 text-amber-400 fill-amber-400"></i>
-                            <span class="text-xs font-bold text-slate-700">Baru</span>
-                        </div>
-                    </div>
-                </article>
-            </div>
+            </section>
 
         </main>
 
-        <!-- Sticky Submit Button -->
-        <div class="absolute bottom-0 left-0 w-full bg-white/95 backdrop-blur-md border-t border-slate-100 p-4 pb-safe z-40">
-            <button type="submit" form="questForm" id="submitBtn" class="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold py-3.5 rounded-xl shadow-sm transition-all active:scale-[0.98] flex justify-center items-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed">
-                <span id="btnText">Posting Quest</span>
-                <i id="btnSpinner" data-lucide="loader-2" class="w-5 h-5 animate-spin hidden"></i>
+        <!-- Sticky Submit -->
+        <div class="fixed bottom-0 left-0 right-0 max-w-md mx-auto bg-white/95 backdrop-blur-lg border-t-2 border-cream-deep px-4 py-3 z-40">
+            <button id="submitBtn" onclick="submitQuest()" disabled class="btn-sunset w-full flex items-center justify-center gap-2 opacity-40 cursor-not-allowed">
+                <span id="submitContent" class="flex items-center gap-2">
+                    <i data-lucide="send" class="w-5 h-5"></i>
+                    <span>Posting Quest</span>
+                </span>
             </button>
         </div>
 
     </div>
 
+    <script src="/assets/app.js"></script>
     <script>
-        // Initialize Icons
-        lucide.createIcons();
+        // ===== Category config =====
+        const CAT_META = {
+            transport: { label: 'Transportasi', color: '#FF6B35', bg: 'bg-sunset/10', text: 'text-sunset', icon: 'bike' },
+            food:      { label: 'Makanan',      color: '#FFB627', bg: 'bg-golden/15', text: 'text-golden', icon: 'utensils-crossed' },
+            admin:     { label: 'Administrasi', color: '#0CA789', bg: 'bg-teal-50', text: 'text-teal-500', icon: 'printer' },
+            other:     { label: 'Lainnya',      color: '#8B7355', bg: 'bg-mocha/10', text: 'text-mocha', icon: 'package-2' },
+        };
 
-        document.addEventListener('DOMContentLoaded', () => {
-            const form = document.getElementById('questForm');
-            const submitBtn = document.getElementById('submitBtn');
-            const btnText = document.getElementById('btnText');
-            const btnSpinner = document.getElementById('btnSpinner');
-            
-            // Fields
-            const radios = document.querySelectorAll('input[name="category"]');
-            const titleInput = document.getElementById('title');
-            const descInput = document.getElementById('description');
-            const locInput = document.getElementById('location');
-            const dateInput = document.getElementById('deadline');
-            const compDisplay = document.getElementById('compensationDisplay');
-            const compVal = document.getElementById('compensationVal');
-            
-            // Counters
-            const titleCounter = document.getElementById('titleCounter');
-            const descCounter = document.getElementById('descCounter');
-            
-            // Preview Elements
-            const previewPlaceholder = document.getElementById('previewPlaceholder');
-            const previewCard = document.getElementById('previewCard');
-            const pBadge = document.getElementById('prevBadge');
-            const pBadgeText = document.getElementById('prevBadgeText');
-            const pTitle = document.getElementById('prevTitle');
-            const pDesc = document.getElementById('prevDesc');
-            const pLoc = document.getElementById('prevLoc');
-            const pTime = document.getElementById('prevTime');
-            const pPrice = document.getElementById('prevPrice');
+        let selectedCategory = null;
 
-            // Category configuration for preview
-            const catConfig = {
-                'TRANSPORT': { text: 'Transportasi', bg: 'bg-blue-50', textCol: 'text-blue-600', icon: 'car' },
-                'FOOD': { text: 'Makanan', bg: 'bg-orange-50', textCol: 'text-orange-600', icon: 'utensils' },
-                'ADMIN': { text: 'Administrasi', bg: 'bg-emerald-50', textCol: 'text-emerald-600', icon: 'file-text' },
-                'OTHER': { text: 'Lainnya', bg: 'bg-violet-50', textCol: 'text-violet-600', icon: 'package' }
-            };
-
-            // Set Min DateTime to current + 1 hour for Native Input
-            const now = new Date();
-            now.setHours(now.getHours() + 1);
-            const offset = now.getTimezoneOffset() * 60000;
-            const localISOTime = (new Date(now - offset)).toISOString().slice(0, 16);
-            dateInput.min = localISOTime;
-
-            // ---- HELPER FUNCTIONS ----
-
-            const formatRupiah = (number) => {
-                return new Intl.NumberFormat('id-ID').format(number);
-            };
-
-            const togglePreview = () => {
-                const hasInput = titleInput.value || descInput.value || compVal.value || locInput.value;
-                if(hasInput) {
-                    previewPlaceholder.classList.add('hidden');
-                    previewCard.classList.remove('hidden');
-                } else {
-                    previewPlaceholder.classList.remove('hidden');
-                    previewCard.classList.add('hidden');
-                }
-            };
-
-            const updateCounter = (input, counterEl, max) => {
-                const len = input.value.length;
-                counterEl.textContent = `${len}/${max}`;
-                if(len >= max) {
-                    counterEl.classList.replace('text-slate-400', 'text-red-500');
-                } else if(len >= max * 0.9) {
-                    counterEl.classList.replace('text-slate-400', 'text-orange-500');
-                    counterEl.classList.replace('text-red-500', 'text-orange-500');
-                } else {
-                    counterEl.classList.replace('text-red-500', 'text-slate-400');
-                    counterEl.classList.replace('text-orange-500', 'text-slate-400');
-                }
-            };
-
-            const setFieldError = (inputWrapper, isError) => {
-                const errorTxt = inputWrapper.parentElement.querySelector('.error-text');
-                const helperTxt = inputWrapper.parentElement.querySelector('.helper-text');
-                if(isError) {
-                    inputWrapper.classList.add('border-red-300', 'focus:border-red-500', 'focus:ring-red-50', 'bg-red-50/30');
-                    inputWrapper.classList.remove('border-slate-200', 'focus:border-orange-500', 'focus:ring-orange-50');
-                    if(errorTxt) errorTxt.classList.remove('hidden');
-                    if(helperTxt) helperTxt.classList.add('hidden');
-                } else {
-                    inputWrapper.classList.remove('border-red-300', 'focus:border-red-500', 'focus:ring-red-50', 'bg-red-50/30');
-                    inputWrapper.classList.add('border-slate-200', 'focus:border-orange-500', 'focus:ring-orange-50');
-                    if(errorTxt) errorTxt.classList.add('hidden');
-                    if(helperTxt) helperTxt.classList.remove('hidden');
-                }
-            };
-
-            // ---- EVENT LISTENERS FOR LIVE PREVIEW & VALIDATION ----
-
-            // Category
-            radios.forEach(radio => {
-                radio.addEventListener('change', (e) => {
-                    const val = e.target.value;
-                    const conf = catConfig[val];
-                    
-                    // Reset all badge classes
-                    pBadge.className = `inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-bold transition-colors ${conf.bg} ${conf.textCol}`;
-                    pBadgeText.textContent = conf.text;
-                    pBadge.querySelector('i').setAttribute('data-lucide', conf.icon);
-                    lucide.createIcons();
-                    
-                    document.getElementById('catError').classList.add('hidden');
-                    togglePreview();
-                });
+        // ===== Category select =====
+        function selectCategory(btn, cat) {
+            document.querySelectorAll('.cat-card').forEach(c => {
+                c.style.borderColor = '';
+                c.style.background = '';
+                c.style.boxShadow = '';
+                c.classList.remove('ring-2', 'ring-offset-2');
             });
+            const meta = CAT_META[cat];
+            btn.style.borderColor = meta.color;
+            btn.style.background = meta.color + '0D';
+            btn.style.boxShadow = '0 0 0 4px ' + meta.color + '1A';
+            selectedCategory = cat;
+            updatePreview();
+            validateForm();
+        }
+
+        // ===== Title input + counter =====
+        function onTitleInput() {
+            const input = document.getElementById('titleInput');
+            const counter = document.getElementById('titleCounter');
+            const len = input.value.length;
+            const pct = len / 100;
+            counter.textContent = len + ' / 100';
+            counter.className = 'text-xs font-mono font-semibold mt-1 ';
+            if (pct >= 1) {
+                counter.className += 'text-coral';
+            } else if (pct >= 0.9) {
+                counter.className += 'text-sunset';
+            } else {
+                counter.className += 'text-latte';
+            }
+            updatePreview();
+            validateForm();
+        }
+
+        // ===== Desc input + counter =====
+        function onDescInput() {
+            const input = document.getElementById('descInput');
+            const counter = document.getElementById('descCounter');
+            const len = input.value.length;
+            const pct = len / 500;
+            counter.textContent = len + ' / 500';
+            counter.className = 'text-xs font-mono font-semibold mt-1 ';
+            if (pct >= 1) {
+                counter.className += 'text-coral';
+            } else if (pct >= 0.9) {
+                counter.className += 'text-sunset';
+            } else {
+                counter.className += 'text-latte';
+            }
+            updatePreview();
+        }
+
+        // ===== Price input — format rupiah =====
+        function formatRupiah(num) {
+            return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+        }
+
+        function onPriceInput() {
+            const input = document.getElementById('priceInput');
+            let raw = input.value.replace(/\D/g, '');
+            if (raw.length > 9) raw = raw.slice(0, 9);
+            input.value = raw ? formatRupiah(raw) : '';
+            updatePreview();
+            validateForm();
+        }
+
+        // ===== Deadline relative =====
+        function relativeDeadline(iso) {
+            if (!iso) return 'Deadline';
+            const target = new Date(iso);
+            const now = new Date();
+            const diffMs = target - now;
+            if (diffMs <= 0) return 'Sudah lewat';
+            const hours = Math.floor(diffMs / (1000 * 60 * 60));
+            const days = Math.floor(hours / 24);
+            if (days >= 1) return days + ' hari lagi';
+            if (hours >= 1) return hours + ' jam lagi';
+            const mins = Math.floor(diffMs / (1000 * 60));
+            return mins + ' menit lagi';
+        }
+
+        // ===== Update Preview =====
+        function updatePreview() {
+            const title = document.getElementById('titleInput').value.trim();
+            const location = document.getElementById('locationInput').value.trim();
+            const deadline = document.getElementById('deadlineInput').value;
+            const priceRaw = document.getElementById('priceInput').value.replace(/\D/g, '');
 
             // Title
-            titleInput.addEventListener('input', (e) => {
-                updateCounter(e.target, titleCounter, 100);
-                pTitle.textContent = e.target.value || 'Judul Quest...';
-                if(e.target.value.length >= 10 || e.target.value.length === 0) setFieldError(e.target, false);
-                togglePreview();
-            });
-            titleInput.addEventListener('blur', (e) => {
-                if(e.target.value.length > 0 && e.target.value.length < 10) setFieldError(e.target, true);
-            });
+            const titleEl = document.getElementById('previewTitle');
+            if (title) {
+                titleEl.textContent = title;
+                titleEl.className = 'font-extrabold text-base mb-1 text-espresso';
+            } else {
+                titleEl.textContent = 'Judul Quest';
+                titleEl.className = 'font-extrabold text-base mb-1 text-latte';
+            }
 
-            // Description
-            descInput.addEventListener('input', (e) => {
-                updateCounter(e.target, descCounter, 500);
-                pDesc.textContent = e.target.value || 'Deskripsi singkat akan muncul di sini.';
-                if(e.target.value.length >= 20 || e.target.value.length === 0) setFieldError(e.target, false);
-                togglePreview();
-            });
-            descInput.addEventListener('blur', (e) => {
-                if(e.target.value.length > 0 && e.target.value.length < 20) setFieldError(e.target, true);
-            });
+            // Category badge
+            const badge = document.getElementById('previewCatBadge');
+            const badgeText = document.getElementById('previewCatText');
+            const accent = document.getElementById('previewAccent');
+            const badgeIcon = badge.querySelector('i');
+            if (selectedCategory) {
+                const meta = CAT_META[selectedCategory];
+                badge.className = 'text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1 ' + meta.bg + ' ' + meta.text;
+                badgeText.textContent = meta.label;
+                badgeIcon.setAttribute('data-lucide', meta.icon);
+                accent.style.background = meta.color;
+            } else {
+                badge.className = 'text-xs font-bold text-latte bg-cream-deep px-2.5 py-1 rounded-full flex items-center gap-1';
+                badgeText.textContent = 'Kategori';
+                badgeIcon.setAttribute('data-lucide', 'tag');
+                accent.style.background = '#B8A088';
+            }
 
             // Location
-            locInput.addEventListener('input', (e) => {
-                pLoc.textContent = e.target.value || 'Lokasi';
-                if(e.target.value.length > 0) setFieldError(e.target, false);
-                togglePreview();
-            });
-            locInput.addEventListener('blur', (e) => {
-                if(e.target.value.length === 0) setFieldError(e.target, true); // Location required
-            });
+            const locEl = document.getElementById('previewLocation');
+            locEl.textContent = location || 'Lokasi';
 
-            // Compensation (Rupiah Formatter)
-            compDisplay.addEventListener('input', (e) => {
-                // Remove non-digits
-                let rawVal = e.target.value.replace(/\D/g, '');
-                if(!rawVal) {
-                    compVal.value = '';
-                    e.target.value = '';
-                    pPrice.textContent = 'Rp 0';
-                    setFieldError(e.target, false);
-                    togglePreview();
-                    return;
-                }
-                
-                // Set hidden input value for DB
-                compVal.value = rawVal;
-                // Format display
-                e.target.value = formatRupiah(rawVal);
-                // Update preview
-                pPrice.textContent = `Rp ${e.target.value}`;
-                
-                if(parseInt(rawVal) >= 1000) setFieldError(e.target, false);
-                togglePreview();
-            });
-            compDisplay.addEventListener('blur', (e) => {
-                if(compVal.value.length > 0 && parseInt(compVal.value) < 1000) setFieldError(e.target, true);
-            });
+            // Deadline
+            const dlEl = document.getElementById('previewDeadline');
+            dlEl.textContent = relativeDeadline(deadline);
 
-            // Deadline Formatting for Preview
-            dateInput.addEventListener('change', (e) => {
-                if(!e.target.value) {
-                    pTime.textContent = 'Deadline';
-                    return;
-                }
-                const selectedDate = new Date(e.target.value);
-                
-                // Simple relative logic for preview
-                const diffHrs = Math.round((selectedDate - new Date()) / 3600000);
-                if(diffHrs < 0) {
-                    setFieldError(e.target, true);
-                    pTime.textContent = 'Invalid Time';
-                } else if(diffHrs < 24) {
-                    pTime.textContent = `${diffHrs} jam lagi`;
-                    setFieldError(e.target, false);
-                } else {
-                    const days = Math.floor(diffHrs/24);
-                    pTime.textContent = `${days} hari lagi`;
-                    setFieldError(e.target, false);
-                }
-                togglePreview();
-            });
+            // Price
+            const priceEl = document.getElementById('previewPrice');
+            if (priceRaw) {
+                priceEl.textContent = 'Rp ' + formatRupiah(priceRaw);
+                priceEl.className = 'price-badge text-sm';
+            } else {
+                priceEl.textContent = 'Rp 0';
+                priceEl.className = 'price-badge text-sm opacity-40';
+            }
 
-            // ---- FORM SUBMIT SIMULATION ----
+            if (window.lucide) lucide.createIcons();
+        }
 
-            form.addEventListener('submit', (e) => {
-                e.preventDefault();
+        // ===== Validate =====
+        function validateForm() {
+            const title = document.getElementById('titleInput').value.trim();
+            const priceRaw = document.getElementById('priceInput').value.replace(/\D/g, '');
+            const ok = title && selectedCategory && parseInt(priceRaw) >= 1000;
+            const btn = document.getElementById('submitBtn');
+            if (ok) {
+                btn.disabled = false;
+                btn.classList.remove('opacity-40', 'cursor-not-allowed');
+            } else {
+                btn.disabled = true;
+                btn.classList.add('opacity-40', 'cursor-not-allowed');
+            }
+        }
 
-                // Simple validation check before submit
-                let isValid = true;
-                
-                if(!document.querySelector('input[name="category"]:checked')) {
-                    document.getElementById('catError').classList.remove('hidden');
-                    isValid = false;
-                }
-                if(titleInput.value.length < 10) { setFieldError(titleInput, true); isValid = false; }
-                if(descInput.value.length < 20) { setFieldError(descInput, true); isValid = false; }
-                if(locInput.value.length === 0) { setFieldError(locInput, true); isValid = false; }
-                if(!dateInput.value || new Date(dateInput.value) <= new Date()) { setFieldError(dateInput, true); isValid = false; }
-                if(!compVal.value || parseInt(compVal.value) < 1000) { setFieldError(compDisplay, true); isValid = false; }
+        // ===== Submit =====
+        function submitQuest() {
+            const btn = document.getElementById('submitBtn');
+            const content = document.getElementById('submitContent');
+            if (btn.disabled) return;
 
-                if(!isValid) {
-                    // Show error toast
-                    const toast = document.getElementById('toast');
-                    document.getElementById('toast-message').textContent = 'Harap lengkapi semua field dengan benar.';
-                    toast.classList.replace('-translate-y-full', 'translate-y-4');
-                    toast.classList.replace('opacity-0', 'opacity-100');
-                    setTimeout(() => {
-                        toast.classList.replace('translate-y-4', '-translate-y-full');
-                        toast.classList.replace('opacity-100', 'opacity-0');
-                    }, 3000);
-                    return;
-                }
+            const priceRaw = document.getElementById('priceInput').value.replace(/\D/g, '');
+            if (parseInt(priceRaw) < 1000) {
+                YG.toast('Kompensasi minimal Rp 1.000', 'error');
+                return;
+            }
 
-                // Loading State
-                submitBtn.disabled = true;
-                btnText.textContent = "Memposting...";
-                btnSpinner.classList.remove('hidden');
+            // Loading state
+            btn.disabled = true;
+            content.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin-slow"></i><span>Memposting...</span>';
+            if (window.lucide) lucide.createIcons();
 
-                // Simulate API POST request
+            const rect = btn.getBoundingClientRect();
+            setTimeout(() => {
+                YG.confetti(rect.left + rect.width / 2, rect.top + rect.height / 2);
+                YG.toast('Quest berhasil diposting!', 'success');
                 setTimeout(() => {
-                    submitBtn.classList.replace('bg-orange-500', 'bg-emerald-500');
-                    submitBtn.classList.replace('hover:bg-orange-600', 'hover:bg-emerald-600');
-                    btnText.textContent = "Quest Berhasil Diposting!";
-                    btnSpinner.classList.add('hidden');
-                    
-                    setTimeout(() => {
-                        console.log('Quest berhasil diposting. Redirect ke detail.');
-                        window.location.href = '/quest-detail';
-                    }, 1500);
-
-                }, 1500);
-            });
-        });
+                    YG.navigate('/quest-detail');
+                }, 1200);
+            }, 800);
+        }
     </script>
 </body>
 </html>

@@ -4,409 +4,379 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quest Saya — YUKgas.in</title>
-    
-    <!-- Plus Jakarta Sans Font -->
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-    
-    <!-- Tailwind CSS -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+    <link rel="stylesheet" href="/assets/style.css">
+
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: {
-                        sans: ['"Plus Jakarta Sans"', 'sans-serif'],
-                    },
-                    colors: {
-                    colors: {
-                        orange: {
-                            50: '#FFF7ED',
-                            100: '#FFEDD5',
-                            500: '#F97316',
-                            600: '#EA580C',
-                        },
-                        amber: {
-                            50: '#FFFBEB',
-                            400: '#FBBF24',
-                            500: '#F59E0B',
-                        },
-                        emerald: {
-                            50: '#ECFDF5',
-                            500: '#10B981',
-                            600: '#059669',
-                        },
-                        red: {
-                            50: '#FEF2F2',
-                            200: '#FECACA',
-                            500: '#EF4444',
-                            600: '#DC2626',
-                        },
-                        blue: {
-                            50: '#EFF6FF',
-                            600: '#2563EB',
-                        },
-                        violet: {
-                            50: '#F5F3FF',
-                            600: '#7C3AED',
-                        },
-                        slate: {
-                            50: '#F8FAFC',
-                            100: '#F1F5F9',
-                            200: '#E2E8F0',
-                            300: '#CBD5E1',
-                            400: '#94A3B8',
-                            500: '#64748B',
-                            600: '#475569',
-                            700: '#334155',
-                            900: '#0F172A',
-                        },
-                        stone: {
-                            50: '#FAFAF9',
-                        }
-                    }
-                    }
+            theme: { extend: {
+                fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
+                colors: {
+                    sunset: '#FF6B35', 'sunset-light': '#FF9F1C', golden: '#FFB627',
+                    teal: { 50: '#E6FAF5', 500: '#0CA789', 600: '#0A8E78' }, coral: '#FF4757',
+                    cream: { DEFAULT: '#FFF8F0', deep: '#FFF0E0' },
+                    espresso: '#2D1B12', mocha: '#8B7355', latte: '#B8A088',
+                    borderWarm: '#FFE4D1'
                 }
-            }
+            }}
         }
     </script>
-    <style>
-        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
-        .hide-scrollbar::-webkit-scrollbar { display: none; }
-        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
-    </style>
 </head>
-<body class="bg-stone-50 text-slate-900 font-sans antialiased selection:bg-orange-100 selection:text-orange-900">
+<body class="bg-cream text-espresso font-sans antialiased bg-dotted">
 
-    <!-- DEMO SWITCHER (Hanya untuk preview Empty State vs Populated) -->
-    <div class="fixed top-0 left-0 w-full bg-slate-900 text-white z-[100] py-2 px-4 flex flex-wrap items-center justify-center gap-3 shadow-xl text-xs sm:text-sm">
-        <span class="font-bold text-slate-400 uppercase tracking-widest text-[10px] sm:text-xs">Tampilan Data:</span>
-        <button onclick="toggleEmptyState(false)" id="btn-populated" class="px-3 py-1 rounded-lg font-semibold bg-orange-500 text-white transition-colors">Populated List</button>
-        <button onclick="toggleEmptyState(true)" id="btn-empty" class="px-3 py-1 rounded-lg font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors">Empty State</button>
-    </div>
+    <!-- Mobile frame -->
+    <div class="max-w-md mx-auto min-h-screen relative flex flex-col">
 
-    <!-- MAIN APP CONTAINER -->
-    <div class="max-w-md mx-auto bg-stone-50 min-h-screen relative shadow-2xl sm:border-x border-slate-200 flex flex-col mt-[50px] sm:mt-[40px]">
+        <!-- Header -->
+        <header class="bg-white/90 backdrop-blur-lg border-b-2 border-cream-deep sticky top-0 z-50 px-4 pt-4 pb-3">
+            <div class="flex items-center justify-between">
+                <a href="/dashboard" class="w-10 h-10 flex items-center justify-center rounded-xl text-mocha hover:bg-cream-deep transition-colors">
+                    <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                </a>
+                <h1 class="font-extrabold text-lg">Quest Saya</h1>
+                <a href="/quests/create" class="w-10 h-10 flex items-center justify-center rounded-xl text-sunset hover:bg-sunset/10 transition-colors">
+                    <i data-lucide="plus-circle" class="w-6 h-6"></i>
+                </a>
+            </div>
 
-        <!-- TopBar (Sticky) -->
-        <header class="bg-white border-b border-slate-100 sticky top-0 z-50 px-4 h-14 flex items-center gap-3">
-            <a href="/dashboard" class="w-10 h-10 flex items-center justify-center -ml-2 text-slate-600 hover:bg-slate-50 rounded-full transition-colors active:scale-95">
-                <i data-lucide="arrow-left" class="w-6 h-6"></i>
-            </a>
-            <h1 class="font-bold text-lg text-slate-900">Quest Saya</h1>
+            <!-- Tabs -->
+            <div class="flex mt-3 bg-cream-deep rounded-2xl p-1">
+                <button onclick="switchTab('given')" id="tab-given" class="flex-1 py-2.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 bg-white text-sunset shadow-warm transition-all">
+                    <i data-lucide="megaphone" class="w-4 h-4"></i>
+                    <span>Diberikan</span>
+                    <span class="bg-sunset/15 text-sunset px-1.5 py-0.5 rounded-md text-[10px] font-extrabold">4</span>
+                </button>
+                <button onclick="switchTab('taken')" id="tab-taken" class="flex-1 py-2.5 rounded-xl text-sm font-bold flex items-center justify-center gap-2 text-mocha hover:text-espresso transition-all">
+                    <i data-lucide="hand" class="w-4 h-4"></i>
+                    <span>Diambil</span>
+                    <span class="bg-white/60 text-mocha px-1.5 py-0.5 rounded-md text-[10px] font-extrabold">3</span>
+                </button>
+            </div>
         </header>
 
-        <!-- TabBar (Sticky below TopBar) -->
-        <div class="bg-white border-b border-slate-100 sticky top-14 z-40 flex">
-            <!-- Tab: Diberikan -->
-            <button onclick="switchTab('given')" id="tab-given" class="flex-1 py-3.5 text-sm font-bold text-orange-500 border-b-2 border-orange-500 flex items-center justify-center gap-2 transition-colors">
-                <span>Diberikan</span>
-                <span class="bg-orange-100 text-orange-600 px-1.5 py-0.5 rounded-md text-[10px] font-extrabold">4</span>
-            </button>
-            <!-- Tab: Diambil -->
-            <button onclick="switchTab('taken')" id="tab-taken" class="flex-1 py-3.5 text-sm font-semibold text-slate-500 border-b-2 border-transparent hover:text-slate-700 flex items-center justify-center gap-2 transition-colors">
-                <span>Diambil</span>
-                <span class="bg-slate-100 text-slate-500 px-1.5 py-0.5 rounded-md text-[10px] font-extrabold">3</span>
-            </button>
-        </div>
-
-        <!-- Filter Chips (Horizontal Scroll) -->
-        <div class="bg-stone-50/95 backdrop-blur-sm sticky top-[113px] z-30 pt-3 pb-2 px-4 shadow-[0_4px_10px_-10px_rgba(0,0,0,0.1)]">
-            <div class="flex gap-2 overflow-x-auto hide-scrollbar -mx-4 px-4 pb-1">
-                <button class="shrink-0 bg-slate-900 text-white px-3.5 py-1.5 rounded-full text-xs font-semibold shadow-sm transition-transform active:scale-95">
-                    Semua Status
+        <!-- Filter Chips -->
+        <div class="bg-white/50 px-4 py-3 border-b border-cream-deep overflow-x-auto no-scrollbar">
+            <div class="flex gap-2 min-w-max">
+                <button onclick="filterChip(this)" class="filter-chip active px-4 py-2 rounded-full text-sm font-bold bg-espresso text-white whitespace-nowrap flex items-center gap-1.5">
+                    <i data-lucide="layers" class="w-4 h-4"></i> Semua
                 </button>
-                <button class="shrink-0 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors active:scale-95">
-                    Open
+                <button onclick="filterChip(this)" class="filter-chip px-4 py-2 rounded-full text-sm font-semibold bg-white text-mocha border-2 border-cream-deep whitespace-nowrap flex items-center gap-1.5 hover:border-sunset transition-colors">
+                    <i data-lucide="circle-dashed" class="w-4 h-4"></i> Open
                 </button>
-                <button class="shrink-0 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors active:scale-95">
-                    Taken
+                <button onclick="filterChip(this)" class="filter-chip px-4 py-2 rounded-full text-sm font-semibold bg-white text-mocha border-2 border-cream-deep whitespace-nowrap flex items-center gap-1.5 hover:border-sunset transition-colors">
+                    <i data-lucide="user-check" class="w-4 h-4"></i> Taken
                 </button>
-                <button class="shrink-0 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors active:scale-95">
-                    In Progress
+                <button onclick="filterChip(this)" class="filter-chip px-4 py-2 rounded-full text-sm font-semibold bg-white text-mocha border-2 border-cream-deep whitespace-nowrap flex items-center gap-1.5 hover:border-sunset transition-colors">
+                    <i data-lucide="loader" class="w-4 h-4"></i> In Progress
                 </button>
-                <button class="shrink-0 bg-white border border-slate-200 text-slate-600 hover:bg-slate-50 px-3.5 py-1.5 rounded-full text-xs font-medium transition-colors active:scale-95">
-                    Completed
+                <button onclick="filterChip(this)" class="filter-chip px-4 py-2 rounded-full text-sm font-semibold bg-white text-mocha border-2 border-cream-deep whitespace-nowrap flex items-center gap-1.5 hover:border-sunset transition-colors">
+                    <i data-lucide="check-circle-2" class="w-4 h-4"></i> Completed
                 </button>
             </div>
         </div>
 
-        <!-- Scrollable List Area -->
-        <main class="flex-1 overflow-y-auto px-4 pt-2 pb-24 flex flex-col gap-3">
+        <!-- Feed -->
+        <main class="flex-1 overflow-y-auto px-4 py-4 pb-28 space-y-4">
 
-            <!-- ============================================== -->
-            <!-- TAB CONTENT: DIBERIKAN (GIVER) -->
-            <!-- ============================================== -->
-            <div id="content-given" class="flex flex-col gap-3 animate-fade-in">
-                
-                <!-- Item 1: OPEN -->
-                <a href="/quest-detail" class="list-item bg-white border border-slate-100 rounded-xl p-3 hover:bg-slate-50 transition-colors shadow-sm block active:scale-[0.98]">
-                    <!-- Row 1: Status & Price -->
-                    <div class="flex justify-between items-center mb-1.5">
-                        <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-600 text-[10px] font-bold tracking-wide border border-emerald-100/50">
-                            <i data-lucide="circle-dashed" class="w-3 h-3"></i> OPEN
-                        </div>
-                        <span class="font-extrabold text-slate-900 text-sm">Rp 5.000</span>
-                    </div>
-                    <!-- Row 2: Title -->
-                    <h3 class="font-bold text-slate-900 text-sm truncate mb-2.5">Jemput barang di pos satpam</h3>
-                    <!-- Row 3 & 4: Taker & Deadline -->
-                    <div class="flex flex-col gap-1.5">
-                        <div class="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
-                            <div class="w-5 h-5 rounded-full border border-dashed border-slate-300 flex items-center justify-center">
-                                <i data-lucide="user" class="w-3 h-3 text-slate-300"></i>
-                            </div>
-                            <span>Belum ada pengambil</span>
-                        </div>
-                        <div class="flex items-center gap-1.5 text-xs text-slate-500">
-                            <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i>
-                            2 jam lagi
-                        </div>
-                    </div>
-                </a>
+            <!-- ===================== TAB: DIBERIKAN ===================== -->
+            <div id="content-given" class="space-y-4">
 
-                <!-- Item 2: TAKEN -->
-                <a href="/quest-detail" class="list-item bg-white border border-slate-100 rounded-xl p-3 hover:bg-slate-50 transition-colors shadow-sm block active:scale-[0.98]">
-                    <div class="flex justify-between items-center mb-1.5">
-                        <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-blue-50 text-blue-600 text-[10px] font-bold tracking-wide border border-blue-100/50">
-                            <i data-lucide="user-check" class="w-3 h-3"></i> TAKEN
-                        </div>
-                        <span class="font-extrabold text-slate-900 text-sm">Rp 10.000</span>
+                <!-- Empty State (Diberikan) -->
+                <div id="empty-given" class="hidden flex-col items-center justify-center py-16 px-6 text-center">
+                    <div class="w-24 h-24 bg-sunset/10 rounded-3xl flex items-center justify-center mb-6 animate-float">
+                        <i data-lucide="megaphone" class="w-12 h-12 text-sunset"></i>
                     </div>
-                    <h3 class="font-bold text-slate-900 text-sm truncate mb-2.5">Beliin nasi goreng kantin A</h3>
-                    <div class="flex flex-col gap-1.5">
-                        <div class="flex justify-between items-center">
-                            <div class="flex items-center gap-1.5 text-xs text-slate-600 font-medium">
-                                <div class="w-5 h-5 rounded-full bg-orange-100 text-orange-600 flex items-center justify-center font-bold text-[8px]">HI</div>
-                                <span>Taker: Hilman Al Hakim</span>
-                            </div>
-                        </div>
-                        <div class="flex items-center gap-1.5 text-xs text-slate-500">
-                            <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i>
-                            30 menit lagi
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Item 3: COMPLETED -->
-                <a href="/quest-detail" class="list-item bg-white border border-slate-100 rounded-xl p-3 hover:bg-slate-50 transition-colors shadow-sm block active:scale-[0.98] opacity-75">
-                    <div class="flex justify-between items-center mb-1.5">
-                        <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-violet-50 text-violet-600 text-[10px] font-bold tracking-wide border border-violet-100/50">
-                            <i data-lucide="check-circle-2" class="w-3 h-3"></i> COMPLETED
-                        </div>
-                        <span class="font-extrabold text-slate-900 text-sm">Rp 2.000</span>
-                    </div>
-                    <h3 class="font-bold text-slate-900 text-sm truncate mb-2.5 line-through decoration-slate-300">Print dokumen 5 lembar</h3>
-                    <div class="flex flex-col gap-1.5">
-                        <div class="flex items-center gap-1.5 text-xs text-slate-600 font-medium">
-                            <div class="w-5 h-5 rounded-full bg-emerald-100 text-emerald-600 flex items-center justify-center font-bold text-[8px]">ES</div>
-                            <span>Taker: Esa Maulidia</span>
-                        </div>
-                        <div class="flex items-center gap-1.5 text-xs text-slate-500">
-                            <i data-lucide="calendar-check" class="w-3.5 h-3.5 text-slate-400"></i>
-                            Selesai hari ini, 09:15
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Item 4: CANCELLED -->
-                <a href="/quest-detail" class="list-item bg-white border border-slate-100 rounded-xl p-3 hover:bg-slate-50 transition-colors shadow-sm block active:scale-[0.98] opacity-60">
-                    <div class="flex justify-between items-center mb-1.5">
-                        <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-red-50 text-red-600 text-[10px] font-bold tracking-wide border border-red-100/50">
-                            <i data-lucide="x-circle" class="w-3 h-3"></i> CANCELLED
-                        </div>
-                        <span class="font-extrabold text-slate-900 text-sm">Rp 15.000</span>
-                    </div>
-                    <h3 class="font-bold text-slate-900 text-sm truncate mb-2.5">Antar ke stasiun Tugu</h3>
-                    <div class="flex flex-col gap-1.5">
-                        <div class="flex items-center gap-1.5 text-xs text-slate-400 font-medium">
-                            <i data-lucide="slash" class="w-3.5 h-3.5"></i>
-                            Dibatalkan olehmu
-                        </div>
-                    </div>
-                </a>
-
-                <!-- EMPTY STATE (Diberikan) - Hidden by default -->
-                <div class="empty-state hidden flex-col items-center justify-center py-16 px-6 text-center">
-                    <div class="w-20 h-20 bg-orange-50 rounded-full flex items-center justify-center mb-4">
-                        <i data-lucide="package-open" class="w-10 h-10 text-orange-300"></i>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 mb-1">Belum ada quest</h3>
-                    <p class="text-slate-500 text-xs mb-6 max-w-[220px]">Kamu belum pernah memposting quest apapun. Butuh bantuan?</p>
-                    <a href="/quests/create" class="bg-orange-500 hover:bg-orange-600 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-sm transition-colors flex items-center gap-2">
-                        <i data-lucide="plus" class="w-4 h-4"></i> Posting Quest
+                    <h3 class="text-xl font-extrabold mb-2">Belum ada quest diberikan</h3>
+                    <p class="text-mocha mb-6 leading-relaxed">Posting quest pertamamu dan temukan seseorang yang siap bantu!</p>
+                    <a href="/quests/create" class="btn-sunset inline-flex items-center gap-2">
+                        <i data-lucide="plus" class="w-5 h-5"></i>
+                        <span>Posting Quest</span>
                     </a>
                 </div>
+
+                <!-- Quest 1: OPEN -->
+                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-1" style="border-left: 5px solid var(--sunset)">
+                    <div class="flex items-start justify-between mb-2 gap-2">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-xs font-bold text-sunset bg-sunset/10 px-2.5 py-1 rounded-full flex items-center gap-1">
+                                <i data-lucide="bike" class="w-3 h-3"></i> Transportasi
+                            </span>
+                            <span class="badge-open text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+                                <i data-lucide="circle-dashed" class="w-3 h-3"></i> OPEN
+                            </span>
+                        </div>
+                        <span class="price-badge text-sm whitespace-nowrap">Rp 5.000</span>
+                    </div>
+                    <h3 class="font-extrabold text-base mb-2">Beliin Kopi Senja</h3>
+                    <div class="flex items-center gap-3 text-xs text-mocha">
+                        <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i> Kantin Utara</span>
+                        <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> 2 jam lagi</span>
+                    </div>
+                    <div class="flex items-center justify-between mt-3 pt-3 border-t border-cream-deep">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg border-2 border-dashed border-borderWarm flex items-center justify-center">
+                                <i data-lucide="user" class="w-3.5 h-3.5 text-latte"></i>
+                            </div>
+                            <span class="text-xs font-semibold text-mocha">Belum ada pengambil</span>
+                        </div>
+                        <span class="text-xs font-bold text-sunset flex items-center gap-1">Lihat <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+                    </div>
+                </a>
+
+                <!-- Quest 2: TAKEN -->
+                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-2" style="border-left: 5px solid var(--teal)">
+                    <div class="flex items-start justify-between mb-2 gap-2">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-xs font-bold text-teal-500 bg-teal-50 px-2.5 py-1 rounded-full flex items-center gap-1">
+                                <i data-lucide="printer" class="w-3 h-3"></i> Administrasi
+                            </span>
+                            <span class="badge-progress text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+                                <i data-lucide="user-check" class="w-3 h-3"></i> TAKEN
+                            </span>
+                        </div>
+                        <span class="price-badge text-sm whitespace-nowrap">Rp 3.000</span>
+                    </div>
+                    <h3 class="font-extrabold text-base mb-2">Print Tugas Makul</h3>
+                    <div class="flex items-center gap-3 text-xs text-mocha">
+                        <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i> Foxprint</span>
+                        <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> Besok</span>
+                    </div>
+                    <div class="flex items-center justify-between mt-3 pt-3 border-t border-cream-deep">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-teal-50 text-teal-500 flex items-center justify-center text-xs font-bold">H</div>
+                            <span class="text-xs font-semibold">Hilman mengambil</span>
+                        </div>
+                        <span class="text-xs font-bold text-sunset flex items-center gap-1">Lihat <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+                    </div>
+                </a>
+
+                <!-- Quest 3: COMPLETED -->
+                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-3" style="border-left: 5px solid var(--mocha)">
+                    <div class="flex items-start justify-between mb-2 gap-2">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-xs font-bold text-sunset bg-sunset/10 px-2.5 py-1 rounded-full flex items-center gap-1">
+                                <i data-lucide="bike" class="w-3 h-3"></i> Transportasi
+                            </span>
+                            <span class="badge-done text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+                                <i data-lucide="check-circle-2" class="w-3 h-3"></i> SELESAI
+                            </span>
+                        </div>
+                        <span class="price-badge text-sm whitespace-nowrap" style="background: linear-gradient(135deg, #8B7355, #B8A088)">Rp 8.000</span>
+                    </div>
+                    <h3 class="font-extrabold text-base mb-2">Jemput Paket</h3>
+                    <div class="flex items-center gap-3 text-xs text-mocha">
+                        <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i> Pos Satpam</span>
+                        <span class="flex items-center gap-1"><i data-lucide="calendar-check" class="w-3.5 h-3.5"></i> Selesai</span>
+                    </div>
+                    <div class="flex items-center justify-between mt-3 pt-3 border-t border-cream-deep">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-golden/20 text-golden flex items-center justify-center text-xs font-bold">E</div>
+                            <span class="text-xs font-semibold">Esa menyelesaikan</span>
+                            <span class="flex items-center gap-0.5 text-xs text-golden font-bold">
+                                <i data-lucide="star" class="w-3 h-3 fill-current"></i> 5.0
+                            </span>
+                        </div>
+                        <span class="text-xs font-bold text-sunset flex items-center gap-1">Lihat <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+                    </div>
+                </a>
+
+                <!-- Quest 4: CANCELLED -->
+                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-4 opacity-60" style="border-left: 5px solid var(--coral)">
+                    <div class="flex items-start justify-between mb-2 gap-2">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-xs font-bold text-golden bg-golden/15 px-2.5 py-1 rounded-full flex items-center gap-1">
+                                <i data-lucide="utensils-crossed" class="w-3 h-3"></i> Makanan
+                            </span>
+                            <span class="badge-cancel text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+                                <i data-lucide="x-circle" class="w-3 h-3"></i> BATAL
+                            </span>
+                        </div>
+                        <span class="price-badge text-sm whitespace-nowrap" style="background: linear-gradient(135deg, #FF4757, #FF6B7A)">Rp 10.000</span>
+                    </div>
+                    <h3 class="font-extrabold text-base mb-2 line-through decoration-latte">Titip Makan</h3>
+                    <div class="flex items-center gap-3 text-xs text-mocha">
+                        <span class="flex items-center gap-1"><i data-lucide="slash" class="w-3.5 h-3.5"></i> Dibatalkan olehmu</span>
+                    </div>
+                </a>
+
             </div>
 
-            <!-- ============================================== -->
-            <!-- TAB CONTENT: DIAMBIL (TAKER) -->
-            <!-- ============================================== -->
-            <div id="content-taken" class="hidden flex-col gap-3 animate-fade-in">
-                
-                <!-- Item 1: IN_PROGRESS -->
-                <a href="/quest-detail" class="list-item bg-white border border-orange-200 rounded-xl p-3 hover:bg-orange-50/50 transition-colors shadow-md block active:scale-[0.98] relative overflow-hidden">
-                    <!-- Accent bar -->
-                    <div class="absolute left-0 top-0 bottom-0 w-1 bg-orange-500"></div>
-                    
-                    <div class="flex justify-between items-center mb-1.5 pl-2">
-                        <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-amber-50 text-amber-600 text-[10px] font-bold tracking-wide border border-amber-100/50">
-                            <i data-lucide="loader-2" class="w-3 h-3 animate-spin"></i> IN PROGRESS
-                        </div>
-                        <span class="font-extrabold text-slate-900 text-sm">Rp 8.000</span>
-                    </div>
-                    <h3 class="font-bold text-slate-900 text-sm truncate mb-2.5 pl-2">Bantu jelasin materi React</h3>
-                    <div class="flex flex-col gap-1.5 pl-2">
-                        <div class="flex items-center gap-1.5 text-xs text-slate-600 font-medium">
-                            <div class="w-5 h-5 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-[8px]">IM</div>
-                            <span>Giver: Imroatu Zakiyah</span>
-                        </div>
-                        <div class="flex items-center gap-1.5 text-xs font-bold text-red-500">
-                            <i data-lucide="clock" class="w-3.5 h-3.5"></i>
-                            Besok, 10:00 WIB
-                        </div>
-                    </div>
-                </a>
+            <!-- ===================== TAB: DIAMBIL ===================== -->
+            <div id="content-taken" class="space-y-4 hidden">
 
-                <!-- Item 2: TAKEN -->
-                <a href="/quest-detail" class="list-item bg-white border border-slate-100 rounded-xl p-3 hover:bg-slate-50 transition-colors shadow-sm block active:scale-[0.98]">
-                    <div class="flex justify-between items-center mb-1.5">
-                        <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-blue-50 text-blue-600 text-[10px] font-bold tracking-wide border border-blue-100/50">
-                            <i data-lucide="user-check" class="w-3 h-3"></i> TAKEN
-                        </div>
-                        <span class="font-extrabold text-slate-900 text-sm">Rp 5.000</span>
+                <!-- Empty State (Diambil) -->
+                <div id="empty-taken" class="hidden flex-col items-center justify-center py-16 px-6 text-center">
+                    <div class="w-24 h-24 bg-teal-50 rounded-3xl flex items-center justify-center mb-6 animate-float">
+                        <i data-lucide="hand" class="w-12 h-12 text-teal-500"></i>
                     </div>
-                    <h3 class="font-bold text-slate-900 text-sm truncate mb-2.5">Beliin kopi Kenangan</h3>
-                    <div class="flex flex-col gap-1.5">
-                        <div class="flex items-center gap-1.5 text-xs text-slate-600 font-medium">
-                            <div class="w-5 h-5 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-[8px]">FA</div>
-                            <span>Giver: Faiz Abdurrachman</span>
-                        </div>
-                        <div class="flex items-center gap-1.5 text-xs text-slate-500">
-                            <i data-lucide="clock" class="w-3.5 h-3.5 text-slate-400"></i>
-                            1 jam lagi
-                        </div>
-                    </div>
-                </a>
-
-                <!-- Item 3: COMPLETED -->
-                <a href="/quest-detail" class="list-item bg-white border border-slate-100 rounded-xl p-3 hover:bg-slate-50 transition-colors shadow-sm block active:scale-[0.98] opacity-75">
-                    <div class="flex justify-between items-center mb-1.5">
-                        <div class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-md bg-violet-50 text-violet-600 text-[10px] font-bold tracking-wide border border-violet-100/50">
-                            <i data-lucide="check-circle-2" class="w-3 h-3"></i> COMPLETED
-                        </div>
-                        <span class="font-extrabold text-slate-900 text-sm">Rp 20.000</span>
-                    </div>
-                    <h3 class="font-bold text-slate-900 text-sm truncate mb-2.5 line-through decoration-slate-300">Bantu pindahan kosan</h3>
-                    <div class="flex flex-col gap-1.5">
-                        <div class="flex items-center gap-1.5 text-xs text-slate-600 font-medium">
-                            <div class="w-5 h-5 rounded-full bg-slate-100 text-slate-600 flex items-center justify-center font-bold text-[8px]">NI</div>
-                            <span>Giver: Nicky Admin</span>
-                        </div>
-                        <div class="flex items-center gap-1.5 text-xs text-slate-500">
-                            <i data-lucide="calendar-check" class="w-3.5 h-3.5 text-slate-400"></i>
-                            Selesai kemarin
-                        </div>
-                    </div>
-                </a>
-
-                <!-- EMPTY STATE (Diambil) - Hidden by default -->
-                <div class="empty-state hidden flex-col items-center justify-center py-16 px-6 text-center">
-                    <div class="w-20 h-20 bg-slate-100 rounded-full flex items-center justify-center mb-4">
-                        <i data-lucide="hand-helping" class="w-10 h-10 text-slate-300"></i>
-                    </div>
-                    <h3 class="text-base font-bold text-slate-900 mb-1">Belum ada tugas</h3>
-                    <p class="text-slate-500 text-xs mb-6 max-w-[220px]">Kamu belum pernah mengambil quest orang lain. Yuk cari tugas di feed!</p>
-                    <a href="/dashboard" class="bg-slate-900 hover:bg-slate-800 text-white px-5 py-2.5 rounded-xl text-sm font-semibold shadow-sm transition-colors flex items-center gap-2">
-                        <i data-lucide="search" class="w-4 h-4"></i> Cari Quest Feed
+                    <h3 class="text-xl font-extrabold mb-2">Belum ada quest diambil</h3>
+                    <p class="text-mocha mb-6 leading-relaxed">Jelajahi feed dan ambil quest untuk mulai membantu teman!</p>
+                    <a href="/dashboard" class="btn-sunset inline-flex items-center gap-2">
+                        <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                        <span>Jelajahi Quest</span>
                     </a>
                 </div>
+
+                <!-- Quest 1: IN PROGRESS (highlighted) -->
+                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-1" style="border: 2px solid var(--golden); border-left: 5px solid var(--golden); box-shadow: var(--shadow-glow);">
+                    <div class="absolute top-3 right-3">
+                        <span class="relative flex h-3 w-3">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-golden opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-3 w-3 bg-golden"></span>
+                        </span>
+                    </div>
+                    <div class="flex items-start justify-between mb-2 gap-2 pr-6">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-xs font-bold text-sunset bg-sunset/10 px-2.5 py-1 rounded-full flex items-center gap-1">
+                                <i data-lucide="bike" class="w-3 h-3"></i> Transportasi
+                            </span>
+                            <span class="badge-progress text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+                                <i data-lucide="loader" class="w-3 h-3 animate-spin-slow"></i> BERJALAN
+                            </span>
+                        </div>
+                    </div>
+                    <span class="price-badge text-sm absolute top-3 right-10" style="background: linear-gradient(135deg, #FFB627, #FF9F1C)">Rp 7.000</span>
+                    <h3 class="font-extrabold text-base mb-2 mt-1">Antar Dokumen</h3>
+                    <div class="flex items-center gap-3 text-xs text-mocha">
+                        <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i> Gedung Rektorat</span>
+                        <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> Sekarang</span>
+                    </div>
+                    <div class="flex items-center justify-between mt-3 pt-3 border-t border-cream-deep">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-golden/20 text-golden flex items-center justify-center text-xs font-bold">F</div>
+                            <span class="text-xs font-semibold">Dari Faiz</span>
+                        </div>
+                        <span class="text-xs font-bold text-golden flex items-center gap-1">Kerjakan <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+                    </div>
+                </a>
+
+                <!-- Quest 2: TAKEN -->
+                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-2" style="border-left: 5px solid var(--golden)">
+                    <div class="flex items-start justify-between mb-2 gap-2">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-xs font-bold text-golden bg-golden/15 px-2.5 py-1 rounded-full flex items-center gap-1">
+                                <i data-lucide="utensils-crossed" class="w-3 h-3"></i> Makanan
+                            </span>
+                            <span class="badge-progress text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+                                <i data-lucide="user-check" class="w-3 h-3"></i> TAKEN
+                            </span>
+                        </div>
+                        <span class="price-badge text-sm whitespace-nowrap" style="background: linear-gradient(135deg, #FFB627, #FF9F1C)">Rp 3.000</span>
+                    </div>
+                    <h3 class="font-extrabold text-base mb-2">Beliin Indomie</h3>
+                    <div class="flex items-center gap-3 text-xs text-mocha">
+                        <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i> Indomaret</span>
+                        <span class="flex items-center gap-1"><i data-lucide="clock" class="w-3.5 h-3.5"></i> 1 jam lagi</span>
+                    </div>
+                    <div class="flex items-center justify-between mt-3 pt-3 border-t border-cream-deep">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-sunset/10 text-sunset flex items-center justify-center text-xs font-bold">A</div>
+                            <span class="text-xs font-semibold">Dari Aldo</span>
+                        </div>
+                        <span class="text-xs font-bold text-sunset flex items-center gap-1">Lihat <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+                    </div>
+                </a>
+
+                <!-- Quest 3: COMPLETED -->
+                <a href="/quest-detail" class="warm-card block p-4 relative animate-reveal delay-3" style="border-left: 5px solid var(--teal)">
+                    <div class="flex items-start justify-between mb-2 gap-2">
+                        <div class="flex items-center gap-2 flex-wrap">
+                            <span class="text-xs font-bold text-teal-500 bg-teal-50 px-2.5 py-1 rounded-full flex items-center gap-1">
+                                <i data-lucide="printer" class="w-3 h-3"></i> Administrasi
+                            </span>
+                            <span class="badge-done text-xs font-bold px-2.5 py-1 rounded-full flex items-center gap-1">
+                                <i data-lucide="check-circle-2" class="w-3 h-3"></i> SELESAI
+                            </span>
+                        </div>
+                        <span class="price-badge text-sm whitespace-nowrap" style="background: linear-gradient(135deg, #0CA789, #14C8A6)">Rp 2.000</span>
+                    </div>
+                    <h3 class="font-extrabold text-base mb-2">Fotokopi KTM</h3>
+                    <div class="flex items-center gap-3 text-xs text-mocha">
+                        <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i> Foxprint</span>
+                        <span class="flex items-center gap-1"><i data-lucide="calendar-check" class="w-3.5 h-3.5"></i> Selesai</span>
+                    </div>
+                    <div class="flex items-center justify-between mt-3 pt-3 border-t border-cream-deep">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 rounded-lg bg-coral/15 text-coral flex items-center justify-center text-xs font-bold">I</div>
+                            <span class="text-xs font-semibold">Dari Imroatu</span>
+                            <span class="flex items-center gap-0.5 text-xs text-golden font-bold">
+                                <i data-lucide="star" class="w-3 h-3 fill-current"></i> 5.0
+                            </span>
+                        </div>
+                        <span class="text-xs font-bold text-sunset flex items-center gap-1">Lihat <i data-lucide="arrow-right" class="w-3.5 h-3.5"></i></span>
+                    </div>
+                </a>
+
             </div>
 
         </main>
 
-        <!-- Bottom Navigation -->
-        <nav class="fixed sm:absolute bottom-0 left-0 w-full bg-white border-t border-slate-100 h-16 px-6 flex justify-between items-center z-40 pb-safe">
-            <a href="/dashboard" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 transition-colors min-w-[64px]">
-                <i data-lucide="home" class="w-6 h-6"></i>
-                <span class="text-[10px] font-semibold">Feed</span>
+        <!-- Bottom Nav -->
+        <nav class="bottom-nav fixed bottom-0 left-0 right-0 max-w-md mx-auto flex items-center justify-around py-2 px-4 z-40">
+            <a href="/dashboard" class="flex flex-col items-center gap-0.5 px-6 py-2">
+                <i data-lucide="layout-grid" class="w-6 h-6 text-latte"></i>
+                <span class="text-[10px] font-semibold text-latte">Feed</span>
             </a>
-            <a href="/my-quests" class="flex flex-col items-center gap-1 text-orange-500 min-w-[64px]">
-                <i data-lucide="clipboard-list" class="w-6 h-6 fill-orange-50"></i>
-                <span class="text-[10px] font-bold">QuestKu</span>
+            <a href="/my-quests" class="flex flex-col items-center gap-0.5 px-6 py-2 relative">
+                <div class="absolute -top-1 left-1/2 -translate-x-1/2 w-10 h-1 bg-sunset rounded-full"></div>
+                <i data-lucide="clipboard-list" class="w-6 h-6 text-sunset"></i>
+                <span class="text-[10px] font-bold text-sunset">QuestKu</span>
             </a>
-            <a href="/profile" class="flex flex-col items-center gap-1 text-slate-400 hover:text-slate-600 transition-colors min-w-[64px]">
-                <i data-lucide="user" class="w-6 h-6"></i>
-                <span class="text-[10px] font-semibold">Profil</span>
+            <a href="/profile" class="flex flex-col items-center gap-0.5 px-6 py-2">
+                <i data-lucide="user" class="w-6 h-6 text-latte"></i>
+                <span class="text-[10px] font-semibold text-latte">Profil</span>
             </a>
         </nav>
 
     </div>
 
-    <style>
-        .animate-fade-in { animation: fadeIn 0.2s ease-out forwards; }
-        @keyframes fadeIn { from { opacity: 0; transform: translateY(2px); } to { opacity: 1; transform: translateY(0); } }
-    </style>
-
+    <script src="/assets/app.js"></script>
     <script>
-        // Initialize Icons
-        lucide.createIcons();
-
-        // UI Logic for Tab Switching
-        function switchTab(tabId) {
-            const btnGiven = document.getElementById('tab-given');
-            const btnTaken = document.getElementById('tab-taken');
+        function switchTab(tab) {
+            const tabGiven = document.getElementById('tab-given');
+            const tabTaken = document.getElementById('tab-taken');
             const contentGiven = document.getElementById('content-given');
             const contentTaken = document.getElementById('content-taken');
 
-            if (tabId === 'given') {
-                // Update Buttons
-                btnGiven.className = "flex-1 py-3.5 text-sm font-bold text-orange-500 border-b-2 border-orange-500 flex items-center justify-center gap-2 transition-colors";
-                btnTaken.className = "flex-1 py-3.5 text-sm font-semibold text-slate-500 border-b-2 border-transparent hover:text-slate-700 flex items-center justify-center gap-2 transition-colors";
-                // Show/Hide Content
-                contentGiven.classList.remove('hidden');
-                contentGiven.classList.add('flex');
+            if (tab === 'given') {
+                tabGiven.classList.add('bg-white', 'text-sunset', 'shadow-warm');
+                tabGiven.classList.remove('text-mocha');
+                tabTaken.classList.remove('bg-white', 'text-sunset', 'shadow-warm');
+                tabTaken.classList.add('text-mocha');
+
                 contentTaken.classList.add('hidden');
-                contentTaken.classList.remove('flex');
+                contentGiven.classList.remove('hidden');
+                contentGiven.style.animation = 'none';
+                contentGiven.offsetHeight;
+                contentGiven.style.animation = 'revealUp 0.4s cubic-bezier(0,0,0.2,1) both';
             } else {
-                // Update Buttons
-                btnTaken.className = "flex-1 py-3.5 text-sm font-bold text-orange-500 border-b-2 border-orange-500 flex items-center justify-center gap-2 transition-colors";
-                btnGiven.className = "flex-1 py-3.5 text-sm font-semibold text-slate-500 border-b-2 border-transparent hover:text-slate-700 flex items-center justify-center gap-2 transition-colors";
-                // Show/Hide Content
-                contentTaken.classList.remove('hidden');
-                contentTaken.classList.add('flex');
+                tabTaken.classList.add('bg-white', 'text-sunset', 'shadow-warm');
+                tabTaken.classList.remove('text-mocha');
+                tabGiven.classList.remove('bg-white', 'text-sunset', 'shadow-warm');
+                tabGiven.classList.add('text-mocha');
+
                 contentGiven.classList.add('hidden');
-                contentGiven.classList.remove('flex');
+                contentTaken.classList.remove('hidden');
+                contentTaken.style.animation = 'none';
+                contentTaken.offsetHeight;
+                contentTaken.style.animation = 'revealUp 0.4s cubic-bezier(0,0,0.2,1) both';
             }
         }
 
-        // Demo logic for Empty State toggle
-        function toggleEmptyState(isEmpty) {
-            const listItems = document.querySelectorAll('.list-item');
-            const emptyStates = document.querySelectorAll('.empty-state');
-            const btnPopulated = document.getElementById('btn-populated');
-            const btnEmpty = document.getElementById('btn-empty');
-
-            if (isEmpty) {
-                listItems.forEach(el => el.style.display = 'none');
-                emptyStates.forEach(el => {
-                    el.classList.remove('hidden');
-                    el.classList.add('flex');
-                });
-                btnEmpty.className = "px-3 py-1 rounded-lg font-semibold bg-orange-500 text-white transition-colors";
-                btnPopulated.className = "px-3 py-1 rounded-lg font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors";
-            } else {
-                listItems.forEach(el => el.style.display = 'block');
-                emptyStates.forEach(el => {
-                    el.classList.add('hidden');
-                    el.classList.remove('flex');
-                });
-                btnPopulated.className = "px-3 py-1 rounded-lg font-semibold bg-orange-500 text-white transition-colors";
-                btnEmpty.className = "px-3 py-1 rounded-lg font-semibold bg-slate-800 text-slate-300 hover:bg-slate-700 transition-colors";
-            }
+        function filterChip(btn) {
+            document.querySelectorAll('.filter-chip').forEach(c => {
+                c.classList.remove('active', 'bg-espresso', 'text-white');
+                c.classList.add('bg-white', 'text-mocha', 'border-2', 'border-cream-deep');
+            });
+            btn.classList.add('active', 'bg-espresso', 'text-white');
+            btn.classList.remove('bg-white', 'text-mocha', 'border-2', 'border-cream-deep');
+            YG.toast('Filter: ' + btn.textContent.trim(), 'info', 1500);
         }
     </script>
 </body>

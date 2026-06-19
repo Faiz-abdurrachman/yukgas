@@ -4,314 +4,302 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rating Modal — YUKgas.in</title>
-    
+
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+
     <script src="https://cdn.tailwindcss.com"></script>
     <script src="https://unpkg.com/lucide@latest"></script>
-    
+    <link rel="stylesheet" href="/assets/style.css">
+
     <script>
         tailwind.config = {
-            theme: {
-                extend: {
-                    fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'] },
-                    colors: {
-                    colors: {
-                        orange: {
-                            50: '#FFF7ED',
-                            100: '#FFEDD5',
-                            500: '#F97316',
-                            600: '#EA580C',
-                        },
-                        amber: {
-                            50: '#FFFBEB',
-                            400: '#FBBF24',
-                            500: '#F59E0B',
-                        },
-                        emerald: {
-                            50: '#ECFDF5',
-                            500: '#10B981',
-                            600: '#059669',
-                        },
-                        red: {
-                            50: '#FEF2F2',
-                            200: '#FECACA',
-                            500: '#EF4444',
-                            600: '#DC2626',
-                        },
-                        blue: {
-                            50: '#EFF6FF',
-                            600: '#2563EB',
-                        },
-                        violet: {
-                            50: '#F5F3FF',
-                            600: '#7C3AED',
-                        },
-                        slate: {
-                            50: '#F8FAFC',
-                            100: '#F1F5F9',
-                            200: '#E2E8F0',
-                            300: '#CBD5E1',
-                            400: '#94A3B8',
-                            500: '#64748B',
-                            600: '#475569',
-                            700: '#334155',
-                            900: '#0F172A',
-                        },
-                        stone: {
-                            50: '#FAFAF9',
-                        }
-                    }
-                    }
+            theme: { extend: {
+                fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
+                colors: {
+                    sunset: '#FF6B35', 'sunset-light': '#FF9F1C', golden: '#FFB627',
+                    teal: { 50: '#E6FAF5', 500: '#0CA789', 600: '#0A8E78' }, coral: '#FF4757',
+                    cream: { DEFAULT: '#FFF8F0', deep: '#FFF0E0' },
+                    espresso: '#2D1B12', mocha: '#8B7355', latte: '#B8A088',
+                    borderWarm: '#FFE4D1'
                 }
-            }
+            }}
         }
     </script>
 </head>
-<body class="bg-slate-200 text-slate-900 font-sans antialiased selection:bg-orange-100 selection:text-orange-900 min-h-screen flex items-center justify-center relative">
+<body class="bg-cream text-espresso font-sans antialiased bg-dotted min-h-screen flex items-center justify-center">
 
-    <!-- Tombol Pemanggil Modal (Untuk Testing) -->
-    <button onclick="openModal()" class="bg-orange-500 hover:bg-orange-600 text-white font-bold py-3 px-6 rounded-xl shadow-md transition-all active:scale-95 absolute top-10">
-        Buka Rating Modal
-    </button>
+    <!-- Centered demo content -->
+    <div class="max-w-md mx-auto w-full px-4 py-10 relative z-10">
 
-    <!-- Modal Overlay -->
-    <div id="ratingModal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 px-4">
-        
-        <!-- Backdrop (klik luar untuk tutup) -->
-        <div class="absolute inset-0 bg-slate-900/60 backdrop-blur-sm" onclick="closeModal()"></div>
-        
+        <!-- Logo -->
+        <div class="flex items-center justify-center gap-2 mb-10 animate-reveal">
+            <div class="w-9 h-9 bg-gradient-to-br from-sunset to-sunset-light rounded-xl flex items-center justify-center shadow-warm">
+                <i data-lucide="zap" class="w-5 h-5 text-white"></i>
+            </div>
+            <span class="font-extrabold text-xl tracking-tight">YUKgas<span class="text-sunset">.in</span></span>
+        </div>
+
+        <!-- Trigger Card -->
+        <div class="warm-card p-8 text-center animate-reveal delay-1">
+            <div class="w-16 h-16 bg-golden/15 text-golden rounded-2xl flex items-center justify-center mx-auto mb-5 animate-float">
+                <i data-lucide="star" class="w-8 h-8 fill-current"></i>
+            </div>
+            <h1 class="text-2xl font-extrabold mb-2">Preview Modal Rating</h1>
+            <p class="text-sm text-mocha leading-relaxed mb-6">Ini adalah preview modal rating. Klik tombol untuk coba.</p>
+            <button onclick="openRatingModal()" class="btn-sunset inline-flex items-center gap-2 animate-pulse-glow">
+                <i data-lucide="star" class="w-5 h-5"></i>
+                <span>Beri Rating</span>
+            </button>
+        </div>
+
+        <!-- Info hint -->
+        <p class="text-center text-xs text-latte mt-6 animate-reveal delay-2 flex items-center justify-center gap-1.5">
+            <i data-lucide="info" class="w-3.5 h-3.5"></i>
+            Demo page — modal bisa dibuka berulang kali
+        </p>
+
+    </div>
+
+    <!-- Rating Modal Overlay -->
+    <div id="ratingOverlay" class="fixed inset-0 bg-espresso/40 backdrop-blur-sm z-[100] hidden items-center justify-center p-4">
         <!-- Modal Card -->
-        <div id="modalContent" class="bg-white w-full max-w-sm rounded-3xl p-6 relative z-10 transform scale-95 transition-transform duration-300 shadow-2xl flex flex-col">
-            
-            <!-- Close Button -->
-            <button onclick="closeModal()" class="absolute top-4 right-4 text-slate-400 hover:text-slate-600 bg-slate-50 hover:bg-slate-100 p-2 rounded-full transition-colors active:scale-95">
+        <div id="ratingModal" class="bg-white rounded-warm-lg w-full max-w-sm p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto">
+
+            <!-- Close -->
+            <button onclick="closeRatingModal()" class="absolute top-4 right-4 w-9 h-9 flex items-center justify-center rounded-xl text-mocha hover:bg-cream-deep transition-colors z-10">
                 <i data-lucide="x" class="w-5 h-5"></i>
             </button>
 
             <!-- Header -->
-            <div class="mb-5 flex items-center gap-2">
-                <h3 class="text-xl font-extrabold text-slate-900 tracking-tight flex items-center gap-2">
-                    <i data-lucide="star" class="w-6 h-6 text-amber-400 fill-amber-400"></i>
-                    Beri Penilaian
-                </h3>
+            <div class="text-center mb-5">
+                <div class="w-14 h-14 bg-golden/15 text-golden rounded-2xl flex items-center justify-center mx-auto mb-3">
+                    <i data-lucide="star" class="w-7 h-7 fill-current"></i>
+                </div>
+                <h2 class="text-xl font-extrabold">Beri Penilaian</h2>
             </div>
 
-            <!-- Ratee Info Card -->
-            <div class="bg-slate-50 border border-slate-100 rounded-2xl p-3 flex items-center gap-3 mb-6">
-                <div class="w-12 h-12 rounded-full bg-slate-200 text-slate-600 flex items-center justify-center font-bold text-lg shrink-0 border border-white shadow-sm">
-                    HI
+            <!-- Ratee Info -->
+            <div class="bg-cream rounded-2xl p-3 mb-5 flex items-center gap-3 border-2 border-cream-deep">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-br from-sunset to-sunset-light flex items-center justify-center font-extrabold text-white text-lg flex-shrink-0">H</div>
+                <div class="min-w-0 flex-1">
+                    <h3 class="font-extrabold text-sm leading-tight">Hilman Al Hakim</h3>
+                    <span class="text-xs text-mocha">Quest Taker</span>
                 </div>
-                <div>
-                    <h4 class="font-bold text-slate-900 text-sm leading-tight">Hilman Al Hakim</h4>
-                    <p class="text-[11px] font-medium text-slate-500 mt-0.5">Sebagai Quest Taker</p>
-                    <p class="text-[10px] text-slate-400 truncate mt-0.5 max-w-[200px]">Beliin nasi goreng kantin A</p>
+                <div class="flex items-center gap-1 px-2 py-1 bg-white rounded-lg border border-cream-deep">
+                    <i data-lucide="star" class="w-3 h-3 text-golden fill-current"></i>
+                    <span class="text-xs font-bold font-mono">4.9</span>
                 </div>
             </div>
 
-            <!-- Star Rating Section -->
-            <div class="flex flex-col items-center mb-6">
-                <p class="text-sm font-bold text-slate-900 mb-3">Bagaimana pengalamanmu?</p>
-                
-                <div class="flex gap-1.5" id="starContainer">
-                    <!-- Bintang akan di-handle via JS -->
-                    <button class="star-btn p-1 text-slate-200 hover:text-amber-400 transition-colors focus:outline-none" data-value="1">
-                        <i data-lucide="star" class="w-8 h-8 pointer-events-none transition-all"></i>
-                    </button>
-                    <button class="star-btn p-1 text-slate-200 hover:text-amber-400 transition-colors focus:outline-none" data-value="2">
-                        <i data-lucide="star" class="w-8 h-8 pointer-events-none transition-all"></i>
-                    </button>
-                    <button class="star-btn p-1 text-slate-200 hover:text-amber-400 transition-colors focus:outline-none" data-value="3">
-                        <i data-lucide="star" class="w-8 h-8 pointer-events-none transition-all"></i>
-                    </button>
-                    <button class="star-btn p-1 text-slate-200 hover:text-amber-400 transition-colors focus:outline-none" data-value="4">
-                        <i data-lucide="star" class="w-8 h-8 pointer-events-none transition-all"></i>
-                    </button>
-                    <button class="star-btn p-1 text-slate-200 hover:text-amber-400 transition-colors focus:outline-none" data-value="5">
-                        <i data-lucide="star" class="w-8 h-8 pointer-events-none transition-all"></i>
-                    </button>
-                </div>
-                
-                <span id="ratingLabel" class="text-xs font-bold text-slate-400 mt-2 h-4 transition-colors">(Klik untuk pilih)</span>
+            <!-- Quest label -->
+            <div class="flex items-center gap-2 mb-4 text-xs text-mocha">
+                <i data-lucide="clipboard-list" class="w-3.5 h-3.5"></i>
+                <span>Quest: <span class="font-bold text-espresso">Beliin Kopi Senja</span></span>
             </div>
 
-            <!-- Review Input -->
-            <div class="flex flex-col gap-1.5 mb-6">
-                <div class="flex justify-between items-end px-1">
-                    <label for="reviewInput" class="text-xs font-bold text-slate-500 uppercase tracking-wider">Ulasan (Opsional)</label>
-                    <span id="reviewCounter" class="text-[10px] font-semibold text-slate-400">0/300</span>
+            <!-- Stars -->
+            <div class="text-center mb-2">
+                <div id="starRow" class="flex items-center justify-center gap-2 mb-3">
+                    <button type="button" data-star="1" onmouseenter="previewStar(1)" onmouseleave="resetPreview()" onclick="setStar(1)" class="star-btn transition-transform hover:scale-110 active:scale-90">
+                        <i data-lucide="star" class="w-9 h-9 text-latte"></i>
+                    </button>
+                    <button type="button" data-star="2" onmouseenter="previewStar(2)" onmouseleave="resetPreview()" onclick="setStar(2)" class="star-btn transition-transform hover:scale-110 active:scale-90">
+                        <i data-lucide="star" class="w-9 h-9 text-latte"></i>
+                    </button>
+                    <button type="button" data-star="3" onmouseenter="previewStar(3)" onmouseleave="resetPreview()" onclick="setStar(3)" class="star-btn transition-transform hover:scale-110 active:scale-90">
+                        <i data-lucide="star" class="w-9 h-9 text-latte"></i>
+                    </button>
+                    <button type="button" data-star="4" onmouseenter="previewStar(4)" onmouseleave="resetPreview()" onclick="setStar(4)" class="star-btn transition-transform hover:scale-110 active:scale-90">
+                        <i data-lucide="star" class="w-9 h-9 text-latte"></i>
+                    </button>
+                    <button type="button" data-star="5" onmouseenter="previewStar(5)" onmouseleave="resetPreview()" onclick="setStar(5)" class="star-btn transition-transform hover:scale-110 active:scale-90">
+                        <i data-lucide="star" class="w-9 h-9 text-latte"></i>
+                    </button>
                 </div>
-                <textarea id="reviewInput" rows="3" placeholder="Bagikan pengalamanmu bekerja sama dengan Hilman..." maxlength="300"
-                    class="w-full px-4 py-3 rounded-xl border border-slate-200 bg-white text-slate-900 text-sm placeholder:text-slate-400 focus:outline-none focus:border-orange-500 focus:ring-4 focus:ring-orange-50 transition-all resize-none leading-relaxed"></textarea>
+                <span id="starLabel" class="inline-block text-sm font-bold text-mocha px-4 py-1.5 rounded-full bg-cream-deep min-w-[140px]">Pilih rating</span>
             </div>
 
-            <!-- Action Buttons -->
-            <div class="flex flex-col gap-3 mt-auto">
-                <button id="submitBtn" disabled class="w-full bg-slate-200 text-slate-400 font-bold py-3.5 rounded-xl transition-all flex justify-center items-center gap-2 cursor-not-allowed">
-                    <span id="submitText">Kirim Penilaian</span>
-                    <i id="submitSpinner" data-lucide="loader-2" class="w-4 h-4 animate-spin hidden"></i>
+            <!-- Review textarea -->
+            <div class="mt-5">
+                <label class="flex items-center gap-2 text-sm font-extrabold mb-2">
+                    <i data-lucide="message-square" class="w-4 h-4 text-sunset"></i>
+                    Ulasan
+                </label>
+                <textarea id="reviewInput" maxlength="300" rows="3" placeholder="Tulis ulasan (opsional)" class="warm-input resize-none text-sm" oninput="onReviewInput()"></textarea>
+                <div class="flex justify-end mt-1">
+                    <span id="reviewCounter" class="text-xs text-latte font-mono font-semibold">0 / 300</span>
+                </div>
+            </div>
+
+            <!-- Actions -->
+            <div class="mt-5 space-y-3">
+                <button id="submitRatingBtn" onclick="submitRating()" disabled class="btn-sunset w-full flex items-center justify-center gap-2 opacity-40 cursor-not-allowed">
+                    <span id="ratingSubmitContent" class="flex items-center gap-2">
+                        <i data-lucide="check" class="w-5 h-5"></i>
+                        <span>Kirim Rating</span>
+                    </span>
                 </button>
-                <button onclick="closeModal()" class="w-full text-xs font-semibold text-slate-400 hover:text-slate-600 transition-colors py-2 active:scale-95">
-                    Lewati untuk sekarang
-                </button>
+                <button onclick="skipRating()" class="btn-ghost w-full text-sm">Lewati untuk sekarang</button>
             </div>
 
         </div>
     </div>
 
-    <!-- Toast Notification Simulation -->
-    <div id="toast" class="fixed top-0 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-md transform -translate-y-full opacity-0 transition-all duration-300 z-[60] mt-4 pointer-events-none">
-        <div class="flex items-center gap-3 px-4 py-3 rounded-xl shadow-md border bg-emerald-50 border-emerald-200 text-emerald-700">
-            <i data-lucide="check-circle-2" class="w-5 h-5"></i>
-            <p class="text-sm font-semibold">Terima kasih atas penilaianmu!</p>
-        </div>
-    </div>
-
+    <script src="/assets/app.js"></script>
     <script>
-        lucide.createIcons();
+        // ===== State =====
+        let currentRating = 0;
 
-        // ---- Modal Logic ----
-        const modal = document.getElementById('ratingModal');
-        const content = document.getElementById('modalContent');
-        
-        function openModal() {
-            modal.classList.remove('opacity-0', 'pointer-events-none');
-            content.classList.remove('scale-95');
-            content.classList.add('scale-100');
-            resetForm();
-        }
-
-        function closeModal() {
-            modal.classList.add('opacity-0', 'pointer-events-none');
-            content.classList.remove('scale-100');
-            content.classList.add('scale-95');
-        }
-
-        // ---- Star Rating Logic ----
-        const stars = document.querySelectorAll('.star-btn');
-        const ratingLabel = document.getElementById('ratingLabel');
-        const submitBtn = document.getElementById('submitBtn');
-        let selectedValue = 0;
-
-        const labels = {
-            1: "Sangat Buruk",
-            2: "Buruk",
-            3: "Cukup",
-            4: "Baik",
-            5: "Sangat Baik"
+        const LABELS = {
+            1: 'Sangat Buruk',
+            2: 'Buruk',
+            3: 'Cukup',
+            4: 'Baik',
+            5: 'Sangat Baik',
         };
 
-        const colorClasses = {
-            empty: ['text-slate-200'],
-            filled: ['text-amber-400', 'fill-amber-400', 'scale-110']
-        };
+        // ===== Open / Close =====
+        function openRatingModal() {
+            const overlay = document.getElementById('ratingOverlay');
+            overlay.classList.remove('hidden');
+            overlay.classList.add('flex');
+            document.body.style.overflow = 'hidden';
+            const modal = document.getElementById('ratingModal');
+            modal.classList.remove('animate-bounce-in');
+            void modal.offsetWidth;
+            modal.classList.add('animate-bounce-in');
+        }
 
-        function updateStars(value) {
-            stars.forEach(star => {
-                const starVal = parseInt(star.getAttribute('data-value'));
-                // Use .querySelector('svg') instead of 'i' because Lucide replaces 'i' with 'svg'
-                const icon = star.querySelector('svg');
-                
-                if (icon) {
-                    if (starVal <= value) {
-                        icon.classList.remove(...colorClasses.empty);
-                        icon.classList.add(...colorClasses.filled);
-                    } else {
-                        icon.classList.remove(...colorClasses.filled);
-                        icon.classList.add(...colorClasses.empty);
-                    }
+        function closeRatingModal() {
+            const overlay = document.getElementById('ratingOverlay');
+            overlay.classList.add('hidden');
+            overlay.classList.remove('flex');
+            document.body.style.overflow = '';
+            resetModal();
+        }
+
+        // ===== Star logic =====
+        function paintStars(n) {
+            document.querySelectorAll('.star-btn').forEach(btn => {
+                const val = parseInt(btn.dataset.star);
+                const icon = btn.querySelector('i');
+                if (val <= n) {
+                    icon.className = 'w-9 h-9 star-rating fill-current';
+                } else {
+                    icon.className = 'w-9 h-9 text-latte';
                 }
             });
+        }
 
-            if(value > 0) {
-                ratingLabel.textContent = labels[value];
-                ratingLabel.classList.replace('text-slate-400', 'text-orange-500');
+        function updateLabel(n) {
+            const label = document.getElementById('starLabel');
+            if (n > 0) {
+                label.textContent = LABELS[n];
+                if (n >= 4) {
+                    label.className = 'inline-block text-sm font-bold text-teal-500 px-4 py-1.5 rounded-full bg-teal-50 min-w-[140px]';
+                } else if (n === 3) {
+                    label.className = 'inline-block text-sm font-bold text-golden px-4 py-1.5 rounded-full bg-golden/15 min-w-[140px]';
+                } else {
+                    label.className = 'inline-block text-sm font-bold text-coral px-4 py-1.5 rounded-full bg-coral/10 min-w-[140px]';
+                }
             } else {
-                ratingLabel.textContent = "(Klik untuk pilih)";
-                ratingLabel.classList.replace('text-orange-500', 'text-slate-400');
+                label.textContent = 'Pilih rating';
+                label.className = 'inline-block text-sm font-bold text-mocha px-4 py-1.5 rounded-full bg-cream-deep min-w-[140px]';
             }
         }
 
-        // Hover Effect
-        stars.forEach(star => {
-            star.addEventListener('mouseenter', () => {
-                const hoverVal = parseInt(star.getAttribute('data-value'));
-                updateStars(hoverVal);
-            });
-            
-            star.addEventListener('mouseleave', () => {
-                updateStars(selectedValue);
-            });
-
-            // Click Effect
-            star.addEventListener('click', () => {
-                selectedValue = parseInt(star.getAttribute('data-value'));
-                updateStars(selectedValue);
-                
-                // Enable Submit Button
-                submitBtn.disabled = false;
-                submitBtn.classList.remove('bg-slate-200', 'text-slate-400', 'cursor-not-allowed');
-                submitBtn.classList.add('bg-orange-500', 'hover:bg-orange-600', 'text-white', 'shadow-sm', 'active:scale-95');
-            });
-        });
-
-        // ---- Review Counter Logic ----
-        const reviewInput = document.getElementById('reviewInput');
-        const reviewCounter = document.getElementById('reviewCounter');
-        
-        reviewInput.addEventListener('input', function() {
-            const len = this.value.length;
-            reviewCounter.textContent = `${len}/300`;
-            if (len >= 290) reviewCounter.classList.replace('text-slate-400', 'text-red-500');
-            else reviewCounter.classList.replace('text-red-500', 'text-slate-400');
-        });
-
-        // ---- Submit Simulation ----
-        const submitText = document.getElementById('submitText');
-        const submitSpinner = document.getElementById('submitSpinner');
-
-        submitBtn.addEventListener('click', () => {
-            if(selectedValue === 0) return;
-
-            // Loading state
-            submitBtn.disabled = true;
-            submitText.textContent = "Mengirim...";
-            submitSpinner.classList.remove('hidden');
-
-            setTimeout(() => {
-                closeModal();
-                
-                // Show Toast
-                const toast = document.getElementById('toast');
-                toast.classList.replace('-translate-y-full', 'translate-y-4');
-                toast.classList.replace('opacity-0', 'opacity-100');
-                
-                setTimeout(() => {
-                    toast.classList.replace('translate-y-4', '-translate-y-full');
-                    toast.classList.replace('opacity-100', 'opacity-0');
-                    
-                    // Reset modal state
-                    resetForm();
-                }, 3000);
-
-            }, 1000);
-        });
-
-        function resetForm() {
-            selectedValue = 0;
-            updateStars(0);
-            reviewInput.value = '';
-            reviewCounter.textContent = '0/300';
-            
-            submitBtn.disabled = true;
-            submitBtn.classList.add('bg-slate-200', 'text-slate-400', 'cursor-not-allowed');
-            submitBtn.classList.remove('bg-orange-500', 'hover:bg-orange-600', 'text-white', 'shadow-sm', 'active:scale-95');
-            
-            submitText.textContent = "Kirim Penilaian";
-            submitSpinner.classList.add('hidden');
+        function previewStar(n) {
+            paintStars(n);
+            updateLabel(n);
         }
 
+        function resetPreview() {
+            paintStars(currentRating);
+            updateLabel(currentRating);
+        }
+
+        function setStar(n) {
+            currentRating = n;
+            paintStars(n);
+            updateLabel(n);
+            validateRating();
+            YG.haptic(8);
+        }
+
+        // ===== Review counter =====
+        function onReviewInput() {
+            const input = document.getElementById('reviewInput');
+            const counter = document.getElementById('reviewCounter');
+            const len = input.value.length;
+            const pct = len / 300;
+            counter.textContent = len + ' / 300';
+            counter.className = 'text-xs font-mono font-semibold ';
+            if (pct >= 1) {
+                counter.className += 'text-coral';
+            } else if (pct >= 0.9) {
+                counter.className += 'text-sunset';
+            } else {
+                counter.className += 'text-latte';
+            }
+        }
+
+        // ===== Validate =====
+        function validateRating() {
+            const btn = document.getElementById('submitRatingBtn');
+            if (currentRating > 0) {
+                btn.disabled = false;
+                btn.classList.remove('opacity-40', 'cursor-not-allowed');
+            } else {
+                btn.disabled = true;
+                btn.classList.add('opacity-40', 'cursor-not-allowed');
+            }
+        }
+
+        // ===== Submit =====
+        function submitRating() {
+            const btn = document.getElementById('submitRatingBtn');
+            const content = document.getElementById('ratingSubmitContent');
+            if (btn.disabled) return;
+
+            btn.disabled = true;
+            content.innerHTML = '<i data-lucide="loader-2" class="w-5 h-5 animate-spin-slow"></i><span>Mengirim...</span>';
+            if (window.lucide) lucide.createIcons();
+
+            const rect = btn.getBoundingClientRect();
+            setTimeout(() => {
+                YG.confetti(rect.left + rect.width / 2, rect.top + rect.height / 2);
+                YG.toast('Rating terkirim! Terima kasih', 'success');
+                setTimeout(() => {
+                    closeRatingModal();
+                }, 1000);
+            }, 800);
+        }
+
+        // ===== Skip =====
+        function skipRating() {
+            YG.toast('Rating dilewati', 'info', 2000);
+            closeRatingModal();
+        }
+
+        // ===== Reset =====
+        function resetModal() {
+            currentRating = 0;
+            paintStars(0);
+            updateLabel(0);
+            document.getElementById('reviewInput').value = '';
+            onReviewInput();
+            validateRating();
+            const content = document.getElementById('ratingSubmitContent');
+            content.innerHTML = '<i data-lucide="check" class="w-5 h-5"></i><span>Kirim Rating</span>';
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // ===== Close on backdrop click =====
+        document.getElementById('ratingOverlay').addEventListener('click', (e) => {
+            if (e.target.id === 'ratingOverlay') closeRatingModal();
+        });
     </script>
 </body>
 </html>
