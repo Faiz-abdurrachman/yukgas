@@ -269,7 +269,7 @@ if (!document.getElementById('ripple-style')) {
 }
 
 // ===== Page Enter Animation =====
-document.addEventListener('DOMContentLoaded', () => {
+window.addEventListener('load', () => {
   document.body.classList.add('animate-page-enter');
 
   // Auto-init lucide (with retry in case CDN is slow)

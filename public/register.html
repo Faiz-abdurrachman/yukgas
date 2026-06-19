@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
 
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js" onload="if(window.YG){YG.initLucide()}else{window.lucide&&lucide.createIcons()}"></script>
     <link rel="stylesheet" href="/assets/style.css">
 
     <script>
@@ -289,7 +289,7 @@
                 const isHidden = input.type === 'password';
                 input.type = isHidden ? 'text' : 'password';
                 iconEl.setAttribute('data-lucide', isHidden ? 'eye-off' : 'eye');
-                lucide.createIcons();
+                if (window.lucide) lucide.createIcons();
                 YG.haptic(8);
             });
         });
@@ -323,7 +323,7 @@
                     <i data-lucide="party-popper" class="w-5 h-5"></i>
                     <span>Akun dibuat!</span>
                 `;
-                lucide.createIcons();
+                if (window.lucide) lucide.createIcons();
 
                 YG.toast('Akun berhasil dibuat! Selamat bergabung', 'success');
 
