@@ -28,17 +28,23 @@
         }
     </script>
 </head>
-<body class="bg-cream text-espresso font-sans antialiased bg-dotted min-h-screen flex items-center justify-center">
+<body class="bg-cream text-espresso font-sans antialiased min-h-screen flex items-center justify-center">
 
     <!-- Centered demo content -->
     <div class="max-w-md mx-auto w-full px-4 py-10 relative z-10">
 
-        <!-- Logo -->
-        <div class="flex items-center justify-center gap-2 mb-10 animate-reveal">
-            <div class="w-9 h-9 bg-gradient-to-br from-sunset to-sunset-light rounded-xl flex items-center justify-center shadow-warm">
-                <i data-lucide="users-round" class="w-5 h-5 text-white"></i>
-            </div>
-            <span class="font-extrabold text-xl tracking-tight">YUKgas<span class="text-sunset">.in</span></span>
+        <!-- Back + Logo -->
+        <div class="flex items-center justify-between mb-8 animate-reveal">
+            <a href="/quest-detail" class="btn-ghost text-sm flex items-center gap-1.5">
+                <i data-lucide="arrow-left" class="w-4 h-4"></i>
+                <span>Kembali</span>
+            </a>
+            <a href="/dashboard" class="flex items-center gap-2 group">
+                <div class="w-9 h-9 bg-gradient-to-br from-sunset to-sunset-light rounded-xl flex items-center justify-center shadow-warm group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                    <i data-lucide="users-round" class="w-5 h-5 text-white"></i>
+                </div>
+                <span class="font-extrabold text-xl tracking-tight">YUKgas<span class="text-sunset">.in</span></span>
+            </a>
         </div>
 
         <!-- Trigger Card -->

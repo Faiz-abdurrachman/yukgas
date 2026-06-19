@@ -36,7 +36,7 @@
         }
     </script>
 </head>
-<body class="bg-cream text-espresso font-sans antialiased bg-dotted">
+<body class="bg-cream text-espresso font-sans antialiased">
 
     <!-- Navbar -->
     <nav class="bg-white/80 backdrop-blur-lg border-b-2 border-cream-deep sticky top-0 z-50">
@@ -49,10 +49,10 @@
             </a>
 
             <div class="flex items-center gap-3">
-                <a href="/dashboard" class="btn-ghost text-sm hidden sm:block">Jelajahi</a>
-                <a href="/dashboard" class="btn-sunset text-sm flex items-center gap-2">
+                <a href="/login" class="btn-ghost text-sm hidden sm:block">Masuk</a>
+                <a href="/register" class="btn-sunset text-sm flex items-center gap-2">
                     <i data-lucide="rocket" class="w-4 h-4"></i>
-                    <span>Mulai Gas</span>
+                    <span>Daftar</span>
                 </a>
             </div>
         </div>
@@ -87,13 +87,13 @@
             </p>
 
             <div class="flex flex-col sm:flex-row items-center justify-center gap-4 animate-reveal delay-4">
-                <a href="/dashboard" class="btn-sunset text-base flex items-center gap-2 w-full sm:w-auto justify-center">
+                <a href="/register" class="btn-sunset text-base flex items-center gap-2 w-full sm:w-auto justify-center">
+                    <i data-lucide="user-plus" class="w-5 h-5"></i>
+                    <span>Gas Daftar Sekarang</span>
+                </a>
+                <a href="/dashboard" class="btn-outline text-base flex items-center gap-2 w-full sm:w-auto justify-center">
                     <i data-lucide="layout-grid" class="w-5 h-5"></i>
                     <span>Lihat Feed Quest</span>
-                </a>
-                <a href="/quests/create" class="btn-outline text-base flex items-center gap-2 w-full sm:w-auto justify-center">
-                    <i data-lucide="plus-circle" class="w-5 h-5"></i>
-                    <span>Posting Quest</span>
                 </a>
             </div>
 
