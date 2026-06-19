@@ -3,6 +3,7 @@
    Toast, Confetti, Page Transitions
    =================================== */
 
+const YG = {
   // ===== Toast Notification System =====
   toast(message, type = 'info', duration = 2500) {
     this.init();
