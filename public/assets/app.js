@@ -21,7 +21,7 @@
     `;
     this.toastContainer.appendChild(toast);
 
-    if (window.lucide) lucide.createIcons();
+    this.initLucide();
 
     setTimeout(() => {
       toast.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
@@ -96,7 +96,7 @@
     overlay.appendChild(popup);
     document.body.appendChild(overlay);
 
-    if (window.lucide) lucide.createIcons();
+    this.initLucide();
 
     // Animate in
     requestAnimationFrame(() => {
@@ -148,7 +148,7 @@
     `;
     this.toastContainer.appendChild(toast);
 
-    if (window.lucide) lucide.createIcons();
+    this.initLucide();
 
     setTimeout(() => {
       toast.style.transition = 'all 0.4s cubic-bezier(0.4, 0, 0.2, 1)';
@@ -239,6 +239,17 @@
   // ===== Haptic-like vibration feedback =====
   haptic(pattern = 10) {
     if (navigator.vibrate) navigator.vibrate(pattern);
+  },
+
+  // ===== Lucide init with retry (fixes CDN race condition) =====
+  initLucide(retries = 0) {
+    if (window.lucide && typeof lucide.createIcons === 'function') {
+      lucide.createIcons();
+      return;
+    }
+    if (retries < 30) {
+      setTimeout(() => this.initLucide(retries + 1), 100);
+    }
   }
 };
 
@@ -261,8 +272,8 @@ if (!document.getElementById('ripple-style')) {
 document.addEventListener('DOMContentLoaded', () => {
   document.body.classList.add('animate-page-enter');
 
-  // Auto-init lucide
-  if (window.lucide) lucide.createIcons();
+  // Auto-init lucide (with retry in case CDN is slow)
+  YG.initLucide();
 
   // Ripple on all buttons
   document.querySelectorAll('a[href], button').forEach(el => {
