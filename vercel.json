@@ -13,6 +13,7 @@
     { "source": "/quests/create", "destination": "/create-quest.html" },
     { "source": "/quests/:id", "destination": "/quest-detail.html" },
     { "source": "/my-quests", "destination": "/my-quests.html" },
+    { "source": "/notifications", "destination": "/notifications.html" },
     { "source": "/users/:id", "destination": "/user-profile.html" },
     { "source": "/profile", "destination": "/my-profile.html" },
     { "source": "/rating", "destination": "/rating-modal.html" }
