@@ -256,8 +256,8 @@
                 YG.toast('Selamat datang kembali!', 'success');
 
                 setTimeout(() => {
-                    YG.navigate('/dashboard');
-                }, 1000);
+                    window.location.href = '/dashboard';
+                }, 1500);
             }, 800);
         });
     </script>
