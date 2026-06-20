@@ -4,6 +4,15 @@
    =================================== */
 
 const YG = {
+  // ===== Init (lazy create toast container) =====
+  init() {
+    if (this.toastContainer) return;
+    this.toastContainer = document.createElement('div');
+    this.toastContainer.className = 'toast-container';
+    this.toastContainer.style.cssText = 'position:fixed;top:1rem;left:50%;transform:translateX(-50%);z-index:9999;display:flex;flex-direction:column;gap:0.5rem;pointer-events:none;width:max-content;max-width:90vw;';
+    document.body.appendChild(this.toastContainer);
+  },
+
   // ===== Toast Notification System =====
   toast(message, type = 'info', duration = 2500) {
     this.init();
@@ -161,36 +170,38 @@ const YG = {
 
   // ===== Confetti Burst =====
   confetti(x = window.innerWidth / 2, y = window.innerHeight / 2) {
-    const colors = ['#FF6B35', '#FFB627', '#0CA789', '#FF9F1C', '#FFD166'];
-    const count = 30;
+    try {
+      const colors = ['#FF6B35', '#FFB627', '#0CA789', '#FF9F1C', '#FFD166'];
+      const count = 30;
 
-    for (let i = 0; i < count; i++) {
-      const piece = document.createElement('div');
-      piece.className = 'confetti-piece';
-      piece.style.left = x + 'px';
-      piece.style.top = y + 'px';
-      piece.style.background = colors[Math.floor(Math.random() * colors.length)];
-      piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
-      piece.style.animationDelay = (Math.random() * 0.2) + 's';
-      piece.style.animationDuration = (0.8 + Math.random() * 0.6) + 's';
+      for (let i = 0; i < count; i++) {
+        const piece = document.createElement('div');
+        piece.className = 'confetti-piece';
+        piece.style.left = x + 'px';
+        piece.style.top = y + 'px';
+        piece.style.background = colors[Math.floor(Math.random() * colors.length)];
+        piece.style.borderRadius = Math.random() > 0.5 ? '50%' : '2px';
+        piece.style.animationDelay = (Math.random() * 0.2) + 's';
+        piece.style.animationDuration = (0.8 + Math.random() * 0.6) + 's';
 
-      const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
-      const velocity = 100 + Math.random() * 150;
-      const tx = Math.cos(angle) * velocity;
-      const ty = Math.sin(angle) * velocity - 100;
+        const angle = (Math.PI * 2 * i) / count + (Math.random() - 0.5) * 0.5;
+        const velocity = 100 + Math.random() * 150;
+        const tx = Math.cos(angle) * velocity;
+        const ty = Math.sin(angle) * velocity - 100;
 
-      piece.style.animate = piece.animate([
-        { transform: 'translate(0, 0) rotate(0deg)', opacity: 1 },
-        { transform: `translate(${tx}px, ${ty + 300}px) rotate(${720 * (Math.random() > 0.5 ? 1 : -1)}deg)`, opacity: 0 }
-      ], {
-        duration: 800 + Math.random() * 600,
-        easing: 'cubic-bezier(0.1, 0.5, 0.3, 1)',
-        fill: 'forwards'
-      });
+        piece.animate([
+          { transform: 'translate(0, 0) rotate(0deg)', opacity: 1 },
+          { transform: `translate(${tx}px, ${ty + 300}px) rotate(${720 * (Math.random() > 0.5 ? 1 : -1)}deg)`, opacity: 0 }
+        ], {
+          duration: 800 + Math.random() * 600,
+          easing: 'cubic-bezier(0.1, 0.5, 0.3, 1)',
+          fill: 'forwards'
+        });
 
       document.body.appendChild(piece);
       setTimeout(() => piece.remove(), 1500);
     }
+    } catch(e) { console.warn('confetti skipped:', e.message); }
   },
 
   // ===== Page Transition Out =====
