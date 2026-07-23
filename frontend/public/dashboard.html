@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard — YUKgas.in</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js" onload="if(window.YG){YG.initLucide()}else{window.lucide&&lucide.createIcons()}"></script>
+    <link rel="stylesheet" href="/assets/style.css">
+
+    <script>
+        tailwind.config = {
+            theme: { extend: {
+                fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
+                colors: {
+                    sunset: '#FF6B35', 'sunset-light': '#FF9F1C', golden: '#FFB627',
+                    teal: { 50: '#E6FAF5', 500: '#0CA789', 600: '#0A8E78' }, coral: '#FF4757',
+                    cream: { DEFAULT: '#FFF8F0', deep: '#FFF0E0' },
+                    espresso: '#2D1B12', mocha: '#8B7355', latte: '#B8A088',
+                    borderWarm: '#FFE4D1'
+                }
+            }}
+        }
+    </script>
+</head>
+<body class="bg-cream text-espresso font-sans antialiased">
+
+    <!-- Full Screen Responsive Container -->
+    <div class="w-full min-h-screen bg-cream relative flex flex-col">
+
+
+
+        <!-- Header -->
+        <header class="bg-white border-b-2 border-cream-deep sticky top-0 z-50 px-4 py-3 md:py-4 shadow-warm-sm">
+            <div class="max-w-md md:max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto w-full">
+                
+                <!-- Mobile Header Layout (hidden on desktop) -->
+                <div class="flex flex-col gap-3 md:hidden">
+                    <div class="flex items-center justify-between">
+                        <a href="/dashboard" class="flex items-center gap-2 group">
+                            <div class="w-8 h-8 bg-gradient-to-br from-sunset to-sunset-light rounded-xl flex items-center justify-center">
+                                <i data-lucide="users-round" class="w-5 h-5 text-white"></i>
+                            </div>
+                            <span class="font-extrabold text-lg">YUKgas<span class="text-sunset">.in</span></span>
+                        </a>
+                        <a href="/profile" class="relative">
+                            <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-golden to-sunset-light flex items-center justify-center font-bold text-white text-sm">F</div>
+                            <span class="absolute -top-0.5 -right-0.5 w-2.5 h-2.5 bg-coral rounded-full border-2 border-white"></span>
+                        </a>
+                    </div>
+                    <div class="relative">
+                        <i data-lucide="search" class="w-5 h-5 text-latte absolute left-4 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" placeholder="Cari quest, lokasi, kategori..." class="warm-input pl-12 py-2.5 text-sm rounded-xl">
+                    </div>
+                </div>
+
+                <!-- Desktop Header Layout (hidden on mobile) -->
+                <div class="hidden md:flex items-center justify-between gap-4">
+                    <!-- Brand -->
+                    <a href="/dashboard" class="flex items-center gap-2.5 group shrink-0">
+                        <div class="w-9 h-9 bg-gradient-to-br from-sunset to-sunset-light rounded-xl flex items-center justify-center text-white shadow-warm group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                            <i data-lucide="users-round" class="w-5 h-5"></i>
+                        </div>
+                        <span class="font-extrabold text-xl tracking-tight">YUKgas<span class="text-sunset">.in</span></span>
+                    </a>
+
+                    <!-- Search Bar (Desktop) -->
+                    <div class="relative w-full max-w-xs lg:max-w-md mx-4">
+                        <i data-lucide="search" class="w-4 h-4 text-latte absolute left-4 top-1/2 -translate-y-1/2"></i>
+                        <input type="text" placeholder="Cari quest, lokasi, kategori..." class="warm-input pl-11 py-2 text-sm rounded-xl">
+                    </div>
+
+                    <!-- Navigation Links & Profile (Desktop) -->
+                    <div class="flex items-center gap-6">
+                        <a href="/dashboard" class="flex items-center gap-1.5 text-sm font-bold text-sunset">
+                            <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                            <span>Feed</span>
+                        </a>
+                        <a href="/my-quests" class="flex items-center gap-1.5 text-sm font-semibold text-mocha hover:text-espresso transition-colors">
+                            <i data-lucide="list-checks" class="w-4 h-4"></i>
+                            <span>QuestKu</span>
+                        </a>
+                        <a href="/notifications" class="flex items-center gap-1.5 text-sm font-semibold text-mocha hover:text-espresso transition-colors relative">
+                            <i data-lucide="bell" class="w-4 h-4"></i>
+                            <span>Notif</span>
+                            <span class="notif-badge-desktop absolute -top-1.5 -right-2 bg-coral text-white text-[8px] font-bold px-1.5 py-0.2 rounded-full leading-none hidden">0</span>
+                        </a>
+                        <a href="/profile" class="flex items-center gap-2 text-sm font-semibold text-mocha hover:text-espresso transition-colors border-l pl-6 border-cream-deep">
+                            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-golden to-sunset-light flex items-center justify-center font-bold text-white text-xs">F</div>
+                            <span>Profil</span>
+                        </a>
+                        <!-- Prominent Add button in header on desktop -->
+                        <a href="/quests/create" class="btn-sunset px-5 py-2 text-sm flex items-center gap-1.5 text-white hover:scale-105 transition-transform shrink-0">
+                            <i data-lucide="plus" class="w-4 h-4"></i>
+                            <span>Gas!</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+
+
+        <!-- Filter Chips -->
+        <div class="bg-white/50 border-b border-cream-deep py-3 md:py-4">
+            <div class="max-w-md md:max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto w-full px-4 md:px-8">
+                <div class="flex gap-2.5 overflow-x-auto no-scrollbar md:flex-wrap md:justify-start">
+                    <button onclick="filterChip(this)" class="filter-chip active px-4 py-2 rounded-full text-sm font-bold bg-espresso text-white whitespace-nowrap flex items-center gap-1.5">
+                        <i data-lucide="layers" class="w-4 h-4"></i> Semua
+                    </button>
+                    <button onclick="filterChip(this)" class="filter-chip px-4 py-2 rounded-full text-sm font-semibold bg-white text-mocha border-2 border-cream-deep whitespace-nowrap flex items-center gap-1.5 hover:border-sunset transition-colors">
+                        <i data-lucide="bike" class="w-4 h-4"></i> Transportasi
+                    </button>
+                    <button onclick="filterChip(this)" class="filter-chip px-4 py-2 rounded-full text-sm font-semibold bg-white text-mocha border-2 border-cream-deep whitespace-nowrap flex items-center gap-1.5 hover:border-sunset transition-colors">
+                        <i data-lucide="utensils-crossed" class="w-4 h-4"></i> Makanan
+                    </button>
+                    <button onclick="filterChip(this)" class="filter-chip px-4 py-2 rounded-full text-sm font-semibold bg-white text-mocha border-2 border-cream-deep whitespace-nowrap flex items-center gap-1.5 hover:border-sunset transition-colors">
+                        <i data-lucide="printer" class="w-4 h-4"></i> Administrasi
+                    </button>
+                    <button onclick="filterChip(this)" class="filter-chip px-4 py-2 rounded-full text-sm font-semibold bg-white text-mocha border-2 border-cream-deep whitespace-nowrap flex items-center gap-1.5 hover:border-sunset transition-colors">
+                        <i data-lucide="package-2" class="w-4 h-4"></i> Lainnya
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Quest Feed -->
+        <main class="flex-1 max-w-md md:max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto w-full px-4 py-6 md:py-8 pb-32 md:pb-16 flex flex-col gap-6">
+
+            <div class="flex items-center justify-between mb-2 animate-reveal">
+                <div>
+                    <h2 class="text-xl md:text-2xl font-extrabold tracking-tight">Quest Terbaru</h2>
+                    <p class="text-xs md:text-sm text-mocha mt-0.5 md:mt-1">Sapa siapa yang butuh bantuan hari ini</p>
+                </div>
+                <span class="text-xs md:text-sm font-bold text-sunset bg-sunset/10 px-3 md:px-4 py-1.5 md:py-2 rounded-full flex items-center gap-1.5">
+                    <span class="w-1.5 h-1.5 rounded-full bg-sunset animate-pulse"></span>
+                    12 aktif
+                </span>
+            </div>
+
+            <!-- Responsive Grid for Quest Cards -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+                <!-- Dynamic quest card feed loaded via API -->
+            </div>
+
+            <!-- Load More -->
+            <div class="max-w-xs w-full mx-auto mt-2">
+                <button onclick="YG.toast('Quest lainnya segera hadir!', 'info')" class="btn-outline w-full text-sm py-3 flex items-center justify-center gap-1.5">
+                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                    <span>Muat Quest Lainnya</span>
+                </button>
+            </div>
+        </main>
+
+
+        <!-- FAB -->
+        <a href="/quests/create" class="absolute bottom-24 right-4 z-30 w-16 h-16 bg-gradient-to-br from-sunset to-sunset-light rounded-2xl flex items-center justify-center shadow-warm-lg animate-pulse-glow hover:scale-110 hover:rotate-90 transition-all duration-300 md:hidden">
+            <i data-lucide="plus" class="w-7 h-7 text-white"></i>
+        </a>
+
+        <!-- Bottom Navigation -->
+        <nav class="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t-2 border-cream-deep px-4 py-3 pb-safe z-40 md:hidden" style="padding-bottom: env(safe-area-inset-bottom, 12px);">
+            <div class="max-w-lg mx-auto flex items-center justify-around w-full">
+                <a href="/dashboard" class="flex flex-col items-center gap-1 px-2 py-1 group">
+                    <div class="w-10 h-10 rounded-xl bg-sunset/10 text-sunset flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-sunset">Feed</span>
+                </a>
+                <a href="/my-quests" class="flex flex-col items-center gap-1 px-2 py-1 group">
+                    <div class="w-10 h-10 rounded-xl text-mocha flex items-center justify-center group-hover:bg-cream-deep group-hover:scale-110 transition-all">
+                        <i data-lucide="list-checks" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold text-mocha">QuestKu</span>
+                </a>
+                <!-- FAB Create -->
+                <a href="/quests/create" class="flex flex-col items-center gap-1 -mt-6">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-br from-sunset to-sunset-light flex items-center justify-center shadow-warm-lg hover:scale-110 hover:rotate-90 transition-all duration-300">
+                        <i data-lucide="plus" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-sunset">Gas!</span>
+                </a>
+                <a href="/notifications" class="flex flex-col items-center gap-1 px-2 py-1 group relative">
+                    <div class="w-10 h-10 rounded-xl text-mocha flex items-center justify-center group-hover:bg-cream-deep group-hover:scale-110 transition-all">
+                        <i data-lucide="bell" class="w-5 h-5"></i>
+                    </div>
+                    <span class="notif-badge-mobile absolute top-0 right-2 w-4 h-4 bg-coral rounded-full text-[8px] text-white font-bold flex items-center justify-center border border-white hidden">0</span>
+                    <span class="text-[10px] font-bold text-sunset">Notif</span>
+                </a>
+                <a href="/profile" class="flex flex-col items-center gap-1 px-2 py-1 group">
+                    <div class="w-10 h-10 rounded-xl text-mocha flex items-center justify-center group-hover:bg-cream-deep group-hover:scale-110 transition-all">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold text-mocha">Profil</span>
+                </a>
+            </div>
+        </nav>
+
+    </div>
+
+    <script src="/assets/app.js"></script>
+    <script src="/assets/notif-badge.js"></script>
+    <script>
+        // Check Authentication Session
+        if (!YG_AUTH.getToken()) {
+            window.location.href = '/login';
+        }
+
+        const currentUser = YG_AUTH.getUser();
+        let currentCategory = 'ALL';
+        let currentSearch = '';
+
+        // Dynamic Avatar Initials setup
+        const initials = currentUser.fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        document.querySelectorAll('a[href="/profile"] .rounded-xl, a[href="/profile"] .rounded-lg').forEach(el => {
+            el.textContent = initials;
+        });
+
+        // Search Input Handlers
+        document.querySelectorAll('input[placeholder*="Cari quest"]').forEach(input => {
+            input.addEventListener('input', (e) => {
+                loadQuests(currentCategory, e.target.value.trim());
+            });
+        });
+
+        // Filter chips handler
+        function filterChip(btn) {
+            const text = btn.textContent.trim();
+            let cat = 'ALL';
+            if (text.includes('Transportasi')) cat = 'TRANSPORT';
+            else if (text.includes('Makanan')) cat = 'FOOD';
+            else if (text.includes('Administrasi')) cat = 'ADMIN';
+            else if (text.includes('Lainnya')) cat = 'OTHER';
+
+            document.querySelectorAll('.filter-chip').forEach(c => {
+                c.classList.remove('active', 'bg-espresso', 'text-white');
+                c.classList.add('bg-white', 'text-mocha', 'border-2', 'border-cream-deep');
+            });
+            btn.classList.add('active', 'bg-espresso', 'text-white');
+            btn.classList.remove('bg-white', 'text-mocha', 'border-2', 'border-cream-deep');
+
+            loadQuests(cat, currentSearch);
+        }
+
+        // Load Quests from API
+        async function loadQuests(category = 'ALL', search = '') {
+            currentCategory = category;
+            currentSearch = search;
+
+            const feedContainer = document.querySelector('.grid.grid-cols-1');
+            feedContainer.innerHTML = `
+                <div class="col-span-full flex flex-col items-center justify-center py-12 text-mocha">
+                    <svg class="animate-spin-slow w-8 h-8 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                    </svg>
+                    <p class="font-medium">Memuat quest terbaru...</p>
+                </div>
+            `;
+
+            try {
+                let url = `${window.API_BASE_URL}/quests?status=OPEN`;
+                if (category !== 'ALL') url += `&category=${category}`;
+                if (search) url += `&search=${encodeURIComponent(search)}`;
+
+                const response = await fetch(url);
+                const data = await response.json();
+
+                if (!data.success) {
+                    feedContainer.innerHTML = `<p class="col-span-full text-center text-coral py-8 font-semibold">Gagal memuat quest.</p>`;
+                    return;
+                }
+
+                const quests = data.data.quests;
+
+                // Update active count badge
+                const activeBadge = document.querySelector('span.text-sunset.bg-sunset\\/10');
+                if (activeBadge) {
+                    activeBadge.innerHTML = `
+                        <span class="w-1.5 h-1.5 rounded-full bg-sunset animate-pulse"></span>
+                        ${data.data.pagination.total} aktif
+                    `;
+                }
+
+                if (quests.length === 0) {
+                    feedContainer.innerHTML = `
+                        <div class="col-span-full warm-card p-12 text-center border-dashed border-2 border-cream-deep">
+                            <i data-lucide="package-open" class="w-12 h-12 text-mocha mx-auto mb-3"></i>
+                            <p class="font-extrabold text-lg mb-1">Belum ada quest</p>
+                            <p class="text-sm text-mocha">Jadilah yang pertama membuat quest bantuan!</p>
+                        </div>
+                    `;
+                    if (window.lucide) lucide.createIcons();
+                    return;
+                }
+
+                feedContainer.innerHTML = quests.map((q, index) => {
+                    const categoryNames = {
+                        TRANSPORT: '🚗 Transportasi',
+                        FOOD: '🍔 Makanan',
+                        ADMIN: '📄 Administrasi',
+                        OTHER: '📦 Lainnya'
+                    };
+                    const categoryIcons = {
+                        TRANSPORT: 'bike',
+                        FOOD: 'utensils-crossed',
+                        ADMIN: 'printer',
+                        OTHER: 'package-2'
+                    };
+                    const catName = categoryNames[q.category] || 'Lainnya';
+                    const catIcon = categoryIcons[q.category] || 'package-2';
+
+                    const formattedPrice = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(q.compensation);
+
+                    const deadlineDate = new Date(q.deadline);
+                    const diffMs = deadlineDate - new Date();
+                    let deadlineStr = 'Kedaluwarsa';
+                    if (diffMs > 0) {
+                        const diffHours = Math.ceil(diffMs / (1000 * 60 * 60));
+                        if (diffHours < 24) {
+                            deadlineStr = `${diffHours} jam lagi`;
+                        } else {
+                            const diffDays = Math.ceil(diffHours / 24);
+                            deadlineStr = `${diffDays} hari lagi`;
+                        }
+                    }
+
+                    return `
+                        <a href="/quests/${q.id}" class="warm-card p-4 md:p-6 block group animate-reveal transition-all duration-300 hover:-translate-y-1.5 hover:shadow-warm-lg" style="animation-delay: ${index * 50}ms">
+                            <div class="flex items-start justify-between mb-3 md:mb-4">
+                                <div class="flex items-center gap-2.5 md:gap-3.5">
+                                    <div class="w-11 h-11 md:w-12 md:h-12 bg-sunset/10 text-sunset rounded-2xl flex items-center justify-center group-hover:scale-110 group-hover:rotate-6 transition-transform">
+                                        <i data-lucide="${catIcon}" class="w-5 h-5 md:w-6 md:h-6"></i>
+                                    </div>
+                                    <div>
+                                        <span class="text-[10px] font-bold text-sunset uppercase tracking-wide">${catName}</span>
+                                        <p class="text-xs text-mocha flex items-center gap-1 mt-0.5"><i data-lucide="clock" class="w-3.5 h-3.5"></i> ${deadlineStr}</p>
+                                    </div>
+                                </div>
+                                <span class="price-badge md:text-base">${formattedPrice}</span>
+                            </div>
+                            <h3 class="font-extrabold text-base md:text-lg mb-2 md:mb-3 group-hover:text-sunset transition-colors leading-snug">${q.title}</h3>
+                            <div class="flex items-center gap-3 text-xs md:text-sm text-mocha">
+                                <span class="flex items-center gap-1"><i data-lucide="map-pin" class="w-3.5 h-3.5"></i> ${q.location}</span>
+                                <span class="flex items-center gap-1"><i data-lucide="user" class="w-3.5 h-3.5"></i> ${q.giver.fullName.split(' ')[0]}</span>
+                            </div>
+                        </a>
+                    `;
+                }).join('');
+
+                if (window.lucide) lucide.createIcons();
+
+            } catch (error) {
+                console.error('Load feed error:', error);
+                feedContainer.innerHTML = `<p class="col-span-full text-center text-coral py-8 font-semibold">Gagal terhubung ke server backend.</p>`;
+            }
+        }
+
+        // Welcome toast and fetch data on load
+        window.addEventListener('DOMContentLoaded', () => {
+            loadQuests();
+            setTimeout(() => {
+                YG.toast(`Selamat datang kembali, ${currentUser.fullName.split(' ')[0]}!`, 'success', 2500);
+            }, 600);
+        });
+    </script>
+</body>
+</html>

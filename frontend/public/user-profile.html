@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Pengguna — YUKgas.in</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js" onload="if(window.YG){YG.initLucide()}else{window.lucide&&lucide.createIcons()}"></script>
+    <link rel="stylesheet" href="/assets/style.css">
+
+    <script>
+        tailwind.config = {
+            theme: { extend: {
+                fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
+                colors: {
+                    sunset: '#FF6B35', 'sunset-light': '#FF9F1C', golden: '#FFB627',
+                    teal: { 50: '#E6FAF5', 500: '#0CA789', 600: '#0A8E78' }, coral: '#FF4757',
+                    cream: { DEFAULT: '#FFF8F0', deep: '#FFF0E0' },
+                    espresso: '#2D1B12', mocha: '#8B7355', latte: '#B8A088',
+                    borderWarm: '#FFE4D1'
+                }
+            }}
+        }
+    </script>
+</head>
+<body class="bg-cream text-espresso font-sans antialiased">
+
+    <!-- Full Screen Responsive Container -->
+    <div class="w-full min-h-screen bg-cream relative flex flex-col">
+
+
+
+        <!-- Header -->
+        <header class="bg-white border-b-2 border-cream-deep sticky top-0 z-50 px-4 py-3 md:py-4 shadow-warm-sm">
+            <div class="max-w-md md:max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto w-full">
+                
+                <!-- Mobile Header Layout (hidden on desktop) -->
+                <div class="flex items-center justify-between md:hidden w-full">
+                    <a href="/dashboard" class="w-10 h-10 flex items-center justify-center rounded-xl text-mocha hover:bg-cream-deep transition-colors">
+                        <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                    </a>
+                    <h1 class="font-extrabold text-lg">Profil Pengguna</h1>
+                    <button onclick="YG.toast('Laporan terkirim. Terima kasih!', 'info')" class="w-10 h-10 flex items-center justify-center rounded-xl text-mocha hover:bg-coral/10 hover:text-coral transition-colors" title="Laporkan Pengguna">
+                        <i data-lucide="flag" class="w-5 h-5"></i>
+                    </button>
+                </div>
+
+                <!-- Desktop Header Layout (hidden on mobile) -->
+                <div class="hidden md:flex items-center justify-between gap-4">
+                    <!-- Brand -->
+                    <a href="/dashboard" class="flex items-center gap-2.5 group shrink-0">
+                        <div class="w-9 h-9 bg-gradient-to-br from-sunset to-sunset-light rounded-xl flex items-center justify-center text-white shadow-warm group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                            <i data-lucide="users-round" class="w-5 h-5"></i>
+                        </div>
+                        <span class="font-extrabold text-xl tracking-tight">YUKgas<span class="text-sunset">.in</span></span>
+                    </a>
+
+                    <!-- Navigation Links & Profile (Desktop) -->
+                    <div class="flex items-center gap-6">
+                        <a href="/dashboard" class="flex items-center gap-1.5 text-sm font-semibold text-mocha hover:text-espresso transition-colors">
+                            <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                            <span>Feed</span>
+                        </a>
+                        <a href="/my-quests" class="flex items-center gap-1.5 text-sm font-semibold text-mocha hover:text-espresso transition-colors">
+                            <i data-lucide="list-checks" class="w-4 h-4"></i>
+                            <span>QuestKu</span>
+                        </a>
+                        <a href="/notifications" class="flex items-center gap-1.5 text-sm font-semibold text-mocha hover:text-espresso transition-colors relative">
+                            <i data-lucide="bell" class="w-4 h-4"></i>
+                            <span>Notif</span>
+                            <span class="notif-badge-desktop absolute -top-1.5 -right-2 bg-coral text-white text-[8px] font-bold px-1.5 py-0.2 rounded-full leading-none hidden">0</span>
+                        </a>
+                        <a href="/profile" class="flex items-center gap-2 text-sm font-semibold text-mocha hover:text-espresso transition-colors border-l pl-6 border-cream-deep">
+                            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-golden to-sunset-light flex items-center justify-center font-bold text-white text-xs">F</div>
+                            <span>Profil</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+
+
+        <!-- Content -->
+        <main class="flex-1 max-w-md md:max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto w-full px-4 py-6 md:py-10 pb-10">
+
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                
+                <!-- Left Column: Profile Card, Stats, and QRIS -->
+                <div class="space-y-6">
+                    <!-- Profile Header -->
+                    <section class="flex flex-col items-center text-center animate-reveal">
+
+                <!-- Avatar with verified badge -->
+                <div class="relative mb-4 animate-bounce-in">
+                    <div id="user-avatar" class="w-24 h-24 rounded-full bg-gradient-to-br from-golden to-sunset-light flex items-center justify-center font-extrabold text-4xl text-white shadow-warm-lg border-4 border-white">
+                        U
+                    </div>
+                    <!-- Verified badge -->
+                    <div class="absolute bottom-1 right-1 w-7 h-7 bg-teal-500 rounded-full border-2 border-white flex items-center justify-center text-white shadow-warm" title="Terverifikasi Mahasiswa UNU">
+                        <i data-lucide="check" class="w-4 h-4"></i>
+                    </div>
+                </div>
+
+                <h2 id="user-name" class="text-xl font-extrabold tracking-tight flex items-center gap-1.5">
+                    -
+                </h2>
+                <span class="inline-flex items-center gap-1.5 mt-2 px-3 py-1 rounded-full bg-white border-2 border-borderWarm text-xs font-semibold text-mocha">
+                    <i data-lucide="mail" class="w-3.5 h-3.5"></i>
+                    <span id="user-email">-</span>
+                </span>
+
+                <p id="user-bio" class="text-sm text-mocha leading-relaxed max-w-[280px] mt-3">
+                    ...
+                </p>
+            </section>
+
+            <!-- Stats Card -->
+            <section class="warm-card p-4 animate-reveal delay-1">
+                <div class="flex divide-x-2 divide-cream-deep">
+                    <div class="flex-1 flex flex-col items-center justify-center py-1">
+                        <div class="flex items-center gap-1 mb-0.5">
+                            <span id="user-reputation" class="text-2xl font-extrabold">0.0</span>
+                            <i data-lucide="star" class="w-4 h-4 text-golden fill-current star-rating"></i>
+                        </div>
+                        <span class="text-[10px] font-bold text-mocha uppercase tracking-wider">Rating</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center justify-center py-1">
+                        <span id="user-given" class="text-2xl font-extrabold mb-0.5">0</span>
+                        <span class="text-[10px] font-bold text-mocha uppercase tracking-wider">Diberikan</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center justify-center py-1">
+                        <span id="user-taken" class="text-2xl font-extrabold mb-0.5">0</span>
+                        <span class="text-[10px] font-bold text-mocha uppercase tracking-wider">Diambil</span>
+                    </div>
+                </div>
+            </section>
+
+            <!-- QRIS Card -->
+            <section id="qris-card" class="warm-card p-5 text-center animate-reveal delay-2 hidden">
+                <div class="flex items-center justify-center gap-2 mb-4">
+                    <div class="w-7 h-7 bg-sunset/10 text-sunset rounded-lg flex items-center justify-center">
+                        <i data-lucide="wallet" class="w-4 h-4"></i>
+                    </div>
+                    <p class="text-xs font-bold text-mocha uppercase tracking-wider">Pembayaran QRIS</p>
+                </div>
+
+                <div class="w-40 h-40 bg-cream-deep border-2 border-borderWarm rounded-2xl mx-auto flex items-center justify-center p-3 mb-3 relative overflow-hidden bg-white">
+                    <img id="qris-img" src="" class="w-full h-full object-contain rounded-xl" alt="QRIS Code">
+                </div>
+
+                <p class="text-xs text-mocha max-w-[220px] mx-auto leading-relaxed">
+                    Scan QR di atas untuk pembayaran jika quest sudah selesai.
+                </p>
+            </section>
+                </div> <!-- End Left Column -->
+
+                <!-- Right Column: Reviews & Ratings -->
+                <div class="space-y-6">
+                    <!-- Reviews Section -->
+                    <section>
+                        <div class="flex items-center justify-between mb-4 animate-reveal delay-3">
+                    <h3 class="font-extrabold text-lg flex items-center gap-2">
+                        <i data-lucide="message-circle" class="w-5 h-5 text-sunset"></i>
+                        Ulasan
+                    </h3>
+                    <span id="reviews-count-badge" class="text-xs font-bold text-mocha bg-white px-3 py-1 rounded-full border-2 border-borderWarm">0 ulasan</span>
+                </div>
+
+                <div id="reviews-container" class="space-y-3">
+                    <!-- Dynamic reviews will be loaded here -->
+                </div>
+
+                <!-- Load more -->
+                <button id="load-more-reviews-btn" class="btn-outline w-full mt-4 flex items-center justify-center gap-2 py-3 text-sm hidden">
+                    <i data-lucide="chevron-down" class="w-4 h-4"></i>
+                    <span>Muat Ulasan Lain</span>
+                </button>
+                    </section>
+                </div> <!-- End Right Column -->
+
+            </div> <!-- End Grid Layout -->
+
+        </main>
+
+    </div>
+
+    <script src="/assets/app.js"></script>
+    <script src="/assets/notif-badge.js"></script>
+    <script>
+        // Check Authentication Session
+        if (!YG_AUTH.getToken()) {
+            window.location.href = '/login';
+        }
+
+        const currentUser = YG_AUTH.getUser();
+
+        // Get user ID from path or query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        let userId = urlParams.get('id');
+        if (!userId) {
+            const pathParts = window.location.pathname.split('/');
+            const lastPart = pathParts[pathParts.length - 1];
+            if (lastPart && lastPart !== 'user-profile' && lastPart !== 'user-profile.html') {
+                userId = lastPart;
+            }
+        }
+
+        // Fetch profile data
+        async function fetchUserProfile() {
+            try {
+                const response = await fetch(`${window.API_BASE_URL}/users/${userId}`);
+                const data = await response.json();
+
+                if (!data.success) {
+                    YG.toast('User tidak ditemukan.', 'error');
+                    setTimeout(() => window.location.href = '/dashboard', 1500);
+                    return;
+                }
+
+                const user = data.data.user;
+
+                // Bind details
+                document.getElementById('user-name').textContent = user.fullName;
+                document.getElementById('user-email').textContent = user.email;
+                document.getElementById('user-bio').textContent = user.bio || 'Belum menulis bio.';
+
+                // Avatar initials
+                const initials = user.fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                document.getElementById('user-avatar').textContent = initials;
+                document.querySelectorAll('a[href="/profile"] .rounded-xl, a[href="/profile"] .rounded-lg, #desktop-avatar').forEach(el => {
+                    el.textContent = initials;
+                });
+
+                // Bind stats counts
+                document.getElementById('user-reputation').textContent = Number(user.reputation || 5.0).toFixed(1);
+                document.getElementById('user-given').textContent = user.questsGiven;
+                document.getElementById('user-taken').textContent = user.questsTaken;
+
+                // QRIS card display
+                const qrisCard = document.getElementById('qris-card');
+                const qrisImg = document.getElementById('qris-img');
+                if (user.qrisUrl) {
+                    qrisImg.src = user.qrisUrl;
+                    qrisCard.classList.remove('hidden');
+                } else {
+                    qrisCard.classList.add('hidden');
+                }
+
+            } catch (error) {
+                console.error('Fetch public profile error:', error);
+                YG.toast('Gagal terhubung ke server backend.', 'error');
+            }
+        }
+
+        // Fetch reviews data
+        async function fetchUserReviews() {
+            const container = document.getElementById('reviews-container');
+            const badge = document.getElementById('reviews-count-badge');
+
+            container.innerHTML = `
+                <div class="flex justify-center py-6 text-mocha">
+                    <svg class="animate-spin-slow w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                    </svg>
+                </div>
+            `;
+
+            try {
+                const response = await fetch(`${window.API_BASE_URL}/ratings/user/${userId}`);
+                const data = await response.json();
+
+                if (!data.success) {
+                    container.innerHTML = `<p class="text-center text-coral py-4 font-semibold">Gagal memuat ulasan.</p>`;
+                    return;
+                }
+
+                const ratings = data.data.ratings;
+                badge.textContent = `${data.data.pagination.total} ulasan`;
+
+                if (ratings.length === 0) {
+                    container.innerHTML = `
+                        <div class="warm-card p-6 text-center border-dashed border-2 border-cream-deep">
+                            <i data-lucide="message-square" class="w-8 h-8 text-latte mx-auto mb-2"></i>
+                            <p class="text-sm font-bold text-mocha">Belum ada ulasan untuk pengguna ini</p>
+                        </div>
+                    `;
+                    if (window.lucide) lucide.createIcons();
+                    return;
+                }
+
+                container.innerHTML = ratings.map((r) => {
+                    const raterInit = r.rater.fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                    const dateStr = new Date(r.createdAt).toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+
+                    // Stars array mapping
+                    let starsHtml = '';
+                    for (let i = 1; i <= 5; i++) {
+                        if (i <= r.score) {
+                            starsHtml += `<i data-lucide="star" class="w-3.5 h-3.5 text-golden fill-current"></i>`;
+                        } else {
+                            starsHtml += `<i data-lucide="star" class="w-3.5 h-3.5 text-latte"></i>`;
+                        }
+                    }
+
+                    return `
+                        <div class="warm-card p-4 animate-reveal">
+                            <div class="flex items-center justify-between mb-2">
+                                <div class="flex items-center gap-2.5">
+                                    <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-sunset to-sunset-light flex items-center justify-center font-bold text-white text-sm">${raterInit}</div>
+                                    <div>
+                                        <span class="font-bold text-sm block leading-tight">${r.rater.fullName.split(' ')[0]}</span>
+                                        <div class="flex gap-0.5 mt-0.5">
+                                            ${starsHtml}
+                                        </div>
+                                    </div>
+                                </div>
+                                <span class="text-[10px] font-semibold text-latte">${dateStr}</span>
+                            </div>
+                            <p class="text-sm text-mocha italic leading-relaxed mb-3">"${r.review || 'Tanpa ulasan komentar'}"</p>
+                            <a href="/quests/${r.questId}" class="inline-flex items-center gap-1.5 px-3 py-1.5 bg-sunset/5 border border-sunset/20 rounded-full text-xs font-bold text-sunset hover:bg-sunset/10 transition-colors">
+                                <i data-lucide="link" class="w-3 h-3"></i> Lihat Quest
+                            </a>
+                        </div>
+                    `;
+                }).join('');
+
+                if (window.lucide) lucide.createIcons();
+
+            } catch (error) {
+                console.error('Fetch user reviews error:', error);
+                container.innerHTML = `<p class="text-center text-coral py-4 font-semibold">Gagal memuat ulasan.</p>`;
+            }
+        }
+
+        // On Load initialization
+        window.addEventListener('DOMContentLoaded', () => {
+            fetchUserProfile();
+            fetchUserReviews();
+        });
+    </script>
+</body>
+</html>

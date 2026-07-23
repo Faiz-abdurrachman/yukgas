@@ -173,7 +173,7 @@
                                 id="email"
                                 type="email"
                                 name="email"
-                                placeholder="nama@unu.ac.id"
+                                placeholder="nama@student.unu-jogja.ac.id"
                                 autocomplete="email"
                                 class="warm-input pl-12"
                             >
@@ -299,8 +299,29 @@
         const submitBtn = document.getElementById('submitBtn');
         const btnContent = document.getElementById('btnContent');
 
-        form.addEventListener('submit', (e) => {
+        form.addEventListener('submit', async (e) => {
             e.preventDefault();
+
+            const fullName = document.getElementById('nama').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value.trim();
+            const confirmPassword = document.getElementById('confirmPassword').value.trim();
+
+            if (password !== confirmPassword) {
+                YG.toast('Konfirmasi password tidak cocok', 'error');
+                return;
+            }
+
+            const resetLoading = () => {
+                submitBtn.disabled = false;
+                submitBtn.style.opacity = '1';
+                submitBtn.style.cursor = 'pointer';
+                btnContent.innerHTML = `
+                    <i data-lucide="user-plus" class="w-5 h-5"></i>
+                    <span>Daftar Akun</span>
+                `;
+                if (window.lucide) lucide.createIcons();
+            };
 
             // Loading state
             submitBtn.disabled = true;
@@ -314,8 +335,27 @@
                 <span>Mendaftarkan...</span>
             `;
 
-            // Simulate: 800ms loading → confetti → toast → redirect
-            setTimeout(() => {
+            try {
+                const response = await fetch(`${window.API_BASE_URL}/auth/register`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ fullName, email, password })
+                });
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    let errorMsg = data.message || 'Registrasi gagal.';
+                    if (data.errors) {
+                        const fields = Object.keys(data.errors);
+                        errorMsg = data.errors[fields[0]][0];
+                    }
+                    YG.toast(errorMsg, 'error');
+                    resetLoading();
+                    return;
+                }
+
+                // Confetti burst
                 const rect = submitBtn.getBoundingClientRect();
                 YG.confetti(rect.left + rect.width / 2, rect.top + rect.height / 2);
 
@@ -325,12 +365,21 @@
                 `;
                 if (window.lucide) lucide.createIcons();
 
+                // Save auth session
+                YG_AUTH.setToken(data.data.token);
+                YG_AUTH.setUser(data.data.user);
+
                 YG.toast('Akun berhasil dibuat! Selamat bergabung', 'success');
 
                 setTimeout(() => {
                     window.location.href = '/dashboard';
-                }, 1500);
-            }, 800);
+                }, 1200);
+
+            } catch (error) {
+                console.error('Submit error:', error);
+                YG.toast('Gagal menghubungi server.', 'error');
+                resetLoading();
+            }
         });
     </script>
 </body>

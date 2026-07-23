@@ -319,3 +319,41 @@ document.addEventListener('click', (e) => {
 
 // Expose globally
 window.YG = YG;
+
+// API & Auth configuration
+window.API_BASE_URL = 'http://localhost:5000/api/v1';
+
+window.YG_AUTH = {
+  getToken() {
+    return localStorage.getItem('yg_token');
+  },
+  setToken(token) {
+    localStorage.setItem('yg_token', token);
+  },
+  removeToken() {
+    localStorage.removeItem('yg_token');
+  },
+  getUser() {
+    const user = localStorage.getItem('yg_user');
+    return user ? JSON.parse(user) : null;
+  },
+  setUser(user) {
+    localStorage.setItem('yg_user', JSON.stringify(user));
+  },
+  removeUser() {
+    localStorage.removeItem('yg_user');
+  },
+  logout() {
+    this.removeToken();
+    this.removeUser();
+    window.location.href = '/login';
+  },
+  getHeaders() {
+    const token = this.getToken();
+    return {
+      'Content-Type': 'application/json',
+      'Authorization': token ? `Bearer ${token}` : ''
+    };
+  }
+};
+

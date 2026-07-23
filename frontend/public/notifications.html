@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Notifikasi — YUKgas.in</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js" onload="if(window.YG){YG.initLucide()}else{window.lucide&&lucide.createIcons()}"></script>
+    <link rel="stylesheet" href="/assets/style.css">
+
+    <script>
+        tailwind.config = {
+            theme: { extend: {
+                fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
+                colors: {
+                    sunset: '#FF6B35', 'sunset-light': '#FF9F1C', golden: '#FFB627',
+                    teal: { 50: '#E6FAF5', 500: '#0CA789', 600: '#0A8E78' }, coral: '#FF4757',
+                    cream: { DEFAULT: '#FFF8F0', deep: '#FFF0E0' },
+                    espresso: '#2D1B12', mocha: '#8B7355', latte: '#B8A088',
+                    borderWarm: '#FFE4D1'
+                }
+            }}
+        }
+    </script>
+</head>
+<body class="bg-cream text-espresso font-sans antialiased">
+
+    <!-- Full Screen Responsive Container -->
+    <div class="w-full min-h-screen bg-cream relative flex flex-col">
+
+
+
+        <!-- Header -->
+        <header class="bg-white border-b-2 border-cream-deep sticky top-0 z-50 px-4 py-3 md:py-4 shadow-warm-sm">
+            <div class="max-w-md md:max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto w-full">
+                
+                <!-- Mobile Header Layout (hidden on desktop) -->
+                <div class="flex items-center justify-between md:hidden w-full">
+                    <a href="/dashboard" class="w-10 h-10 rounded-xl bg-cream-deep text-espresso flex items-center justify-center hover:bg-sunset/10 hover:text-sunset transition-colors">
+                        <i data-lucide="arrow-left" class="w-5 h-5"></i>
+                    </a>
+                    <h1 class="font-extrabold text-lg">Notifikasi</h1>
+                    <button onclick="markAllRead()" class="text-sm font-bold text-sunset hover:text-sunset-dark transition-colors whitespace-nowrap">
+                        Tandai dibaca
+                    </button>
+                </div>
+
+                <!-- Desktop Header Layout (hidden on mobile) -->
+                <div class="hidden md:flex items-center justify-between gap-4">
+                    <!-- Brand -->
+                    <a href="/dashboard" class="flex items-center gap-2.5 group shrink-0">
+                        <div class="w-9 h-9 bg-gradient-to-br from-sunset to-sunset-light rounded-xl flex items-center justify-center text-white shadow-warm group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                            <i data-lucide="users-round" class="w-5 h-5"></i>
+                        </div>
+                        <span class="font-extrabold text-xl tracking-tight">YUKgas<span class="text-sunset">.in</span></span>
+                    </a>
+
+                    <!-- Navigation Links & Profile (Desktop) -->
+                    <div class="flex items-center gap-6">
+                        <a href="/dashboard" class="flex items-center gap-1.5 text-sm font-semibold text-mocha hover:text-espresso transition-colors">
+                            <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                            <span>Feed</span>
+                        </a>
+                        <a href="/my-quests" class="flex items-center gap-1.5 text-sm font-semibold text-mocha hover:text-espresso transition-colors">
+                            <i data-lucide="list-checks" class="w-4 h-4"></i>
+                            <span>QuestKu</span>
+                        </a>
+                        <a href="/notifications" class="flex items-center gap-1.5 text-sm font-bold text-sunset relative">
+                            <i data-lucide="bell" class="w-4 h-4"></i>
+                            <span>Notif</span>
+                            <span id="desktop-notif-badge" class="absolute -top-1.5 -right-2 bg-coral text-white text-[8px] font-bold px-1.5 py-0.2 rounded-full leading-none hidden">0</span>
+                        </a>
+                        <a href="/profile" class="flex items-center gap-2 text-sm font-semibold text-mocha hover:text-espresso transition-colors border-l pl-6 border-cream-deep">
+                            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-golden to-sunset-light flex items-center justify-center font-bold text-white text-xs">F</div>
+                            <span>Profil</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+
+
+        <!-- Filter Tabs -->
+        <div class="bg-white/50 border-b border-cream-deep py-3 md:py-4">
+            <div class="max-w-md md:max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto w-full px-4 md:px-8">
+                <div class="flex gap-2">
+                    <button onclick="filterTab(this, 'all')" class="filter-tab active px-4 py-2 rounded-full text-sm font-bold bg-espresso text-white whitespace-nowrap flex items-center gap-1.5">
+                        <i data-lucide="layers" class="w-4 h-4"></i> Semua
+                    </button>
+                    <button onclick="filterTab(this, 'unread')" class="filter-tab px-4 py-2 rounded-full text-sm font-semibold bg-white text-mocha border-2 border-cream-deep whitespace-nowrap flex items-center gap-1.5 hover:border-sunset transition-colors">
+                        <i data-lucide="bell" class="w-4 h-4"></i> Belum Dibaca
+                        <span id="unread-badge-filter" class="ml-0.5 bg-coral text-white text-[10px] font-bold px-1.5 py-0.5 rounded-full leading-none min-w-[18px] text-center hidden">0</span>
+                    </button>
+                    <button onclick="filterTab(this, 'quest')" class="filter-tab px-4 py-2 rounded-full text-sm font-semibold bg-white text-mocha border-2 border-cream-deep whitespace-nowrap flex items-center gap-1.5 hover:border-sunset transition-colors">
+                        <i data-lucide="target" class="w-4 h-4"></i> Quest
+                    </button>
+                </div>
+            </div>
+        </div>
+
+
+        <!-- Notifications List -->
+        <main class="flex-1 max-w-md md:max-w-3xl lg:max-w-4xl mx-auto w-full px-4 py-6 md:py-8 pb-32 md:pb-16 flex flex-col gap-6">
+
+            <!-- Dynamic notification container -->
+            <div id="notifications-container">
+                <!-- Loading skeleton -->
+                <div id="notif-loading" class="flex flex-col gap-3">
+                    <div class="warm-card p-4 animate-pulse flex items-start gap-3">
+                        <div class="w-11 h-11 bg-cream-deep rounded-2xl flex-shrink-0"></div>
+                        <div class="flex-1 space-y-2">
+                            <div class="h-4 bg-cream-deep rounded w-3/4"></div>
+                            <div class="h-3 bg-cream-deep rounded w-full"></div>
+                            <div class="h-3 bg-cream-deep rounded w-1/3"></div>
+                        </div>
+                    </div>
+                    <div class="warm-card p-4 animate-pulse flex items-start gap-3">
+                        <div class="w-11 h-11 bg-cream-deep rounded-2xl flex-shrink-0"></div>
+                        <div class="flex-1 space-y-2">
+                            <div class="h-4 bg-cream-deep rounded w-2/3"></div>
+                            <div class="h-3 bg-cream-deep rounded w-full"></div>
+                            <div class="h-3 bg-cream-deep rounded w-1/4"></div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Empty State (hidden by default) -->
+                <div id="notif-empty" class="hidden col-span-full flex flex-col items-center justify-center py-16 px-6 text-center">
+                    <div class="w-24 h-24 bg-sunset/10 rounded-3xl flex items-center justify-center mb-6 animate-float">
+                        <i data-lucide="bell-off" class="w-12 h-12 text-sunset"></i>
+                    </div>
+                    <h3 class="text-xl font-extrabold mb-2">Belum ada notifikasi</h3>
+                    <p class="text-mocha mb-6 leading-relaxed">Notifikasi akan muncul saat ada aktivitas pada quest kamu.</p>
+                    <a href="/dashboard" class="btn-sunset inline-flex items-center gap-2">
+                        <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                        <span>Jelajahi Feed</span>
+                    </a>
+                </div>
+
+                <!-- Notifications will be rendered here -->
+                <div id="notif-list"></div>
+            </div>
+
+        </main>
+
+        <!-- Bottom Navigation -->
+        <nav class="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t-2 border-cream-deep px-4 py-3 pb-safe z-40 md:hidden" style="padding-bottom: env(safe-area-inset-bottom, 12px);">
+            <div class="max-w-lg mx-auto flex items-center justify-around w-full">
+                <a href="/dashboard" class="flex flex-col items-center gap-1 px-4 py-1 group">
+                    <div class="w-10 h-10 rounded-xl text-mocha flex items-center justify-center group-hover:bg-cream-deep group-hover:scale-110 transition-all">
+                        <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold text-mocha">Feed</span>
+                </a>
+                <a href="/my-quests" class="flex flex-col items-center gap-1 px-4 py-1 group">
+                    <div class="w-10 h-10 rounded-xl text-mocha flex items-center justify-center group-hover:bg-cream-deep group-hover:scale-110 transition-all">
+                        <i data-lucide="list-checks" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold text-mocha">QuestKu</span>
+                </a>
+                <!-- FAB Create -->
+                <a href="/quests/create" class="flex flex-col items-center gap-1 -mt-6">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-br from-sunset to-sunset-light flex items-center justify-center shadow-warm-lg hover:scale-110 hover:rotate-90 transition-all duration-300">
+                        <i data-lucide="plus" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-sunset">Gas!</span>
+                </a>
+                <a href="/notifications" class="flex flex-col items-center gap-1 px-4 py-1 group relative">
+                    <div class="w-10 h-10 rounded-xl bg-sunset/10 text-sunset flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="bell" class="w-5 h-5"></i>
+                    </div>
+                    <span id="mobile-notif-badge" class="absolute top-0 right-2 w-4 h-4 bg-coral rounded-full text-[8px] text-white font-bold flex items-center justify-center border border-white hidden">0</span>
+                    <span class="text-[10px] font-bold text-sunset">Notif</span>
+                </a>
+                <a href="/profile" class="flex flex-col items-center gap-1 px-4 py-1 group">
+                    <div class="w-10 h-10 rounded-xl text-mocha flex items-center justify-center group-hover:bg-cream-deep group-hover:scale-110 transition-all">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold text-mocha">Profil</span>
+                </a>
+            </div>
+        </nav>
+
+
+
+    </div>
+
+    <script src="/assets/app.js"></script>
+    <script>
+        // Check Authentication Session
+        if (!YG_AUTH.getToken()) {
+            window.location.href = '/login';
+        }
+
+        const currentUser = YG_AUTH.getUser();
+
+        // Update desktop avatar initials
+        const initials = currentUser.fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        document.querySelectorAll('a[href="/profile"] .rounded-xl, a[href="/profile"] .rounded-lg, #desktop-avatar').forEach(el => {
+            el.textContent = initials;
+        });
+
+        let allNotifications = [];
+        let activeFilter = 'all';
+
+        // ==============================
+        // Notification Icon/Color Mapper
+        // ==============================
+        function getNotifStyle(title) {
+            const t = (title || '').toLowerCase();
+            if (t.includes('diambil')) return { icon: 'handshake', bg: 'bg-teal-50', text: 'text-teal-500' };
+            if (t.includes('selesai')) return { icon: 'check-circle-2', bg: 'bg-teal-50', text: 'text-teal-500' };
+            if (t.includes('penilaian')) return { icon: 'star', bg: 'bg-golden/15', text: 'text-golden' };
+            if (t.includes('dibatalkan') || t.includes('batal')) return { icon: 'x-circle', bg: 'bg-coral/10', text: 'text-coral' };
+            if (t.includes('dipublikasikan')) return { icon: 'megaphone', bg: 'bg-sunset/15', text: 'text-sunset' };
+            return { icon: 'bell', bg: 'bg-sunset/15', text: 'text-sunset' };
+        }
+
+        // ==============================
+        // Relative Time Helper
+        // ==============================
+        function timeAgo(dateStr) {
+            const now = new Date();
+            const date = new Date(dateStr);
+            const diffMs = now - date;
+            const diffSec = Math.floor(diffMs / 1000);
+            const diffMin = Math.floor(diffSec / 60);
+            const diffHour = Math.floor(diffMin / 60);
+            const diffDay = Math.floor(diffHour / 24);
+
+            if (diffMin < 1) return 'Baru saja';
+            if (diffMin < 60) return `${diffMin} menit lalu`;
+            if (diffHour < 24) return `${diffHour} jam lalu`;
+            if (diffDay === 1) return 'Kemarin';
+            if (diffDay < 7) return `${diffDay} hari lalu`;
+            return date.toLocaleDateString('id-ID', { day: 'numeric', month: 'short', year: 'numeric' });
+        }
+
+        // ==============================
+        // Render Notifications
+        // ==============================
+        function renderNotifications(notifications) {
+            const container = document.getElementById('notif-list');
+            const emptyState = document.getElementById('notif-empty');
+            const loading = document.getElementById('notif-loading');
+
+            loading.classList.add('hidden');
+
+            if (!notifications || notifications.length === 0) {
+                container.innerHTML = '';
+                emptyState.classList.remove('hidden');
+                emptyState.style.display = 'flex';
+                return;
+            }
+
+            emptyState.classList.add('hidden');
+            emptyState.style.display = 'none';
+
+            let html = '';
+            notifications.forEach((n, idx) => {
+                const style = getNotifStyle(n.title);
+                const isUnread = !n.isRead;
+                const opacityClass = isUnread ? '' : 'opacity-70 hover:opacity-100';
+                const unreadDot = isUnread
+                    ? '<span class="w-2 h-2 bg-sunset rounded-full flex-shrink-0 mt-1.5"></span>'
+                    : '';
+                const questLink = n.questId
+                    ? `<a href="/quests/${n.questId}" onclick="markRead(event, '${n.id}')" class="inline-flex items-center gap-1 text-xs font-bold text-sunset bg-sunset/10 px-2.5 py-1 rounded-full hover:bg-sunset/20 transition-colors">Lihat Quest <i data-lucide="arrow-right" class="w-3 h-3"></i></a>`
+                    : '';
+                const delayClass = idx < 10 ? `delay-${idx + 1}` : '';
+
+                html += `
+                <div class="warm-card p-4 mb-3 cursor-pointer ${opacityClass} animate-reveal ${delayClass} transition-all duration-300 hover:-translate-y-1 hover:shadow-warm-lg flex items-start gap-3" onclick="markReadInline('${n.id}', this)">
+                    <div class="w-11 h-11 ${style.bg} ${style.text} rounded-2xl flex items-center justify-center flex-shrink-0">
+                        <i data-lucide="${style.icon}" class="w-5 h-5"></i>
+                    </div>
+                    <div class="flex-1 min-w-0">
+                        <div class="flex items-start justify-between gap-2">
+                            <h3 class="font-bold text-sm leading-snug">${n.title}</h3>
+                            ${unreadDot}
+                        </div>
+                        <p class="text-xs text-mocha mt-1 leading-relaxed">${n.message}</p>
+                        <div class="flex items-center justify-between mt-2.5">
+                            <span class="text-xs text-mocha flex items-center gap-1"><i data-lucide="clock" class="w-3 h-3"></i> ${timeAgo(n.createdAt)}</span>
+                            ${questLink}
+                        </div>
+                    </div>
+                </div>`;
+            });
+
+            container.innerHTML = html;
+            if (window.lucide) lucide.createIcons();
+        }
+
+        // ==============================
+        // Load Notifications from API
+        // ==============================
+        async function loadNotifications() {
+            try {
+                const response = await fetch(`${window.API_BASE_URL}/notifications`, {
+                    headers: YG_AUTH.getHeaders()
+                });
+                const data = await response.json();
+
+                if (data.success) {
+                    allNotifications = data.data.notifications;
+                    applyFilter();
+                }
+            } catch (error) {
+                console.error('Load notifications error:', error);
+                document.getElementById('notif-loading').classList.add('hidden');
+                YG.toast('Gagal memuat notifikasi.', 'error');
+            }
+        }
+
+        // ==============================
+        // Load Unread Badge Count
+        // ==============================
+        async function loadUnreadCount() {
+            try {
+                const response = await fetch(`${window.API_BASE_URL}/notifications/unread-count`, {
+                    headers: YG_AUTH.getHeaders()
+                });
+                const data = await response.json();
+                if (data.success) {
+                    updateBadges(data.data.count);
+                }
+            } catch (error) {
+                console.error('Unread count error:', error);
+            }
+        }
+
+        function updateBadges(count) {
+            // Desktop header badge
+            const desktopBadge = document.getElementById('desktop-notif-badge');
+            if (desktopBadge) {
+                if (count > 0) {
+                    desktopBadge.textContent = count > 9 ? '9+' : count;
+                    desktopBadge.classList.remove('hidden');
+                } else {
+                    desktopBadge.classList.add('hidden');
+                }
+            }
+
+            // Mobile bottom nav badge
+            const mobileBadge = document.getElementById('mobile-notif-badge');
+            if (mobileBadge) {
+                if (count > 0) {
+                    mobileBadge.textContent = count > 9 ? '9+' : count;
+                    mobileBadge.classList.remove('hidden');
+                } else {
+                    mobileBadge.classList.add('hidden');
+                }
+            }
+
+            // Filter tab badge
+            const filterBadge = document.getElementById('unread-badge-filter');
+            if (filterBadge) {
+                if (count > 0) {
+                    filterBadge.textContent = count;
+                    filterBadge.classList.remove('hidden');
+                } else {
+                    filterBadge.classList.add('hidden');
+                }
+            }
+        }
+
+        // ==============================
+        // Mark as Read
+        // ==============================
+        async function markRead(event, notifId) {
+            event.stopPropagation();
+            try {
+                await fetch(`${window.API_BASE_URL}/notifications/${notifId}/read`, {
+                    method: 'PUT',
+                    headers: YG_AUTH.getHeaders()
+                });
+                // Update local state
+                const notif = allNotifications.find(n => n.id === notifId);
+                if (notif) notif.isRead = true;
+                loadUnreadCount();
+            } catch (error) {
+                console.error('Mark read error:', error);
+            }
+        }
+
+        async function markReadInline(notifId, el) {
+            try {
+                await fetch(`${window.API_BASE_URL}/notifications/${notifId}/read`, {
+                    method: 'PUT',
+                    headers: YG_AUTH.getHeaders()
+                });
+                // Update local state
+                const notif = allNotifications.find(n => n.id === notifId);
+                if (notif) notif.isRead = true;
+                // Update UI inline
+                el.classList.add('opacity-70');
+                const dot = el.querySelector('.bg-sunset.rounded-full.w-2');
+                if (dot) dot.remove();
+                loadUnreadCount();
+            } catch (error) {
+                console.error('Mark read inline error:', error);
+            }
+        }
+
+        // ==============================
+        // Mark All as Read
+        // ==============================
+        async function markAllRead() {
+            const unread = allNotifications.filter(n => !n.isRead);
+            if (unread.length === 0) {
+                YG.toast('Tidak ada notifikasi belum dibaca.', 'info');
+                return;
+            }
+
+            try {
+                await Promise.all(unread.map(n =>
+                    fetch(`${window.API_BASE_URL}/notifications/${n.id}/read`, {
+                        method: 'PUT',
+                        headers: YG_AUTH.getHeaders()
+                    })
+                ));
+                allNotifications.forEach(n => n.isRead = true);
+                applyFilter();
+                loadUnreadCount();
+                YG.toast('Semua ditandai dibaca', 'success', 1500);
+            } catch (error) {
+                console.error('Mark all read error:', error);
+                YG.toast('Gagal menandai semua dibaca.', 'error');
+            }
+        }
+
+        // ==============================
+        // Filter Logic
+        // ==============================
+        function filterTab(btn, filter) {
+            document.querySelectorAll('.filter-tab').forEach(c => {
+                c.classList.remove('active', 'bg-espresso', 'text-white');
+                c.classList.add('bg-white', 'text-mocha', 'border-2', 'border-cream-deep');
+            });
+            btn.classList.add('active', 'bg-espresso', 'text-white');
+            btn.classList.remove('bg-white', 'text-mocha', 'border-2', 'border-cream-deep');
+
+            activeFilter = filter;
+            applyFilter();
+        }
+
+        function applyFilter() {
+            let filtered = [...allNotifications];
+            if (activeFilter === 'unread') {
+                filtered = filtered.filter(n => !n.isRead);
+            } else if (activeFilter === 'quest') {
+                filtered = filtered.filter(n => n.questId);
+            }
+            renderNotifications(filtered);
+        }
+
+        // ==============================
+        // Init
+        // ==============================
+        window.addEventListener('DOMContentLoaded', () => {
+            loadNotifications();
+            loadUnreadCount();
+        });
+    </script>
+</body>
+</html>

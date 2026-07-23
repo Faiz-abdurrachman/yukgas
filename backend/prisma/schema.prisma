@@ -1,0 +1,136 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+// ===== ENUMS =====
+
+enum Category {
+  TRANSPORT
+  FOOD
+  ADMIN
+  OTHER
+}
+
+enum QuestStatus {
+  OPEN
+  TAKEN
+  IN_PROGRESS
+  COMPLETED
+  CANCELLED
+}
+
+// ===== MODELS =====
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  password     String
+  fullName     String
+  bio          String?  @db.Text
+  avatarUrl    String?
+  qrisUrl      String?
+  reputation   Float    @default(0)
+  questsGiven  Int      @default(0)
+  questsTaken  Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  // Relations
+  questsAsGiver  Quest[]   @relation("QuestGiver")
+  questsAsTaker  Quest[]   @relation("QuestTaker")
+  ratingsGiven   Rating[]  @relation("Rater")
+  ratingsReceived Rating[] @relation("Rated")
+  historyChanges QuestHistory[] @relation("HistoryChanger")
+  notifications  Notification[] @relation("UserNotifications")
+
+  @@map("users")
+}
+
+model Quest {
+  id               String      @id @default(uuid())
+  title            String
+  description      String      @db.Text
+  category         Category
+  location         String
+  deadline         DateTime
+  compensation     Decimal     @db.Decimal(10, 2)
+  status           QuestStatus @default(OPEN)
+  giverId          String
+  takerId          String?
+  paymentConfirmed Boolean     @default(false)
+  createdAt        DateTime    @default(now())
+  updatedAt        DateTime    @updatedAt
+
+  // Relations
+  giver      User           @relation("QuestGiver", fields: [giverId], references: [id])
+  taker      User?          @relation("QuestTaker", fields: [takerId], references: [id])
+  ratings    Rating[]
+  history    QuestHistory[]
+
+  // Indexes
+  @@index([status])
+  @@index([category])
+  @@index([giverId])
+  @@index([takerId])
+  @@map("quests")
+}
+
+model Rating {
+  id        String   @id @default(uuid())
+  questId   String
+  raterId   String
+  ratedId   String
+  score     Int      // 1-5
+  review    String?  @db.Text
+  createdAt DateTime @default(now())
+
+  // Relations
+  quest Quest @relation(fields: [questId], references: [id], onDelete: Cascade)
+  rater User  @relation("Rater", fields: [raterId], references: [id])
+  rated User  @relation("Rated", fields: [ratedId], references: [id])
+
+  // Constraints
+  @@unique([questId, raterId]) // 1 user = 1 rating per quest
+  @@index([ratedId])
+  @@map("ratings")
+}
+
+model QuestHistory {
+  id          String      @id @default(uuid())
+  questId     String
+  status      QuestStatus
+  changedById String?
+  changedAt   DateTime    @default(now())
+
+  // Relations
+  quest       Quest  @relation(fields: [questId], references: [id], onDelete: Cascade)
+  changedBy   User?  @relation("HistoryChanger", fields: [changedById], references: [id])
+
+  @@index([questId])
+  @@map("quest_history")
+}
+
+model Notification {
+  id        String   @id @default(uuid())
+  userId    String
+  questId   String?
+  title     String
+  message   String   @db.Text
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  // Relations
+  user      User     @relation("UserNotifications", fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+  @@index([isRead])
+  @@map("notifications")
+}

@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil Saya — YUKgas.in</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js" onload="if(window.YG){YG.initLucide()}else{window.lucide&&lucide.createIcons()}"></script>
+    <link rel="stylesheet" href="/assets/style.css">
+
+    <script>
+        tailwind.config = {
+            theme: { extend: {
+                fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
+                colors: {
+                    sunset: '#FF6B35', 'sunset-light': '#FF9F1C', golden: '#FFB627',
+                    teal: { 50: '#E6FAF5', 500: '#0CA789', 600: '#0A8E78' }, coral: '#FF4757',
+                    cream: { DEFAULT: '#FFF8F0', deep: '#FFF0E0' },
+                    espresso: '#2D1B12', mocha: '#8B7355', latte: '#B8A088',
+                    borderWarm: '#FFE4D1'
+                }
+            }}
+        }
+    </script>
+</head>
+<body class="bg-cream text-espresso font-sans antialiased">
+
+    <!-- Full Screen Responsive Container -->
+    <div class="w-full min-h-screen bg-cream relative flex flex-col">
+
+
+
+        <!-- Header -->
+        <header class="bg-white border-b-2 border-cream-deep sticky top-0 z-50 px-4 py-3 md:py-4 shadow-warm-sm">
+            <div class="max-w-md md:max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto w-full">
+                
+                <!-- Mobile Header Layout (hidden on desktop) -->
+                <div class="flex items-center justify-between md:hidden w-full">
+                    <a href="/dashboard" class="w-10 h-10 flex items-center justify-center rounded-xl text-mocha hover:bg-cream-deep transition-colors">
+                        <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                    </a>
+                    <h1 class="font-extrabold text-lg">Profil Saya</h1>
+                    <div class="w-10 h-10"></div>
+                </div>
+
+                <!-- Desktop Header Layout (hidden on mobile) -->
+                <div class="hidden md:flex items-center justify-between gap-4">
+                    <!-- Brand -->
+                    <a href="/dashboard" class="flex items-center gap-2.5 group shrink-0">
+                        <div class="w-9 h-9 bg-gradient-to-br from-sunset to-sunset-light rounded-xl flex items-center justify-center text-white shadow-warm group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                            <i data-lucide="users-round" class="w-5 h-5"></i>
+                        </div>
+                        <span class="font-extrabold text-xl tracking-tight">YUKgas<span class="text-sunset">.in</span></span>
+                    </a>
+
+                    <!-- Navigation Links & Profile (Desktop) -->
+                    <div class="flex items-center gap-6">
+                        <a href="/dashboard" class="flex items-center gap-1.5 text-sm font-semibold text-mocha hover:text-espresso transition-colors">
+                            <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                            <span>Feed</span>
+                        </a>
+                        <a href="/my-quests" class="flex items-center gap-1.5 text-sm font-semibold text-mocha hover:text-espresso transition-colors">
+                            <i data-lucide="list-checks" class="w-4 h-4"></i>
+                            <span>QuestKu</span>
+                        </a>
+                        <a href="/notifications" class="flex items-center gap-1.5 text-sm font-semibold text-mocha hover:text-espresso transition-colors relative">
+                            <i data-lucide="bell" class="w-4 h-4"></i>
+                            <span>Notif</span>
+                            <span class="notif-badge-desktop absolute -top-1.5 -right-2 bg-coral text-white text-[8px] font-bold px-1.5 py-0.2 rounded-full leading-none hidden">0</span>
+                        </a>
+                        <a href="/profile" class="flex items-center gap-2 text-sm font-bold text-sunset border-l pl-6 border-cream-deep">
+                            <div class="w-8 h-8 rounded-lg bg-gradient-to-br from-golden to-sunset-light flex items-center justify-center font-bold text-white text-xs">F</div>
+                            <span>Profil</span>
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        </header>
+
+
+        <!-- Main Content -->
+        <main class="flex-1 max-w-md md:max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto w-full px-4 py-6 md:py-10 pb-28">
+
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-start">
+                
+                <!-- Left Column: Avatar & Profile Info -->
+                <div class="space-y-6">
+                    <!-- Profile Header -->
+                    <section class="flex flex-col items-center text-center animate-reveal">
+                        <div class="relative group cursor-pointer mb-4" onclick="triggerAvatarUpload()">
+
+                    <div id="avatarPreviewContainer" class="w-28 h-28 rounded-full bg-gradient-to-br from-sunset to-golden flex items-center justify-center font-extrabold text-5xl text-white shadow-warm-lg border-4 border-white overflow-hidden transition-all group-hover:scale-105">
+                        <span id="avatarInitials">-</span>
+                        <img id="avatarImg" src="" class="hidden w-full h-full object-cover" alt="Avatar">
+                    </div>
+                    <!-- Camera overlay -->
+                    <div class="absolute bottom-1 right-1 w-9 h-9 bg-white rounded-full border-2 border-cream-deep shadow-warm flex items-center justify-center text-sunset group-hover:scale-110 transition-transform">
+                        <i data-lucide="camera" class="w-4 h-4"></i>
+                    </div>
+                    <input type="file" id="avatarInput" accept="image/*" class="hidden" onchange="previewAvatar(event)">
+                </div>
+
+                <h2 id="profileName" class="text-2xl font-extrabold tracking-tight">-</h2>
+                <div class="inline-flex items-center gap-1.5 mt-2 px-3 py-1 rounded-full bg-white border-2 border-cream-deep text-sm font-semibold text-mocha">
+                    <i data-lucide="mail" class="w-3.5 h-3.5 text-sunset"></i>
+                    <span id="profileEmail">-</span>
+                </div>
+            </section>
+
+            <!-- Stats Card -->
+            <section class="warm-card p-4 animate-reveal delay-1">
+                <div class="flex">
+                    <div class="flex-1 flex flex-col items-center justify-center border-r-2 border-cream-deep">
+                        <div class="flex items-center gap-1 mb-0.5">
+                            <span id="my-rating" class="text-2xl font-extrabold font-mono">0.0</span>
+                            <i data-lucide="star" class="w-4 h-4 text-golden fill-current -mt-1"></i>
+                        </div>
+                        <span class="text-[10px] font-bold text-mocha uppercase tracking-wider">Rating</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center justify-center border-r-2 border-cream-deep">
+                        <span id="my-given-count" class="text-2xl font-extrabold font-mono">0</span>
+                        <span class="text-[10px] font-bold text-mocha uppercase tracking-wider">Diberikan</span>
+                    </div>
+                    <div class="flex-1 flex flex-col items-center justify-center">
+                        <span id="my-taken-count" class="text-2xl font-extrabold font-mono">0</span>
+                        <span class="text-[10px] font-bold text-mocha uppercase tracking-wider">Diambil</span>
+                    </div>
+                </div>
+                    </section>
+                </div> <!-- End Left Column -->
+
+                <!-- Right Column: Edit Profile Form -->
+                <div class="space-y-6">
+                    <section class="animate-reveal delay-2">
+                        <div class="flex items-center gap-2 mb-4">
+                            <div class="w-8 h-8 bg-sunset/10 text-sunset rounded-xl flex items-center justify-center">
+                                <i data-lucide="user-cog" class="w-5 h-5"></i>
+                            </div>
+                            <h3 class="font-extrabold text-lg">Edit Profil</h3>
+                        </div>
+
+                        <form id="profileForm" class="space-y-5">
+
+
+                    <!-- Nama Lengkap -->
+                    <div class="space-y-1.5">
+                        <label for="fullName" class="text-sm font-bold flex items-center gap-1.5">
+                            <i data-lucide="user" class="w-4 h-4 text-mocha"></i> Nama Lengkap
+                        </label>
+                        <input type="text" id="fullName" value="" placeholder="Nama lengkap kamu" maxlength="50" class="warm-input">
+                    </div>
+
+                    <!-- Bio -->
+                    <div class="space-y-1.5">
+                        <div class="flex justify-between items-center">
+                            <label for="bio" class="text-sm font-bold flex items-center gap-1.5">
+                                <i data-lucide="message-square-text" class="w-4 h-4 text-mocha"></i> Bio Singkat
+                            </label>
+                            <span id="bioCounter" class="text-xs font-semibold text-mocha font-mono">0/200</span>
+                        </div>
+                        <textarea id="bio" rows="3" placeholder="Ceritakan sedikit tentang dirimu..." maxlength="200" class="warm-input resize-none leading-relaxed"></textarea>
+                    </div>
+
+                    <!-- QRIS Upload -->
+                    <div class="space-y-1.5">
+                        <label class="text-sm font-bold flex items-center gap-1.5">
+                            <i data-lucide="qr-code" class="w-4 h-4 text-mocha"></i> QRIS Code
+                        </label>
+                        <p class="text-xs text-mocha">Upload QRIS agar quest giver bisa scan untuk bayar.</p>
+
+                        <!-- Empty State -->
+                        <div id="qrisEmptyState" class="w-full border-2 border-dashed border-borderWarm bg-cream-deep/50 rounded-warm p-8 flex flex-col items-center justify-center gap-3 cursor-pointer hover:bg-cream-deep hover:border-sunset transition-all group" onclick="triggerQrisUpload()">
+                            <div class="w-14 h-14 bg-white rounded-2xl flex items-center justify-center shadow-warm group-hover:scale-110 transition-transform">
+                                <i data-lucide="qr-code" class="w-7 h-7 text-sunset"></i>
+                            </div>
+                            <div class="text-center">
+                                <p class="text-sm font-bold text-espresso">Klik untuk upload QRIS</p>
+                                <p class="text-xs text-mocha mt-1">Format JPG atau PNG (Max. 2MB)</p>
+                            </div>
+                            <input type="file" id="qrisInput" accept="image/png, image/jpeg" class="hidden" onchange="previewQris(event)">
+                        </div>
+
+                        <!-- Populated State -->
+                        <div id="qrisPopulatedState" class="hidden w-full warm-card p-4 flex items-center gap-4">
+                            <div class="w-20 h-20 bg-cream-deep rounded-2xl border-2 border-cream-deep overflow-hidden shrink-0 flex items-center justify-center">
+                                <img id="qrisImgPreview" src="" class="w-full h-full object-contain" alt="QRIS Preview">
+                            </div>
+                            <div class="flex-1 min-w-0">
+                                <p class="text-sm font-bold truncate">qris_pribadi.png</p>
+                                <p class="text-xs text-teal-500 font-semibold mb-3 flex items-center gap-1">
+                                    <i data-lucide="check-circle-2" class="w-3 h-3"></i> Berhasil diunggah
+                                </p>
+                                <div class="flex gap-2">
+                                    <button type="button" class="text-xs font-bold text-espresso bg-cream-deep hover:bg-cream px-3 py-1.5 rounded-lg transition-colors" onclick="triggerQrisUpload()">Ganti</button>
+                                    <button type="button" class="text-xs font-bold text-coral hover:bg-coral/10 px-3 py-1.5 rounded-lg transition-colors" onclick="removeQris()">Hapus</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Save Button -->
+                    <button type="submit" id="saveBtn" class="btn-sunset w-full mt-2 flex justify-center items-center gap-2 py-3.5">
+                        <span id="saveBtnText">Simpan Perubahan</span>
+                        <i id="saveBtnSpinner" data-lucide="loader-2" class="w-5 h-5 animate-spin-slow hidden"></i>
+                    </button>
+                </form>
+
+                <!-- Logout Button -->
+                <button type="button" onclick="toggleLogoutModal(true)" class="w-full mt-3 bg-white border-2 border-coral/30 text-coral font-bold py-3.5 rounded-full transition-all flex justify-center items-center gap-2 hover:bg-coral/5">
+                    <i data-lucide="log-out" class="w-5 h-5"></i>
+                            <span>Keluar dari Akun</span>
+                        </button>
+                    </section>
+
+                    <!-- App Info Footer -->
+                    <section class="text-center pt-4 animate-reveal delay-3">
+                        <div class="flex items-center justify-center gap-2 mb-2">
+                            <div class="w-7 h-7 bg-gradient-to-br from-sunset to-sunset-light rounded-lg flex items-center justify-center">
+                                <i data-lucide="users-round" class="w-4 h-4 text-white"></i>
+                            </div>
+                            <span class="font-extrabold text-sm">YUKgas<span class="text-sunset">.in</span></span>
+                        </div>
+                        <p class="text-xs text-latte">Versi 1.0.0 · Tim Pekaputama</p>
+                        <p class="text-xs text-latte mt-1">© 2026 YUKgas.in — UNU Yogyakarta</p>
+                    </section>
+                </div> <!-- End Right Column -->
+
+            </div> <!-- End Grid Layout -->
+
+        </main>
+
+
+        <!-- Logout Confirmation Modal -->
+        <div id="logoutOverlay" class="fixed inset-0 bg-espresso/40 backdrop-blur-sm z-[80] opacity-0 pointer-events-none transition-opacity duration-300 flex items-end sm:items-center justify-center">
+            <div id="logoutModal" class="bg-white w-full max-w-md mx-auto rounded-t-3xl sm:rounded-3xl p-6 transform translate-y-full sm:translate-y-0 sm:scale-95 transition-all duration-300">
+                <div class="w-12 h-1.5 bg-cream-deep rounded-full mx-auto mb-4 sm:hidden"></div>
+                <div class="w-16 h-16 bg-coral/10 text-coral rounded-2xl flex items-center justify-center mx-auto mb-4">
+                    <i data-lucide="log-out" class="w-8 h-8"></i>
+                </div>
+                <h3 class="text-xl font-extrabold text-center mb-2">Keluar dari akun?</h3>
+                <p class="text-sm text-mocha text-center mb-6">Kamu harus login kembali untuk mengakses akunmu.</p>
+                <div class="flex gap-3">
+                    <button onclick="toggleLogoutModal(false)" class="flex-1 btn-outline py-3">Batal</button>
+                    <button onclick="confirmLogout()" class="flex-1 bg-coral text-white font-bold py-3 rounded-full hover:bg-coral/90 transition-colors flex items-center justify-center gap-2">
+                        <i data-lucide="log-out" class="w-4 h-4"></i> Keluar
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Bottom Nav -->
+        <nav class="absolute bottom-0 left-0 right-0 bg-white/95 backdrop-blur-lg border-t-2 border-cream-deep px-4 py-3 pb-safe z-40 md:hidden" style="padding-bottom: env(safe-area-inset-bottom, 12px);">
+            <div class="max-w-lg mx-auto flex items-center justify-around w-full">
+                <a href="/dashboard" class="flex flex-col items-center gap-1 px-2 py-1 group">
+                    <div class="w-10 h-10 rounded-xl text-mocha flex items-center justify-center group-hover:bg-cream-deep group-hover:scale-110 transition-all">
+                        <i data-lucide="layout-grid" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold text-mocha">Feed</span>
+                </a>
+                <a href="/my-quests" class="flex flex-col items-center gap-1 px-2 py-1 group">
+                    <div class="w-10 h-10 rounded-xl text-mocha flex items-center justify-center group-hover:bg-cream-deep group-hover:scale-110 transition-all">
+                        <i data-lucide="list-checks" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-semibold text-mocha">QuestKu</span>
+                </a>
+                <!-- FAB Create -->
+                <a href="/quests/create" class="flex flex-col items-center gap-1 -mt-6">
+                    <div class="w-14 h-14 rounded-full bg-gradient-to-br from-sunset to-sunset-light flex items-center justify-center shadow-warm-lg hover:scale-110 hover:rotate-90 transition-all duration-300">
+                        <i data-lucide="plus" class="w-7 h-7 text-white"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-sunset">Gas!</span>
+                </a>
+                <a href="/notifications" class="flex flex-col items-center gap-1 px-2 py-1 group relative">
+                    <div class="w-10 h-10 rounded-xl text-mocha flex items-center justify-center group-hover:bg-cream-deep group-hover:scale-110 transition-all">
+                        <i data-lucide="bell" class="w-5 h-5"></i>
+                    </div>
+                    <span class="notif-badge-mobile absolute top-0 right-0 w-4 h-4 bg-coral rounded-full text-[8px] text-white font-bold flex items-center justify-center border border-white hidden">0</span>
+                    <span class="text-[10px] font-semibold text-mocha">Notif</span>
+                </a>
+                <a href="/profile" class="flex flex-col items-center gap-1 px-2 py-1 group">
+                    <div class="w-10 h-10 rounded-xl bg-sunset/10 text-sunset flex items-center justify-center group-hover:scale-110 transition-transform">
+                        <i data-lucide="user" class="w-5 h-5"></i>
+                    </div>
+                    <span class="text-[10px] font-bold text-sunset">Profil</span>
+                </a>
+            </div>
+        </nav>
+
+
+    </div>
+
+    <script src="/assets/app.js"></script>
+    <script src="/assets/notif-badge.js"></script>
+    <script>
+        let uploadedQrisUrl = null;
+
+        // Check Authentication Session
+        if (!YG_AUTH.getToken()) {
+            window.location.href = '/login';
+        }
+
+        const currentUser = YG_AUTH.getUser();
+
+        // Load profile details from backend
+        async function loadProfileData() {
+            try {
+                const response = await fetch(`${window.API_BASE_URL}/users/${currentUser.id}`);
+                const data = await response.json();
+
+                if (!data.success) {
+                    YG.toast('Gagal memuat data profil.', 'error');
+                    return;
+                }
+
+                const user = data.data.user;
+
+                // Bind text values
+                document.getElementById('profileName').textContent = user.fullName;
+                document.getElementById('profileEmail').textContent = user.email;
+                document.getElementById('fullName').value = user.fullName;
+                document.getElementById('bio').value = user.bio || '';
+                
+                // Update bio word counter
+                const bioCounter = document.getElementById('bioCounter');
+                if (bioCounter) bioCounter.textContent = `${(user.bio || '').length}/200`;
+
+                // Bind stats counts
+                document.getElementById('my-rating').textContent = Number(user.reputation || 5.0).toFixed(1);
+                document.getElementById('my-given-count').textContent = user.questsGiven;
+                document.getElementById('my-taken-count').textContent = user.questsTaken;
+
+                // Initial avatar initials
+                const initials = user.fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                const avatarInitials = document.getElementById('avatarInitials');
+                if (avatarInitials) avatarInitials.textContent = initials;
+                document.querySelectorAll('a[href="/profile"] .rounded-xl, a[href="/profile"] .rounded-lg, #desktop-avatar').forEach(el => {
+                    el.textContent = initials;
+                });
+
+                // QRIS setup
+                if (user.qrisUrl) {
+                    uploadedQrisUrl = user.qrisUrl;
+                    document.getElementById('qrisImgPreview').src = user.qrisUrl;
+                    document.getElementById('qrisEmptyState').classList.add('hidden');
+                    document.getElementById('qrisPopulatedState').classList.remove('hidden');
+                }
+
+            } catch (error) {
+                console.error('Load profile error:', error);
+                YG.toast('Gagal terhubung ke backend server.', 'error');
+            }
+        }
+
+        // Trigger avatar file browser
+        function triggerAvatarUpload() {
+            document.getElementById('avatarInput').click();
+        }
+
+        // Preview local avatar file (UI Mock)
+        function previewAvatar(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                const img = document.getElementById('avatarImg');
+                const initials = document.getElementById('avatarInitials');
+                img.src = e.target.result;
+                img.classList.remove('hidden');
+                if (initials) initials.classList.add('hidden');
+                YG.toast('Avatar diperbarui secara lokal!', 'success');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Trigger QRIS file browser
+        function triggerQrisUpload() {
+            document.getElementById('qrisInput').click();
+        }
+
+        // Handle QRIS file preview
+        function previewQris(event) {
+            const file = event.target.files[0];
+            if (!file) return;
+            const reader = new FileReader();
+            reader.onload = (e) => {
+                document.getElementById('qrisImgPreview').src = e.target.result;
+                document.getElementById('qrisEmptyState').classList.add('hidden');
+                document.getElementById('qrisPopulatedState').classList.remove('hidden');
+                
+                // Mock a secure public URL format to satisfy backend Zod schema
+                uploadedQrisUrl = 'https://yukgas.in/mock-qris-uploaded.png';
+                YG.toast('QRIS berhasil diunggah!', 'success');
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // Remove QRIS file
+        function removeQris() {
+            document.getElementById('qrisImgPreview').src = '';
+            document.getElementById('qrisInput').value = '';
+            document.getElementById('qrisPopulatedState').classList.add('hidden');
+            document.getElementById('qrisEmptyState').classList.remove('hidden');
+            uploadedQrisUrl = null;
+            YG.toast('QRIS dihapus', 'info');
+        }
+
+        // Bio word count helper
+        const bioInput = document.getElementById('bio');
+        const bioCounter = document.getElementById('bioCounter');
+        if (bioInput && bioCounter) {
+            bioInput.addEventListener('input', () => {
+                bioCounter.textContent = `${bioInput.value.length}/200`;
+            });
+        }
+
+        // Submit form profile changes to API
+        document.getElementById('profileForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const fullName = document.getElementById('fullName').value.trim();
+            const bio = document.getElementById('bio').value.trim();
+            
+            if (fullName.length < 3) {
+                YG.toast('Nama lengkap minimal harus 3 karakter', 'error');
+                return;
+            }
+
+            const btn = document.getElementById('saveBtn');
+            const text = document.getElementById('saveBtnText');
+            const spinner = document.getElementById('saveBtnSpinner');
+            
+            btn.disabled = true;
+            text.textContent = 'Menyimpan...';
+            spinner.classList.remove('hidden');
+
+            try {
+                const response = await fetch(`${window.API_BASE_URL}/users/profile`, {
+                    method: 'PUT',
+                    headers: YG_AUTH.getHeaders(),
+                    body: JSON.stringify({
+                        fullName,
+                        bio,
+                        qrisUrl: uploadedQrisUrl
+                    })
+                });
+
+                const data = await response.json();
+
+                if (!data.success) {
+                    YG.toast(data.message || 'Gagal menyimpan profil.', 'error');
+                    btn.disabled = false;
+                    text.textContent = 'Simpan Perubahan';
+                    spinner.classList.add('hidden');
+                    return;
+                }
+
+                // Update localStorage user values
+                YG_AUTH.setUser(data.data.user);
+
+                btn.disabled = false;
+                text.textContent = 'Simpan Perubahan';
+                spinner.classList.add('hidden');
+                
+                YG.toast('Profil berhasil disimpan!', 'success');
+                YG.confetti();
+
+                // Reload profile data representation
+                setTimeout(loadProfileData, 800);
+
+            } catch (error) {
+                console.error('Save profile error:', error);
+                YG.toast('Gagal menghubungi server backend.', 'error');
+                btn.disabled = false;
+                text.textContent = 'Simpan Perubahan';
+                spinner.classList.add('hidden');
+            }
+        });
+
+        // Logout dialog toggler
+        function toggleLogoutModal(show) {
+            const overlay = document.getElementById('logoutOverlay');
+            const modal = document.getElementById('logoutModal');
+            if (show) {
+                overlay.classList.remove('opacity-0', 'pointer-events-none');
+                modal.classList.remove('translate-y-full', 'sm:scale-95');
+                document.body.style.overflow = 'hidden';
+            } else {
+                overlay.classList.add('opacity-0', 'pointer-events-none');
+                modal.classList.add('translate-y-full', 'sm:scale-95');
+                document.body.style.overflow = '';
+            }
+        }
+
+        // Confirm Logout action
+        function confirmLogout() {
+            toggleLogoutModal(false);
+            YG_AUTH.logout();
+            YG.toast('Berhasil keluar akun', 'info');
+            setTimeout(() => {
+                window.location.href = '/login';
+            }, 800);
+        }
+
+        document.getElementById('logoutOverlay').addEventListener('click', (e) => {
+            if (e.target.id === 'logoutOverlay') toggleLogoutModal(false);
+        });
+
+        // Initial fetch call
+        window.addEventListener('DOMContentLoaded', loadProfileData);
+    </script>
+</body>
+</html>

@@ -1,0 +1,721 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detail Quest — YUKgas.in</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@600;700;800&display=swap" rel="stylesheet">
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/lucide@0.460.0/dist/umd/lucide.min.js" onload="if(window.YG){YG.initLucide()}else{window.lucide&&lucide.createIcons()}"></script>
+    <link rel="stylesheet" href="/assets/style.css">
+
+    <script>
+        tailwind.config = {
+            theme: { extend: {
+                fontFamily: { sans: ['"Plus Jakarta Sans"', 'sans-serif'], mono: ['"JetBrains Mono"', 'monospace'] },
+                colors: {
+                    sunset: '#FF6B35', 'sunset-light': '#FF9F1C', golden: '#FFB627',
+                    teal: { 50: '#E6FAF5', 500: '#0CA789', 600: '#0A8E78' }, coral: '#FF4757',
+                    cream: { DEFAULT: '#FFF8F0', deep: '#FFF0E0' },
+                    espresso: '#2D1B12', mocha: '#8B7355', latte: '#B8A088',
+                    borderWarm: '#FFE4D1'
+                }
+            }}
+        }
+    </script>
+    <style>
+        .pb-safe { padding-bottom: env(safe-area-inset-bottom, 20px); }
+    </style>
+</head>
+<body class="bg-cream text-espresso font-sans antialiased">
+
+    <!-- Full Screen Responsive Container -->
+    <div class="w-full min-h-screen bg-cream relative flex flex-col">
+
+
+
+        <!-- ============================================ -->
+        <!-- UNIFIED DYNAMIC QUEST DETAIL LAYOUT          -->
+        <!-- ============================================ -->
+        <div id="unified-quest-detail" class="flex flex-col h-full">
+            <!-- Header (Unified) -->
+            <header class="bg-white border-b-2 border-cream-deep sticky top-0 z-50 px-4 py-3 md:py-4 shadow-warm-sm">
+                <div class="max-w-md md:max-w-5xl lg:max-w-6xl xl:max-w-7xl mx-auto w-full">
+                    
+                    <!-- Mobile Header Layout (hidden on desktop) -->
+                    <div class="flex items-center gap-3 md:hidden w-full">
+                        <a href="/dashboard" class="w-10 h-10 flex items-center justify-center -ml-2 text-mocha hover:bg-cream-deep rounded-xl transition-colors">
+                            <i data-lucide="arrow-left" class="w-6 h-6"></i>
+                        </a>
+                        <h1 class="font-extrabold text-lg">Detail Quest</h1>
+                    </div>
+
+                    <!-- Desktop Header Layout (hidden on mobile) -->
+                    <div class="hidden md:flex items-center justify-between gap-4">
+                        <!-- Brand -->
+                        <a href="/dashboard" class="flex items-center gap-2.5 group shrink-0">
+                            <div class="w-9 h-9 bg-gradient-to-br from-sunset to-sunset-light rounded-xl flex items-center justify-center text-white shadow-warm group-hover:scale-110 group-hover:rotate-6 transition-all duration-300">
+                                <i data-lucide="users-round" class="w-5 h-5"></i>
+                            </div>
+                            <span class="font-extrabold text-xl tracking-tight">YUKgas<span class="text-sunset">.in</span></span>
+                        </a>
+
+                        <!-- Navigation Links & Profile (Desktop) -->
+                        <div class="flex items-center gap-6">
+                            <a href="/dashboard" class="flex items-center gap-1.5 text-sm font-semibold text-mocha hover:text-espresso transition-colors">
+                                <i data-lucide="layout-grid" class="w-4 h-4"></i>
+                                <span>Feed</span>
+                            </a>
+                            <a href="/my-quests" class="flex items-center gap-1.5 text-sm font-semibold text-mocha hover:text-espresso transition-colors">
+                                <i data-lucide="list-checks" class="w-4 h-4"></i>
+                                <span>QuestKu</span>
+                            </a>
+                            <a href="/notifications" class="flex items-center gap-1.5 text-sm font-semibold text-mocha hover:text-espresso transition-colors relative">
+                                <i data-lucide="bell" class="w-4 h-4"></i>
+                                <span>Notif</span>
+                                <span class="notif-badge-desktop absolute -top-1.5 -right-2 bg-coral text-white text-[8px] font-bold px-1.5 py-0.2 rounded-full leading-none hidden">0</span>
+                            </a>
+                            <a href="/profile" class="flex items-center gap-2 text-sm font-semibold text-mocha hover:text-espresso transition-colors border-l pl-6 border-cream-deep">
+                                <div id="desktop-avatar" class="w-8 h-8 rounded-lg bg-gradient-to-br from-golden to-sunset-light flex items-center justify-center font-bold text-white text-xs">U</div>
+                                <span>Profil</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <main class="flex-1 max-w-md md:max-w-3xl lg:max-w-4xl mx-auto w-full px-4 py-6 md:py-8 pb-32 md:pb-16 flex flex-col gap-5">
+                
+                <!-- Loading State View -->
+                <div id="loading-view" class="flex flex-col items-center justify-center py-20 text-mocha">
+                    <svg class="animate-spin-slow w-10 h-10 mb-3" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-90" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+                    </svg>
+                    <p class="font-medium">Memuat detail quest...</p>
+                </div>
+
+                <!-- Main dynamic detail container (hidden initially) -->
+                <div id="detail-view" class="hidden flex flex-col gap-5 w-full">
+                    <!-- Status Badge -->
+                    <div class="animate-reveal">
+                        <div id="status-badge" class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold">
+                            <span id="status-dot" class="w-2 h-2 rounded-full bg-teal-500 animate-pulse"></span>
+                            <span id="status-text">Memuat status...</span>
+                        </div>
+                    </div>
+
+                    <!-- Title & Category -->
+                    <div class="animate-reveal delay-1">
+                        <div class="flex items-center gap-2 mb-2">
+                            <span id="quest-category" class="px-3 py-1 rounded-full bg-sunset/10 text-sunset text-xs font-bold uppercase tracking-wide">Kategori</span>
+                        </div>
+                        <h2 id="quest-title" class="text-2xl font-extrabold leading-tight">Judul Quest</h2>
+                    </div>
+
+                    <!-- Price Card -->
+                    <div class="warm-card p-5 flex items-center justify-between animate-reveal delay-2">
+                        <div>
+                            <p class="text-xs text-mocha font-semibold uppercase tracking-wide mb-1">Kompensasi</p>
+                            <p id="quest-price" class="text-3xl font-mono font-extrabold text-sunset">Rp 0</p>
+                        </div>
+                        <div class="w-14 h-14 bg-gradient-to-br from-sunset to-sunset-light rounded-2xl flex items-center justify-center">
+                            <i data-lucide="wallet" class="w-7 h-7 text-white"></i>
+                        </div>
+                    </div>
+
+                    <!-- Description -->
+                    <div class="animate-reveal delay-3">
+                        <h3 class="font-bold text-sm text-mocha uppercase tracking-wide mb-2">Deskripsi</h3>
+                        <p id="quest-description" class="text-espresso leading-relaxed">Jelaskan detail tugas...</p>
+                    </div>
+
+                    <!-- Info Grid -->
+                    <div class="grid grid-cols-2 gap-3 animate-reveal delay-4">
+                        <div class="warm-card p-4">
+                            <div class="flex items-center gap-2 text-mocha mb-1">
+                                <i data-lucide="map-pin" class="w-4 h-4"></i>
+                                <span class="text-xs font-semibold uppercase tracking-wide">Lokasi</span>
+                            </div>
+                            <p id="quest-location" class="font-bold text-sm">Lokasi</p>
+                        </div>
+                        <div class="warm-card p-4">
+                            <div class="flex items-center gap-2 text-mocha mb-1">
+                                <i data-lucide="clock" class="w-4 h-4"></i>
+                                <span class="text-xs font-semibold uppercase tracking-wide">Deadline</span>
+                            </div>
+                            <p id="quest-deadline" class="font-bold text-sm">Deadline</p>
+                        </div>
+                    </div>
+
+                    <!-- Giver & Taker Card -->
+                    <div id="users-card" class="warm-card p-4 flex items-center gap-4 animate-reveal delay-5 hover:border-sunset hover:bg-sunset/5 transition-all">
+                        <div id="avatars-container" class="flex -space-x-3">
+                            <div id="giver-avatar" class="w-12 h-12 rounded-2xl bg-gradient-to-br from-golden to-sunset-light flex items-center justify-center font-extrabold text-white border-2 border-white">G</div>
+                            <div id="taker-avatar" class="hidden w-12 h-12 rounded-2xl bg-gradient-to-br from-sunset to-sunset-light flex items-center justify-center font-extrabold text-white border-2 border-white">T</div>
+                        </div>
+                        <div class="flex-1">
+                            <p id="users-role-title" class="text-xs text-mocha font-semibold">Diposting oleh</p>
+                            <p id="users-names" class="font-bold text-sm">User</p>
+                            <div id="giver-rating-row" class="flex items-center gap-2 mt-0.5 text-xs text-mocha">
+                                <div class="flex items-center gap-0.5">
+                                    <i data-lucide="star" class="w-3 h-3 fill-golden text-golden"></i>
+                                    <span id="giver-reputation" class="font-bold text-espresso">5.0</span>
+                                </div>
+                                <span id="giver-stats">· 0 Diberikan</span>
+                            </div>
+                        </div>
+                        <i data-lucide="chevron-right" class="w-5 h-5 text-latte"></i>
+                    </div>
+
+                    <!-- Progress Stepper -->
+                    <div id="progress-section" class="animate-reveal delay-6 hidden">
+                        <h3 class="font-bold text-sm text-mocha uppercase tracking-wide mb-3">Progress</h3>
+                        <div class="flex items-center justify-between relative mt-2 px-1">
+                            <div class="absolute top-5 left-5 right-5 h-1 bg-cream-deep rounded-full"></div>
+                            <div id="progress-bar" class="absolute top-5 left-5 w-[0%] h-1 bg-gradient-to-r from-sunset to-sunset-light rounded-full transition-all duration-500"></div>
+                            
+                            <div class="relative z-10 flex flex-col items-center gap-1.5">
+                                <div class="w-10 h-10 rounded-full bg-sunset text-white flex items-center justify-center shadow-warm">
+                                    <i data-lucide="check" class="w-5 h-5"></i>
+                                </div>
+                                <span class="text-[10px] font-bold">Posted</span>
+                            </div>
+                            <div id="step-taken" class="relative z-10 flex flex-col items-center gap-1.5">
+                                <div class="step-circle w-10 h-10 rounded-full bg-white border-2 border-cream-deep text-latte flex items-center justify-center">2</div>
+                                <span class="step-label text-[10px] font-semibold text-mocha">Diambil</span>
+                            </div>
+                            <div id="step-progress" class="relative z-10 flex flex-col items-center gap-1.5">
+                                <div class="step-circle w-10 h-10 rounded-full bg-white border-2 border-cream-deep text-latte flex items-center justify-center">3</div>
+                                <span class="step-label text-[10px] font-semibold text-mocha">Proses</span>
+                            </div>
+                            <div id="step-completed" class="relative z-10 flex flex-col items-center gap-1.5">
+                                <div class="step-circle w-10 h-10 rounded-full bg-white border-2 border-cream-deep text-latte flex items-center justify-center">4</div>
+                                <span class="step-label text-[10px] font-semibold text-mocha">Selesai</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Rating Review Form (Unpaid -> hidden, Paid + Giver -> visible) -->
+                    <div id="rating-section" class="warm-card p-6 text-center animate-reveal delay-7 border-dashed border-2 border-cream-deep hidden">
+                        <i data-lucide="star" class="w-10 h-10 text-golden mx-auto mb-2"></i>
+                        <p class="font-bold mb-1">Berikan Ulasan & Rating</p>
+                        <p class="text-sm text-mocha mb-4">Bagikan ulasan performa taker untuk meningkatkan reputasi mereka!</p>
+                        
+                        <!-- Star click triggers -->
+                        <div class="flex items-center justify-center gap-2 mb-4">
+                            <button type="button" onclick="setRatingStars(1)" class="star-btn text-latte hover:text-golden transition-colors"><i data-lucide="star" class="w-8 h-8 fill-current"></i></button>
+                            <button type="button" onclick="setRatingStars(2)" class="star-btn text-latte hover:text-golden transition-colors"><i data-lucide="star" class="w-8 h-8 fill-current"></i></button>
+                            <button type="button" onclick="setRatingStars(3)" class="star-btn text-latte hover:text-golden transition-colors"><i data-lucide="star" class="w-8 h-8 fill-current"></i></button>
+                            <button type="button" onclick="setRatingStars(4)" class="star-btn text-latte hover:text-golden transition-colors"><i data-lucide="star" class="w-8 h-8 fill-current"></i></button>
+                            <button type="button" onclick="setRatingStars(5)" class="star-btn text-latte hover:text-golden transition-colors"><i data-lucide="star" class="w-8 h-8 fill-current"></i></button>
+                        </div>
+                        
+                        <textarea id="rating-comment" rows="3" placeholder="Tulis komentar ulasan Anda di sini (opsional)..." class="warm-input text-sm mb-4 resize-none"></textarea>
+                        <button type="button" onclick="submitRating()" class="btn-sunset text-sm w-full py-2.5 font-bold">
+                            Kirim Penilaian
+                        </button>
+                    </div>
+
+                </div>
+            </main>
+
+            <!-- Sticky / Inline CTA (Dynamic actions based on roles/status) -->
+            <div id="cta-bar" class="fixed bottom-0 left-0 right-0 w-full bg-white/95 backdrop-blur-lg border-t-2 border-cream-deep px-4 py-4 pb-safe z-40 md:relative md:bottom-auto md:left-auto md:right-auto md:max-w-xs md:mx-auto md:bg-transparent md:border-t-0 md:p-0 md:mt-8 hidden">
+                <button id="cta-button" onclick="handleCtaAction()" class="btn-sunset w-full text-base flex items-center justify-center gap-2">
+                    <i data-lucide="hand" class="w-5 h-5"></i>
+                    <span>Aksi Quest</span>
+                </button>
+            </div>
+
+        </div>
+
+        <!-- Payment Modal -->
+        <div id="payment-modal" class="fixed inset-0 z-[80] opacity-0 pointer-events-none transition-opacity duration-300">
+            <div class="absolute inset-0 bg-espresso/40 backdrop-blur-sm" onclick="closePayment()"></div>
+            <div id="payment-content" class="absolute bottom-0 left-1/2 -translate-x-1/2 w-full max-w-md bg-white rounded-t-[32px] p-6 transform translate-y-full transition-transform duration-300 pb-safe">
+                <div class="w-12 h-1.5 bg-cream-deep rounded-full mx-auto mb-5"></div>
+                <h3 class="font-extrabold text-xl mb-1">Konfirmasi Pembayaran</h3>
+                <p class="text-sm text-mocha mb-5">Pilih metode pembayaran</p>
+
+                <div class="space-y-3 mb-5">
+                    <label class="flex items-center gap-3 p-4 border-2 border-cream-deep rounded-xl cursor-pointer has-[:checked]:border-sunset has-[:checked]:bg-sunset/5">
+                        <input type="radio" name="payment" value="cash" checked class="text-sunset">
+                        <i data-lucide="banknote" class="w-5 h-5 text-sunset"></i>
+                        <span class="font-semibold">Cash</span>
+                    </label>
+                    <label class="flex items-center gap-3 p-4 border-2 border-cream-deep rounded-xl cursor-pointer has-[:checked]:border-sunset has-[:checked]:bg-sunset/5">
+                        <input type="radio" name="payment" value="qris" class="text-sunset">
+                        <i data-lucide="qr-code" class="w-5 h-5 text-sunset"></i>
+                        <span class="font-semibold">QRIS</span>
+                    </label>
+                </div>
+
+                <div class="bg-cream rounded-xl p-4 flex items-center justify-between mb-5">
+                    <span class="text-sm text-mocha font-semibold">Total</span>
+                    <span class="font-mono font-extrabold text-xl text-sunset">Rp 5.000</span>
+                </div>
+
+                <label class="flex items-center gap-2 mb-5 cursor-pointer">
+                    <input type="checkbox" id="confirm-check" onchange="document.getElementById('btn-pay').disabled = !this.checked" class="text-sunset rounded">
+                    <span class="text-sm">Saya sudah membayar taker</span>
+                </label>
+
+                <button id="btn-pay" disabled onclick="processPayment()" class="btn-sunset w-full text-base disabled:opacity-40 disabled:cursor-not-allowed">
+                    Konfirmasi
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <script src="/assets/app.js"></script>
+    <script src="/assets/notif-badge.js"></script>
+    <script>
+        let currentQuest = null;
+        let raterScore = 0;
+
+        // Get Quest ID from path or query parameter
+        const urlParams = new URLSearchParams(window.location.search);
+        let questId = urlParams.get('id');
+        if (!questId) {
+            const pathParts = window.location.pathname.split('/');
+            const lastPart = pathParts[pathParts.length - 1];
+            if (lastPart && lastPart !== 'quest-detail' && lastPart !== 'quest-detail.html') {
+                questId = lastPart;
+            }
+        }
+
+        // Check Authentication Session
+        if (!YG_AUTH.getToken()) {
+            window.location.href = '/login';
+        }
+
+        const currentUser = YG_AUTH.getUser();
+
+        // Initialize user initials on desktop header
+        const initials = currentUser.fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+        const desktopAvatar = document.getElementById('desktop-avatar');
+        if (desktopAvatar) desktopAvatar.textContent = initials;
+
+        // Fetch details from backend API
+        async function fetchQuestDetail() {
+            try {
+                const response = await fetch(`${window.API_BASE_URL}/quests/${questId}`, {
+                    headers: YG_AUTH.getHeaders()
+                });
+                const data = await response.json();
+
+                if (!data.success) {
+                    YG.toast('Quest tidak ditemukan.', 'error');
+                    setTimeout(() => window.location.href = '/dashboard', 1500);
+                    return;
+                }
+
+                currentQuest = data.data.quest;
+                renderQuestDetail();
+            } catch (error) {
+                console.error('Fetch quest error:', error);
+                YG.toast('Gagal terhubung ke backend server.', 'error');
+            }
+        }
+
+        // Render HTML markup dynamically
+        function renderQuestDetail() {
+            document.getElementById('loading-view').classList.add('hidden');
+            document.getElementById('detail-view').classList.remove('hidden');
+
+            const q = currentQuest;
+
+            // Fill text placeholders
+            document.getElementById('quest-title').textContent = q.title;
+            document.getElementById('quest-description').textContent = q.description;
+            document.getElementById('quest-location').textContent = q.location;
+
+            // Currency formatting
+            const formattedPrice = new Intl.NumberFormat('id-ID', { style: 'currency', currency: 'IDR', minimumFractionDigits: 0 }).format(q.compensation);
+            document.getElementById('quest-price').textContent = formattedPrice;
+
+            // Modal compensation price display
+            const modalPrice = document.querySelector('#payment-modal .font-mono');
+            if (modalPrice) modalPrice.textContent = formattedPrice;
+
+            // Category mappings
+            const CAT_LABELS = {
+                TRANSPORT: '🚗 Transportasi',
+                FOOD: '🍔 Makanan',
+                ADMIN: '📄 Administrasi',
+                OTHER: '📦 Lainnya'
+            };
+            document.getElementById('quest-category').textContent = CAT_LABELS[q.category] || 'Lainnya';
+
+            // Relative Deadline text
+            const deadlineDate = new Date(q.deadline);
+            const diffMs = deadlineDate - new Date();
+            let deadlineStr = 'Kedaluwarsa';
+            if (diffMs > 0) {
+                const diffHours = Math.ceil(diffMs / (1000 * 60 * 60));
+                if (diffHours < 24) {
+                    deadlineStr = `${diffHours} jam lagi`;
+                } else {
+                    const diffDays = Math.ceil(diffHours / 24);
+                    deadlineStr = `${diffDays} hari lagi`;
+                }
+            }
+            document.getElementById('quest-deadline').textContent = deadlineStr;
+
+            // 1. Status Badge layout mapping
+            const badgeEl = document.getElementById('status-badge');
+            const dotEl = document.getElementById('status-dot');
+            const textEl = document.getElementById('status-text');
+
+            badgeEl.className = 'inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-sm font-bold ';
+            dotEl.className = 'w-2 h-2 rounded-full animate-pulse ';
+
+            if (q.status === 'OPEN') {
+                badgeEl.classList.add('badge-open');
+                dotEl.classList.add('bg-teal-500');
+                textEl.textContent = 'OPEN — Siap Diambil';
+            } else if (q.status === 'TAKEN') {
+                badgeEl.classList.add('badge-progress');
+                dotEl.classList.add('bg-sunset');
+                textEl.textContent = 'DIAMBIL — Menunggu Dikerjakan';
+            } else if (q.status === 'IN_PROGRESS') {
+                badgeEl.classList.add('badge-progress');
+                dotEl.classList.add('bg-sunset');
+                textEl.textContent = 'PROSES — Sedang Dikerjakan';
+            } else if (q.status === 'COMPLETED') {
+                if (!q.paymentConfirmed) {
+                    badgeEl.classList.add('badge-progress');
+                    dotEl.classList.add('bg-golden');
+                    textEl.textContent = 'SELESAI — Menunggu Pembayaran';
+                } else {
+                    badgeEl.classList.add('badge-completed');
+                    dotEl.classList.add('bg-teal-500');
+                    textEl.textContent = 'SELESAI — Transaksi Selesai';
+                }
+            } else if (q.status === 'CANCELLED') {
+                badgeEl.classList.add('badge-progress');
+                dotEl.classList.add('bg-coral');
+                textEl.textContent = 'BATAL — Quest Dibatalkan';
+            }
+
+            // 2. Giver & Taker Profile details
+            const giverInit = q.giver.fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+            document.getElementById('giver-avatar').textContent = giverInit;
+            document.getElementById('giver-reputation').textContent = Number(q.giver.reputation || 5.0).toFixed(1);
+            document.getElementById('giver-stats').textContent = `· ${q.giver.questsGiven} Diberikan`;
+
+            const userRoleTitle = document.getElementById('users-role-title');
+            const userNames = document.getElementById('users-names');
+            const usersCard = document.getElementById('users-card');
+
+            if (q.taker) {
+                const takerInit = q.taker.fullName.split(' ').map(n => n[0]).join('').substring(0, 2).toUpperCase();
+                const takerAvatar = document.getElementById('taker-avatar');
+                takerAvatar.textContent = takerInit;
+                takerAvatar.classList.remove('hidden');
+
+                userRoleTitle.textContent = 'Giver & Taker';
+                userNames.textContent = `${q.giver.fullName.split(' ')[0]} → ${q.taker.fullName.split(' ')[0]}`;
+                
+                usersCard.onclick = () => {
+                    window.location.href = `/profile/user/${q.taker.id}`;
+                };
+            } else {
+                document.getElementById('taker-avatar').classList.add('hidden');
+                userRoleTitle.textContent = 'Diposting oleh';
+                userNames.textContent = q.giver.fullName;
+
+                usersCard.onclick = () => {
+                    window.location.href = `/profile/user/${q.giver.id}`;
+                };
+            }
+
+            // 3. Progress Stepper Bar
+            const stepperSection = document.getElementById('progress-section');
+            if (q.status !== 'OPEN' && q.status !== 'CANCELLED') {
+                stepperSection.classList.remove('hidden');
+                const progressBar = document.getElementById('progress-bar');
+                const stepTaken = document.getElementById('step-taken');
+                const stepProgress = document.getElementById('step-progress');
+                const stepCompleted = document.getElementById('step-completed');
+
+                const updateCircle = (el, isActive, isChecked) => {
+                    const circle = el.querySelector('.step-circle');
+                    const label = el.querySelector('.step-label');
+                    if (isActive || isChecked) {
+                        circle.className = 'step-circle w-10 h-10 rounded-full bg-sunset text-white flex items-center justify-center shadow-warm font-extrabold';
+                        circle.innerHTML = isChecked ? '<i data-lucide="check" class="w-5 h-5"></i>' : circle.textContent;
+                        label.className = 'step-label text-[10px] font-bold text-sunset';
+                    } else {
+                        circle.className = 'step-circle w-10 h-10 rounded-full bg-white border-2 border-cream-deep text-latte flex items-center justify-center';
+                        label.className = 'step-label text-[10px] font-semibold text-mocha';
+                    }
+                };
+
+                if (q.status === 'TAKEN') {
+                    progressBar.style.width = '33%';
+                    updateCircle(stepTaken, true, false);
+                    updateCircle(stepProgress, false, false);
+                    updateCircle(stepCompleted, false, false);
+                } else if (q.status === 'IN_PROGRESS') {
+                    progressBar.style.width = '66%';
+                    updateCircle(stepTaken, false, true);
+                    updateCircle(stepProgress, true, false);
+                    updateCircle(stepCompleted, false, false);
+                } else if (q.status === 'COMPLETED') {
+                    progressBar.style.width = '100%';
+                    updateCircle(stepTaken, false, true);
+                    updateCircle(stepProgress, false, true);
+                    updateCircle(stepCompleted, true, q.paymentConfirmed);
+                }
+            } else {
+                stepperSection.classList.add('hidden');
+            }
+
+            // 4. CTA Button and Ratings form visibility
+            const ctaBar = document.getElementById('cta-bar');
+            const ctaBtn = document.getElementById('cta-button');
+            const ratingSec = document.getElementById('rating-section');
+
+            ctaBar.classList.add('hidden');
+            ratingSec.classList.add('hidden');
+            ctaBtn.disabled = false;
+
+            const isGiver = currentUser.id === q.giverId;
+            const isTaker = q.takerId && currentUser.id === q.takerId;
+
+            if (isGiver) {
+                if (q.status === 'OPEN') {
+                    ctaBar.classList.remove('hidden');
+                    ctaBtn.innerHTML = '<i data-lucide="trash-2" class="w-5 h-5"></i><span>Batalkan Quest</span>';
+                    ctaBtn.className = 'w-full bg-coral hover:bg-red-600 text-white font-bold py-3.5 rounded-full shadow-warm transition-all active:scale-95 flex justify-center items-center gap-2';
+                } else if (q.status === 'COMPLETED') {
+                    if (!q.paymentConfirmed) {
+                        ctaBar.classList.remove('hidden');
+                        ctaBtn.innerHTML = '<i data-lucide="wallet" class="w-5 h-5"></i><span>Konfirmasi Pembayaran</span>';
+                        ctaBtn.className = 'btn-sunset w-full text-base flex items-center justify-center gap-2';
+                    } else {
+                        // Check if rater has already rated this quest
+                        const hasRated = q.ratings && q.ratings.some(r => r.raterId === currentUser.id);
+                        if (!hasRated) {
+                            ratingSec.classList.remove('hidden');
+                        }
+                    }
+                }
+            } else if (isTaker) {
+                if (q.status === 'TAKEN') {
+                    ctaBar.classList.remove('hidden');
+                    ctaBtn.innerHTML = '<i data-lucide="play" class="w-5 h-5"></i><span>Mulai Kerjakan</span>';
+                    ctaBtn.className = 'w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-3.5 rounded-full shadow-warm transition-all active:scale-95 flex justify-center items-center gap-2';
+                } else if (q.status === 'IN_PROGRESS') {
+                    ctaBar.classList.remove('hidden');
+                    ctaBtn.innerHTML = '<i data-lucide="check-circle" class="w-5 h-5"></i><span>Tandai Selesai</span>';
+                    ctaBtn.className = 'w-full bg-teal-500 hover:bg-teal-600 text-white font-bold py-3.5 rounded-full shadow-warm transition-all active:scale-95 flex justify-center items-center gap-2';
+                } else if (q.status === 'COMPLETED' && !q.paymentConfirmed) {
+                    ctaBar.classList.remove('hidden');
+                    ctaBtn.innerHTML = '<span>Menunggu Pembayaran Giver</span>';
+                    ctaBtn.disabled = true;
+                    ctaBtn.className = 'w-full bg-cream-deep text-mocha font-bold py-3.5 rounded-full opacity-60 cursor-not-allowed flex justify-center items-center gap-2';
+                }
+            } else {
+                if (q.status === 'OPEN') {
+                    ctaBar.classList.remove('hidden');
+                    ctaBtn.innerHTML = '<i data-lucide="hand" class="w-5 h-5"></i><span>Ambil Quest Ini</span>';
+                    ctaBtn.className = 'btn-sunset w-full text-base flex items-center justify-center gap-2';
+                }
+            }
+
+            if (window.lucide) lucide.createIcons();
+        }
+
+// Handle CTA Button submissions
+        async function handleCtaAction() {
+            const q = currentQuest;
+            const btn = document.getElementById('cta-button');
+            const isGiver = currentUser.id === q.giverId;
+            const isTaker = q.takerId && currentUser.id === q.takerId;
+
+            btn.disabled = true;
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<svg class="animate-spin-slow w-5 h-5" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24"><circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle><path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path></svg><span>Memproses...</span>';
+
+            try {
+                let url = '';
+                let method = 'POST';
+
+                if (isGiver) {
+                    if (q.status === 'OPEN') {
+                        url = `${window.API_BASE_URL}/quests/${q.id}`;
+                        method = 'DELETE';
+                    } else if (q.status === 'COMPLETED' && !q.paymentConfirmed) {
+                        openPayment();
+                        btn.disabled = false;
+                        btn.innerHTML = originalHtml;
+                        return;
+                    }
+                } else if (isTaker) {
+                    if (q.status === 'TAKEN') {
+                        url = `${window.API_BASE_URL}/quests/${q.id}/start`;
+                    } else if (q.status === 'IN_PROGRESS') {
+                        url = `${window.API_BASE_URL}/quests/${q.id}/complete`;
+                    }
+                } else {
+                    if (q.status === 'OPEN') {
+                        url = `${window.API_BASE_URL}/quests/${q.id}/take`;
+                    }
+                }
+
+                if (!url) {
+                    btn.disabled = false;
+                    btn.innerHTML = originalHtml;
+                    return;
+                }
+
+                const response = await fetch(url, {
+                    method,
+                    headers: YG_AUTH.getHeaders()
+                });
+                const data = await response.json();
+
+                if (!data.success) {
+                    YG.toast(data.message || 'Gagal merubah status quest.', 'error');
+                    btn.disabled = false;
+                    btn.innerHTML = originalHtml;
+                    return;
+                }
+
+                YG.toast(data.message || 'Berhasil memperbarui quest!', 'success');
+                YG.confetti();
+
+                if (method === 'DELETE') {
+                    setTimeout(() => window.location.href = '/dashboard', 600);
+                } else {
+                    fetchQuestDetail();
+                }
+
+            } catch (error) {
+                console.error('CTA Action Error:', error);
+                YG.toast('Gagal terhubung ke server backend.', 'error');
+                btn.disabled = false;
+                btn.innerHTML = originalHtml;
+            }
+        }
+
+        // Rating Star UI updater
+        function setRatingStars(score) {
+            raterScore = score;
+            document.querySelectorAll('.star-btn').forEach((btn, idx) => {
+                const icon = btn.querySelector('i');
+                if (idx < score) {
+                    btn.className = 'star-btn text-golden hover:text-golden transition-colors';
+                    if (icon) icon.classList.add('fill-current');
+                } else {
+                    btn.className = 'star-btn text-latte hover:text-golden transition-colors';
+                    if (icon) icon.classList.remove('fill-current');
+                }
+            });
+        }
+
+        // Submit Ratings
+        async function submitRating() {
+            if (raterScore === 0) {
+                YG.toast('Harap pilih bintang ulasan terlebih dahulu', 'error');
+                return;
+            }
+
+            const review = document.getElementById('rating-comment').value.trim();
+            const ratingSubmitBtn = document.querySelector('#rating-section button');
+
+            ratingSubmitBtn.disabled = true;
+            ratingSubmitBtn.textContent = 'Mengirim...';
+
+            try {
+                const response = await fetch(`${window.API_BASE_URL}/ratings/${questId}`, {
+                    method: 'POST',
+                    headers: YG_AUTH.getHeaders(),
+                    body: JSON.stringify({ score: raterScore, review })
+                });
+                const data = await response.json();
+
+                if (!data.success) {
+                    YG.toast(data.message || 'Gagal mengirim rating.', 'error');
+                    ratingSubmitBtn.disabled = false;
+                    ratingSubmitBtn.textContent = 'Kirim Penilaian';
+                    return;
+                }
+
+                YG.toast('Ulasan sukses terkirim!', 'success');
+                YG.confetti();
+
+                fetchQuestDetail();
+
+            } catch (error) {
+                console.error('Rating Submit error:', error);
+                YG.toast('Gagal menghubungi server.', 'error');
+                ratingSubmitBtn.disabled = false;
+                ratingSubmitBtn.textContent = 'Kirim Penilaian';
+            }
+        }
+
+        // Payment actions
+        function openPayment() {
+            const modal = document.getElementById('payment-modal');
+            modal.classList.remove('opacity-0', 'pointer-events-none');
+            modal.classList.add('opacity-100');
+            setTimeout(() => {
+                document.getElementById('payment-content').classList.remove('translate-y-full');
+            }, 10);
+        }
+
+        function closePayment() {
+            document.getElementById('payment-content').classList.add('translate-y-full');
+            setTimeout(() => {
+                const modal = document.getElementById('payment-modal');
+                modal.classList.add('opacity-0', 'pointer-events-none');
+                modal.classList.remove('opacity-100');
+            }, 300);
+        }
+
+        async function processPayment() {
+            const payBtn = document.getElementById('btn-pay');
+            payBtn.disabled = true;
+            payBtn.textContent = 'Memproses...';
+
+            try {
+                const response = await fetch(`${window.API_BASE_URL}/quests/${questId}/pay`, {
+                    method: 'POST',
+                    headers: YG_AUTH.getHeaders()
+                });
+                const data = await response.json();
+
+                if (!data.success) {
+                    YG.toast(data.message || 'Pembayaran gagal dikonfirmasi.', 'error');
+                    payBtn.disabled = false;
+                    payBtn.textContent = 'Konfirmasi';
+                    return;
+                }
+
+                YG.toast('Pembayaran sukses terkonfirmasi!', 'success');
+                YG.confetti();
+                closePayment();
+
+                fetchQuestDetail();
+
+            } catch (error) {
+                console.error('Payment confirm error:', error);
+                YG.toast('Gagal terhubung ke server.', 'error');
+                payBtn.disabled = false;
+                payBtn.textContent = 'Konfirmasi';
+            }
+        }
+
+        window.addEventListener('DOMContentLoaded', fetchQuestDetail);
+    </script>
+</body>
+</html>

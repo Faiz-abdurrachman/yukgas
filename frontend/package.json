@@ -1,0 +1,12 @@
+{
+  "name": "yukgas-frontend",
+  "version": "1.0.0",
+  "description": "Frontend for YUKgas.in with local clean URL testing server",
+  "main": "server.js",
+  "scripts": {
+    "dev": "node server.js"
+  },
+  "dependencies": {
+    "express": "^4.19.2"
+  }
+}
